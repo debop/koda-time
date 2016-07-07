@@ -16,9 +16,11 @@
 package com.github.debop.jodatimes
 
 import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.assertj.jodatime.api.Assertions.assertThat
 import org.joda.time.DateTime
 import org.joda.time.Interval
+import org.joda.time.LocalDate
 import org.junit.Test
 
 class DateTimeTest : AbstractJodaTimesTest() {
@@ -26,9 +28,9 @@ class DateTimeTest : AbstractJodaTimesTest() {
   @Test fun dateTimeManupulation() {
     val now = DateTime.now()
 
-    assertThat(now).isEqualTo(now)
-    Assertions.assertThat(now == now).isTrue()
-    Assertions.assertThat((now + 1.hours()).isAfter(now)).isTrue()
+    Assertions.assertThat(now).isEqualTo(now)
+    assertThat(now == now).isTrue()
+    assertThat((now + 1.hours()).isAfter(now)).isTrue()
   }
 
   @Test fun dateTimeSetter() {
@@ -48,13 +50,43 @@ class DateTimeTest : AbstractJodaTimesTest() {
   }
 
   @Test fun operatorTest() {
-    Assertions.assertThat(DateTime.now().nextMonth() < DateTime.now() + 2.months()).isTrue()
+    assertThat(DateTime.now().nextMonth() < DateTime.now() + 2.months()).isTrue()
 
     val now = DateTime.now()
     val range: Interval = now..now.tomorrow()
     println("range=$range")
 
     val sec: Interval = now..now.nextSecond()
-    Assertions.assertThat(sec.millis()).isEqualTo(1000L)
+    assertThat(sec.millis()).isEqualTo(1000L)
+  }
+
+  @Test fun sortDateTime() {
+    val now = DateTime.now()
+    val list = listOf(now, now + 3.seconds(), now + 10.seconds(), now + 1.seconds(), now - 2.seconds())
+
+    val expected = listOf(now - 2.seconds(), now, now + 1.seconds(), now + 3.seconds(), now + 10.seconds())
+    val sorted = list.sorted()
+    assertThat(sorted).isEqualTo(expected)
+
+    Assertions.assertThat(list.max()).isEqualTo(now + 10.seconds())
+  }
+
+  @Test fun sortLocalDate() {
+    val today = LocalDate.now()
+
+    val list = listOf(today + 1.days(), today + 3.days(), today + 10.days(), today + 2.days())
+
+    val expected = listOf(today + 1.days(), today + 2.days(), today + 3.days(), today + 10.days())
+    val sorted = list.sorted()
+    assertThat(sorted).isEqualTo(expected)
+    assertThat(list.max()).isEqualTo(today + 10.days())
+  }
+
+  @Test fun sortDuration() {
+    val list = listOf(1.seconds(), 5.seconds(), 2.seconds(), 4.seconds()).map { it.toDuration() }
+    val expected = listOf(1.seconds(), 2.seconds(), 4.seconds(), 5.seconds()).map { it.toDuration() }
+
+    assertThat(list.sorted()).isEqualTo(expected)
+    assertThat(list.max()).isEqualTo(5.seconds().toDuration())
   }
 }
