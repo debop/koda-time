@@ -38,7 +38,6 @@ dependencies {
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 
     compile "joda-time:joda-time:$joda_time_version"
-    compile "org.eclipse.collections:eclipse-collections:$eclipse_collections_version"
 
     testCompile "org.slf4j:slf4j-api:$slf4j_version"
     testCompile "ch.qos.logback:logback-classic:$logback_version"

@@ -15,15 +15,14 @@
 
 package com.github.debop.jodatimes
 
-import org.eclipse.collections.impl.list.mutable.FastList
 import org.joda.time.DateTime
 import org.joda.time.ReadableInterval
 
 fun ReadableInterval.millis(): Long = this.toDurationMillis()
 
-fun ReadableInterval.days(): FastList<DateTime> {
+fun ReadableInterval.days(): List<DateTime> {
 
-  tailrec fun recur(acc: FastList<DateTime>, curr: DateTime, target: DateTime): FastList<DateTime> {
+  tailrec fun recur(acc: MutableList<DateTime>, curr: DateTime, target: DateTime): MutableList<DateTime> {
     if (curr.startOfDay() == target.startOfDay()) {
       return acc
     } else {
@@ -31,5 +30,5 @@ fun ReadableInterval.days(): FastList<DateTime> {
       return recur(acc, curr.nextDay(), target)
     }
   }
-  return recur(FastList.newList(), start, end)
+  return recur(mutableListOf(), start, end)
 }
