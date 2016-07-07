@@ -17,22 +17,33 @@ package com.github.debop.jodatimes
 
 import org.joda.time.DateTime
 import org.joda.time.Interval
-import org.joda.time.Period
-import org.joda.time.ReadableDuration
 import java.sql.Timestamp
 
 fun DateTime.startOfDay(): DateTime = this.withTimeAtStartOfDay()
 
-operator fun DateTime.minus(millis: Long): DateTime = this.minus(millis)
-operator fun DateTime.minus(duration: ReadableDuration): DateTime = this.minus(duration)
-operator fun DateTime.minus(period: Period): DateTime = this.minus(period)
 operator fun DateTime.minus(builder: DurationBuilder): DateTime = this.minus(builder.self)
-
-operator fun DateTime.plus(millis: Long): DateTime = this.plus(millis)
-operator fun DateTime.plus(duration: ReadableDuration): DateTime = this.plus(duration)
-operator fun DateTime.plus(period: Period): DateTime = this.plus(period)
 operator fun DateTime.plus(builder: DurationBuilder): DateTime = this.plus(builder.self)
 
+fun DateTime.tomorrow(): DateTime = this.nextDay()
+fun DateTime.yesterday(): DateTime = this.lastDay()
+
+fun DateTime.nextSecond(): DateTime = this.plusSeconds(1)
+fun DateTime.nextMinute(): DateTime = this.plusMinutes(1)
+fun DateTime.nextHour(): DateTime = this.plusHours(1)
+fun DateTime.nextDay(): DateTime = this.plusDays(1)
+fun DateTime.nextWeek(): DateTime = this.plusWeeks(1)
+fun DateTime.nextMonth(): DateTime = this.plusMonths(1)
+fun DateTime.nextYear(): DateTime = this.plusYears(1)
+
+fun DateTime.lastSecond(): DateTime = this.minusSeconds(1)
+fun DateTime.lastMinute(): DateTime = this.minusMinutes(1)
+fun DateTime.lastHour(): DateTime = this.minusHours(1)
+fun DateTime.lastDay(): DateTime = this.minusDays(1)
+fun DateTime.lastWeek(): DateTime = this.minusWeeks(1)
+fun DateTime.lastMonth(): DateTime = this.minusMonths(1)
+fun DateTime.lastYear(): DateTime = this.minusYears(1)
+
+fun DateTime.fromJson(json: String): DateTime = DateTime(json)
 
 fun DateTime.toTimestamp(): Timestamp = Timestamp(this.millis)
 

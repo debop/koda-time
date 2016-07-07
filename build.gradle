@@ -38,13 +38,14 @@ dependencies {
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 
     compile "joda-time:joda-time:$joda_time_version"
+    compile "org.eclipse.collections:eclipse-collections:$eclipse_collections_version"
 
-    compile "org.slf4j:slf4j-api:$slf4j_version"
-    compile "ch.qos.logback:logback-classic:$logback_version"
+    testCompile "org.slf4j:slf4j-api:$slf4j_version"
+    testCompile "ch.qos.logback:logback-classic:$logback_version"
 
     testCompile "junit:junit:$junit_version"
-    testCompile "org.assertj:assertj-core:$assertj_core_java7_version"
-    testCompile "org.assertj:assertj-joda-time:$assertj_joda_time_java7_version"
+    testCompile "org.assertj:assertj-core:$assertj_core_java8_version"
+    testCompile "org.assertj:assertj-joda-time:$assertj_joda_time_java8_version"
 }
 
 tasks.withType(JavaCompile) {
