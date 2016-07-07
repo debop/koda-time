@@ -15,12 +15,8 @@
 
 package com.github.debop.jodatimes
 
-import org.joda.time.Instant
+import org.joda.time.Interval
 
-//operator fun Instant.minus(millis: Long): Instant = this.minus(millis)
-//operator fun Instant.minus(duration: ReadableDuration): Instant = this.minus(duration)
-operator fun Instant.minus(builder: DurationBuilder): Instant = this.minus(builder.self.toStandardDuration())
-
-//operator fun Instant.plus(millis: Long): Instant = this.plus(millis)
-//operator fun Instant.plus(duration: ReadableDuration): Instant = this.plus(duration)
-operator fun Instant.plus(builder: DurationBuilder): Instant = this.plus(builder.self.toStandardDuration())
+fun thisSecond(): Interval = now().secondOfMinute().toInterval()
+fun thisMinute(): Interval = now().minuteOfHour().toInterval()
+fun thisHour(): Interval = now().hourOfDay().toInterval()

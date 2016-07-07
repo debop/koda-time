@@ -24,3 +24,12 @@ fun Period.later(): DateTime = DateTime.now() + this
 fun Period.from(moment: DateTime): DateTime = moment + this
 fun Period.before(moment: DateTime): DateTime = moment - this
 fun Period.standardDuration(): Duration = this.toStandardDuration()
+
+fun periodOfYears(y: Int): Period = Period.years(y)
+fun periodOfMonths(m: Int): Period = Period.months(m)
+fun periodOfWeek(w: Int): Period = Period.weeks(w)
+fun periodOfDay(d: Int): Period = Period.days(d)
+fun periodOfHours(h: Int): Period = Period.hours(h)
+fun periodOfMinutes(m: Int): Period = Period.minutes(m)
+fun periodOfSeconds(s: Int): Period = Period.seconds(s)
+fun periodOfMillis(m: Int): Period = Period.millis(m)

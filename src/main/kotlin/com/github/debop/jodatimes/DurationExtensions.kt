@@ -16,18 +16,24 @@
 package com.github.debop.jodatimes
 
 import org.joda.time.Duration
-import org.joda.time.ReadableDuration
+
+val emptyDuration: Duration = Duration.ZERO
+
+fun standardDays(days: Long): Duration = Duration.standardDays(days)
+fun standardHours(hours: Long): Duration = Duration.standardHours(hours)
+fun standardMinutes(minutes: Long): Duration = Duration.standardMinutes(minutes)
+fun standardSeconds(seconds: Long): Duration = Duration.standardSeconds(seconds)
 
 fun Duration.days(): Long = this.standardDays
 fun Duration.hours(): Long = this.standardHours
 fun Duration.minutes(): Long = this.standardMinutes
 fun Duration.seconds(): Long = this.standardSeconds
 
-operator fun Duration.minus(millis: Long): Duration = this.minus(millis)
-operator fun Duration.minus(duration: ReadableDuration): Duration = this.minus(duration)
-
-operator fun Duration.plus(millis: Long): Duration = this.plus(millis)
-operator fun Duration.plus(duration: ReadableDuration): Duration = this.plus(duration)
+//operator fun Duration.minus(millis: Long): Duration = this.minus(millis)
+//operator fun Duration.minus(duration: ReadableDuration): Duration = this.minus(duration)
+//
+//operator fun Duration.plus(millis: Long): Duration = this.plus(millis)
+//operator fun Duration.plus(duration: ReadableDuration): Duration = this.plus(duration)
 
 fun Duration.isZero(): Boolean = this.millis == 0L
 

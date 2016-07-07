@@ -82,11 +82,4 @@ class DateTimeTest : AbstractJodaTimesTest() {
     assertThat(list.max()).isEqualTo(today + 10.days())
   }
 
-  @Test fun sortDuration() {
-    val list = listOf(1.seconds(), 5.seconds(), 2.seconds(), 4.seconds()).map { it.toDuration() }
-    val expected = listOf(1.seconds(), 2.seconds(), 4.seconds(), 5.seconds()).map { it.toDuration() }
-
-    assertThat(list.sorted()).isEqualTo(expected)
-    assertThat(list.max()).isEqualTo(5.seconds().toDuration())
-  }
 }

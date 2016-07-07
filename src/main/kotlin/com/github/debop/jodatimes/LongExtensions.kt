@@ -21,6 +21,7 @@ fun Long.millis(): DurationBuilder = DurationBuilder(Period.millis(this.toInt())
 fun Long.seconds(): DurationBuilder = DurationBuilder(Period.seconds(this.toInt()))
 fun Long.minutes(): DurationBuilder = DurationBuilder(Period.minutes(this.toInt()))
 fun Long.hours(): DurationBuilder = DurationBuilder(Period.hours(this.toInt()))
+
 fun Long.days(): Period = Period.days(this.toInt())
 fun Long.weeks(): Period = Period.weeks(this.toInt())
 fun Long.months(): Period = Period.months(this.toInt())
