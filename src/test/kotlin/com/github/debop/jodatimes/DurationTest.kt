@@ -15,26 +15,24 @@
 
 package com.github.debop.jodatimes
 
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.joda.time.DateTime
 import org.joda.time.Duration
 import org.junit.Test
 
-/**
- * @author debop sunghyouk.bae@gmail.com
- */
 class DurationTest : AbstractJodaTimesTest() {
 
   @Test fun makeDuration() {
     val now = DateTime.now()
     val duration: Duration = (now..now + 1.days()).toDuration()
+    assertThat(duration.standardDays).isEqualTo(1L)
   }
 
   @Test fun sortDuration() {
     val list = listOf(1.seconds(), 5.seconds(), 2.seconds(), 4.seconds()).map { it.toDuration() }
     val expected = listOf(1.seconds(), 2.seconds(), 4.seconds(), 5.seconds()).map { it.toDuration() }
 
-    Assertions.assertThat(list.sorted()).isEqualTo(expected)
-    Assertions.assertThat(list.max()).isEqualTo(5.seconds().toDuration())
+    assertThat(list.sorted()).isEqualTo(expected)
+    assertThat(list.max()).isEqualTo(5.seconds().toDuration())
   }
 }
