@@ -40,7 +40,7 @@ fun Int.weeks(): Period = Period.weeks(this)
 fun Int.months(): Period = Period.months(this)
 fun Int.years(): Period = Period.years(this)
 
-fun Int.times(builder: DurationBuilder): DurationBuilder = DurationBuilder(builder.self.multipliedBy(this))
+fun Int.times(builder: DurationBuilder): DurationBuilder = DurationBuilder(builder.period.multipliedBy(this))
 fun Int.times(period: Period): Period = period.multipliedBy(this)
 
 fun Long.millis(): DurationBuilder = DurationBuilder(Period.millis(this.toInt()))
@@ -53,7 +53,7 @@ fun Long.weeks(): Period = Period.weeks(this.toInt())
 fun Long.months(): Period = Period.months(this.toInt())
 fun Long.years(): Period = Period.years(this.toInt())
 
-fun Long.times(builder: DurationBuilder): DurationBuilder = DurationBuilder(builder.self.multipliedBy(this.toInt()))
+fun Long.times(builder: DurationBuilder): DurationBuilder = DurationBuilder(builder.period.multipliedBy(this.toInt()))
 fun Long.times(period: Period): Period = period.multipliedBy(this.toInt())
 
 /**
@@ -94,8 +94,8 @@ fun DateTime.startOfDay(): DateTime = this.withTimeAtStartOfDay()
 fun DateTime.startOfMonth(): DateTime = dateTimeOf(this.year, this.monthOfYear, 1)
 fun DateTime.startOfYear(): DateTime = dateTimeOf(this.year, 1, 1)
 
-operator fun DateTime.minus(builder: DurationBuilder): DateTime = this.minus(builder.self)
-operator fun DateTime.plus(builder: DurationBuilder): DateTime = this.plus(builder.self)
+operator fun DateTime.minus(builder: DurationBuilder): DateTime = this.minus(builder.period)
+operator fun DateTime.plus(builder: DurationBuilder): DateTime = this.plus(builder.period)
 
 fun DateTime.tomorrow(): DateTime = this.nextDay()
 fun DateTime.yesterday(): DateTime = this.lastDay()
@@ -157,14 +157,14 @@ fun lastMonth(): DateTime = now().minusMonths(1)
 fun lastYear(): DateTime = now().minusYears(1)
 
 
-operator fun LocalDateTime.minus(builder: DurationBuilder): LocalDateTime = this.minus(builder.self)
-operator fun LocalDateTime.plus(builder: DurationBuilder): LocalDateTime = this.plus(builder.self)
+operator fun LocalDateTime.minus(builder: DurationBuilder): LocalDateTime = this.minus(builder.period)
+operator fun LocalDateTime.plus(builder: DurationBuilder): LocalDateTime = this.plus(builder.period)
 
-operator fun LocalDate.minus(builder: DurationBuilder): LocalDate = this.minus(builder.self)
-operator fun LocalDate.plus(builder: DurationBuilder): LocalDate = this.plus(builder.self)
+operator fun LocalDate.minus(builder: DurationBuilder): LocalDate = this.minus(builder.period)
+operator fun LocalDate.plus(builder: DurationBuilder): LocalDate = this.plus(builder.period)
 
-operator fun LocalTime.minus(builder: DurationBuilder): LocalTime = this.minus(builder.self)
-operator fun LocalTime.plus(builder: DurationBuilder): LocalTime = this.plus(builder.self)
+operator fun LocalTime.minus(builder: DurationBuilder): LocalTime = this.minus(builder.period)
+operator fun LocalTime.plus(builder: DurationBuilder): LocalTime = this.plus(builder.period)
 
 
 /**
@@ -172,7 +172,7 @@ operator fun LocalTime.plus(builder: DurationBuilder): LocalTime = this.plus(bui
  */
 val emptyDuration: Duration = Duration.ZERO
 
-operator fun Duration.unaryMinus(): Duration = this.negated()
+
 
 fun standardDays(days: Long): Duration = Duration.standardDays(days)
 fun standardHours(hours: Long): Duration = Duration.standardHours(hours)
@@ -184,13 +184,8 @@ fun Duration.hours(): Long = this.standardHours
 fun Duration.minutes(): Long = this.standardMinutes
 fun Duration.seconds(): Long = this.standardSeconds
 
-//operator fun Duration.minus(millis: Long): Duration = this.minus(millis)
-//operator fun Duration.minus(duration: ReadableDuration): Duration = this.minus(duration)
-//
-//operator fun Duration.plus(millis: Long): Duration = this.plus(millis)
-//operator fun Duration.plus(duration: ReadableDuration): Duration = this.plus(duration)
+operator fun Duration.unaryMinus(): Duration = this.negated()
 operator fun Duration.div(divisor: Long): Duration = this.dividedBy(divisor)
-
 operator fun Duration.times(multiplicand: Long): Duration = this.multipliedBy(multiplicand)
 
 fun Duration.isZero(): Boolean = this.millis == 0L
@@ -223,8 +218,8 @@ fun periodOfMinutes(m: Int): Period = Period.minutes(m)
 fun periodOfSeconds(s: Int): Period = Period.seconds(s)
 fun periodOfMillis(m: Int): Period = Period.millis(m)
 
-operator fun Instant.minus(builder: DurationBuilder): Instant = this.minus(builder.self.toStandardDuration())
-operator fun Instant.plus(builder: DurationBuilder): Instant = this.plus(builder.self.toStandardDuration())
+operator fun Instant.minus(builder: DurationBuilder): Instant = this.minus(builder.period.toStandardDuration())
+operator fun Instant.plus(builder: DurationBuilder): Instant = this.plus(builder.period.toStandardDuration())
 
 fun thisSecond(): Interval = now().secondOfMinute().toInterval()
 fun thisMinute(): Interval = now().minuteOfHour().toInterval()

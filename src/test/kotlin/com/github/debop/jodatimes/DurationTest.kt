@@ -24,15 +24,15 @@ class DurationTest : AbstractJodaTimesTest() {
 
   @Test fun makeDuration() {
     val now = DateTime.now()
-    val duration: Duration = (now..now + 1.days()).toDuration()
+    val duration: Duration = (now .. now + 1.days()).toDuration()
     assertThat(duration.standardDays).isEqualTo(1L)
   }
 
   @Test fun sortDuration() {
-    val list = listOf(1.seconds(), 5.seconds(), 2.seconds(), 4.seconds()).map { it.toDuration() }
-    val expected = listOf(1.seconds(), 2.seconds(), 4.seconds(), 5.seconds()).map { it.toDuration() }
+    val list = listOf(1.seconds(), 5.seconds(), 2.seconds(), 4.seconds()).map { it.duration }
+    val expected = listOf(1.seconds(), 2.seconds(), 4.seconds(), 5.seconds()).map { it.duration }
 
     assertThat(list.sorted()).isEqualTo(expected)
-    assertThat(list.max()).isEqualTo(5.seconds().toDuration())
+    assertThat(list.max()).isEqualTo(5.seconds().duration)
   }
 }

@@ -21,29 +21,43 @@ import org.joda.time.*
  * DurationBuilder
  * @author debop sunghyouk.bae@gmail.com
  */
-class DurationBuilder(val self: Period) {
-  operator fun minus(that: DurationBuilder): DurationBuilder = DurationBuilder(this.self.minus(that.self))
-  operator fun plus(that: DurationBuilder): DurationBuilder = DurationBuilder(this.self.plus(that.self))
+class DurationBuilder(val period: Period) {
 
-  fun ago(): DateTime = DateTime.now().minus(self)
-  fun later(): DateTime = DateTime.now().plus(self)
-  fun from(moment: DateTime): DateTime = moment.plus(self)
-  fun before(moment: DateTime): DateTime = moment.minus(self)
+  operator fun minus(that: DurationBuilder): DurationBuilder = DurationBuilder(this.period.minus(that.period))
+  operator fun minus(rp: ReadablePeriod): Period = period.minus(rp)
+  operator fun minus(amount: Long): Duration = standardDuration.minus(amount)
+  operator fun minus(amount: ReadableDuration): Duration = standardDuration.minus(amount)
 
-  fun standardDuration(): Duration = self.toStandardDuration()
+  operator fun plus(that: DurationBuilder): DurationBuilder = DurationBuilder(this.period.plus(that.period))
+  operator fun plus(rp: ReadablePeriod): Period = period.plus(rp)
+  operator fun plus(amount: Long): Duration = standardDuration.plus(amount)
+  operator fun plus(amount: ReadableDuration): Duration = standardDuration.plus(amount)
 
-  fun toDuration(): Duration = self.toStandardDuration()
-  fun toPeriod(): Period = self
+  fun ago(): DateTime = DateTime.now().minus(period)
+  fun later(): DateTime = DateTime.now().plus(period)
+  fun from(moment: DateTime): DateTime = moment.plus(period)
+  fun before(moment: DateTime): DateTime = moment.minus(period)
 
-  operator fun minus(period: ReadablePeriod): Period = self.minus(period)
-  operator fun plus(period: ReadablePeriod): Period = self.plus(period)
+  val standardDuration: Duration
+    get() = period.toStandardDuration()
+  val duration: Duration
+    get() = period.toStandardDuration()
 
-  fun millis(): Long = standardDuration().millis
-  fun seconds(): Long = standardDuration().standardSeconds
+  fun toPeriod(): Period = period
 
-  operator fun minus(amount: Long): Duration = standardDuration().minus(amount)
-  operator fun minus(amount: ReadableDuration): Duration = standardDuration().minus(amount)
+  val millis: Long
+    get() = standardDuration.millis
 
-  operator fun plus(amount: Long): Duration = standardDuration().plus(amount)
-  operator fun plus(amount: ReadableDuration): Duration = standardDuration().plus(amount)
+  val seconds: Long
+    get() = standardDuration.standardSeconds
+
+  val minutes: Long
+    get() = standardDuration.standardMinutes
+
+  val hours: Long
+    get() = standardDuration.standardHours
+
+  val days: Long
+    get() = standardDuration.standardDays
+
 }
