@@ -33,7 +33,7 @@ class DateTimeTest : AbstractJodaTimesTest() {
     assertThat((now + 1.hours()).isAfter(now)).isTrue()
   }
 
-  @Test fun dateTimeSetter() {
+  @Test fun builderPattern() {
     val actual =
         DateTime.parse("2014-01-01T01:01:01.123+0900")
             .withYear(2013)
@@ -45,6 +45,23 @@ class DateTimeTest : AbstractJodaTimesTest() {
             .withSecondOfMinute(9)
 
     val expected = DateTime.parse("2013-03-02T07:08:09.123+0900")
+
+    assertThat(actual).isEqualTo(expected)
+  }
+
+  @Test fun builderPatternWithMillis() {
+    val actual =
+        DateTime.parse("2014-01-01T01:01:01.123+0900")
+            .withYear(2013)
+            .withMonthOfYear(3)
+            .withDayOfMonth(3)
+            .withDayOfMonth(2)
+            .withHourOfDay(7)
+            .withMinuteOfHour(8)
+            .withSecondOfMinute(9)
+            .withMillisOfSecond(500)
+
+    val expected = DateTime.parse("2013-03-02T07:08:09.500+0900")
 
     assertThat(actual).isEqualTo(expected)
   }

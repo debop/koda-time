@@ -17,12 +17,16 @@ package com.github.debop.jodatimes
 
 import org.joda.time.*
 import org.joda.time.base.AbstractInstant
+import org.joda.time.format.DateTimeFormat
 import java.sql.Timestamp
 import java.util.*
 
 
 fun Date.toDateTime(): DateTime = DateTime(this.time)
-fun Timestamp.toDateTime(): DateTime = DateTime(this)
+fun Date.toLocalDateTime(): LocalDateTime = LocalDateTime.fromDateFields(this)
+fun Date.toLocalDate(): LocalDate = LocalDate.fromDateFields(this)
+fun Date.toLocalTime(): LocalTime = LocalTime.fromDateFields(this)
+
 
 fun AbstractInstant.dateTimeUTC(): DateTime = this.toDateTime(DateTimeZone.UTC)
 fun AbstractInstant.mutableDateTimeUTC(): MutableDateTime = this.toMutableDateTime(DateTimeZone.UTC)
@@ -43,6 +47,8 @@ fun Int.weeks(): Period = Period.weeks(this)
 fun Int.months(): Period = Period.months(this)
 fun Int.years(): Period = Period.years(this)
 
+fun Int.times(period: Period): Period = period.multipliedBy(this)
+
 /**
  * Long extensions
  * <code>DateTime.now() + 15L.seconds()</code>
@@ -57,6 +63,39 @@ fun Long.days(): Period = Period.days(this.toInt())
 fun Long.weeks(): Period = Period.weeks(this.toInt())
 fun Long.months(): Period = Period.months(this.toInt())
 fun Long.years(): Period = Period.years(this.toInt())
+
+fun Long.times(period: Period): Period = period.multipliedBy(this.toInt())
+
+/**
+ * String extensions
+ */
+fun dateTimeFormat(pattern: String) = DateTimeFormat.forPattern(pattern)
+
+fun String.toDateTime(pattern: String? = null): DateTime? = try {
+  if (pattern.isNullOrBlank()) DateTime(this)
+  else DateTime.parse(this, dateTimeFormat(pattern!!))
+} catch(ignored: Exception) {
+  null
+}
+
+fun String.toInterval(): Interval? = try {
+  Interval.parse(this)
+} catch(ignored: Exception) {
+  null
+}
+
+fun String.toLocalDate(pattern: String? = null): LocalDate? = try {
+  if (pattern.isNullOrBlank()) LocalDate(this)
+  else LocalDate.parse(this, dateTimeFormat(pattern!!))
+} catch(ignored: Exception) {
+  null
+}
+
+fun String.toLocalTime(pattern: String? = null): LocalTime? = try {
+  if (pattern.isNullOrBlank()) LocalTime(this) else LocalTime.parse(this, dateTimeFormat(pattern!!))
+} catch(ignored: Exception) {
+  null
+}
 
 /**
  * [DateTime] extensions
@@ -132,6 +171,8 @@ fun lastYear(): DateTime = now().minusYears(1)
  */
 val emptyDuration: Duration = Duration.ZERO
 
+operator fun Duration.unaryMinus(): Duration = this.negated()
+
 fun standardDays(days: Long): Duration = Duration.standardDays(days)
 fun standardHours(hours: Long): Duration = Duration.standardHours(hours)
 fun standardMinutes(minutes: Long): Duration = Duration.standardMinutes(minutes)
@@ -147,6 +188,9 @@ fun Duration.seconds(): Long = this.standardSeconds
 //
 //operator fun Duration.plus(millis: Long): Duration = this.plus(millis)
 //operator fun Duration.plus(duration: ReadableDuration): Duration = this.plus(duration)
+operator fun Duration.div(divisor: Long): Duration = this.dividedBy(divisor)
+
+operator fun Duration.times(multiplicand: Long): Duration = this.multipliedBy(multiplicand)
 
 fun Duration.isZero(): Boolean = this.millis == 0L
 
@@ -200,16 +244,18 @@ fun thisHour(): Interval = now().hourOfDay().toInterval()
  */
 operator fun ReadableInstant.rangeTo(other: ReadableInstant): Interval = Interval(this, other)
 
-
 /**
  * [ReadableInterval] extensions
  */
 fun ReadableInterval.millis(): Long = this.toDurationMillis()
 
+/**
+ * [ReadableInterval] 을 day 기준으로 열거합니다.
+ */
 fun ReadableInterval.days(): List<DateTime> {
 
   tailrec fun recur(acc: MutableList<DateTime>, curr: DateTime, target: DateTime): MutableList<DateTime> {
-    if (curr.startOfDay() == target.startOfDay()) {
+    if (curr.startOfDay() > target.startOfDay()) {
       return acc
     } else {
       acc += curr
@@ -217,4 +263,14 @@ fun ReadableInterval.days(): List<DateTime> {
     }
   }
   return recur(mutableListOf(), start, end)
+}
+
+infix fun ReadableInterval.step(instant: ReadablePeriod): List<DateTime> {
+  val acc = mutableListOf(start)
+  var current = start + instant
+  while (current <= end) {
+    acc += current
+    current += instant
+  }
+  return acc
 }
