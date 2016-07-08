@@ -18,6 +18,7 @@ package com.github.debop.jodatimes
 import org.joda.time.*
 import org.joda.time.base.AbstractInstant
 import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.ISODateTimeFormat
 import java.sql.Timestamp
 import java.util.*
 
@@ -117,6 +118,16 @@ fun DateTime.lastMonth(): DateTime = this.minusMonths(1)
 fun DateTime.lastYear(): DateTime = this.minusYears(1)
 
 fun DateTime.toTimestamp(): Timestamp = Timestamp(this.millis)
+fun DateTime.asUtc(): DateTime = this.toDateTime(DateTimeZone.UTC)
+fun DateTime.asLocal(tz: DateTimeZone = DateTimeZone.getDefault()): DateTime = this.toDateTime(tz)
+
+fun DateTime.toIsoFormatString(): String = ISODateTimeFormat.dateTime().print(this)
+fun DateTime.toIsoFormatDateString(): String = ISODateTimeFormat.date().print(this)
+fun DateTime.toIsoFormatTimeString(): String = ISODateTimeFormat.time().print(this)
+fun DateTime.toIsoFormatTimeNoMillisString(): String = ISODateTimeFormat.timeNoMillis().print(this)
+fun DateTime.toIsoFormatHMSString(): String = ISODateTimeFormat.dateHourMinuteSecond().print(this)
+
+fun DateTime.toTimestampZoneText(): TimestampZoneText = TimestampZoneText(this)
 
 infix fun DateTime.min(that: DateTime): DateTime {
   return if (this.compareTo(that) < 0) this else that
@@ -172,8 +183,6 @@ operator fun LocalTime.plus(builder: DurationBuilder): LocalTime = this.plus(bui
  */
 val emptyDuration: Duration = Duration.ZERO
 
-
-
 fun standardDays(days: Long): Duration = Duration.standardDays(days)
 fun standardHours(hours: Long): Duration = Duration.standardHours(hours)
 fun standardMinutes(minutes: Long): Duration = Duration.standardMinutes(minutes)
@@ -183,6 +192,12 @@ fun Duration.days(): Long = this.standardDays
 fun Duration.hours(): Long = this.standardHours
 fun Duration.minutes(): Long = this.standardMinutes
 fun Duration.seconds(): Long = this.standardSeconds
+
+fun Duration.abs(): Duration = if (this < emptyDuration) -this else this
+fun Duration.fromNow(): DateTime = now() + this
+fun Duration.agoNow(): DateTime = now() - this
+fun Duration.afterEpoch(): DateTime = DateTime(0) + this
+fun Duration.diff(other: Duration): Duration = this - other
 
 operator fun Duration.unaryMinus(): Duration = this.negated()
 operator fun Duration.div(divisor: Long): Duration = this.dividedBy(divisor)
