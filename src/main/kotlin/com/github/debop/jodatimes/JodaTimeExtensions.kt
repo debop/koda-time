@@ -27,17 +27,10 @@ fun Date.toLocalDateTime(): LocalDateTime = LocalDateTime.fromDateFields(this)
 fun Date.toLocalDate(): LocalDate = LocalDate.fromDateFields(this)
 fun Date.toLocalTime(): LocalTime = LocalTime.fromDateFields(this)
 
-
 fun AbstractInstant.dateTimeUTC(): DateTime = this.toDateTime(DateTimeZone.UTC)
 fun AbstractInstant.mutableDateTimeUTC(): MutableDateTime = this.toMutableDateTime(DateTimeZone.UTC)
 
-
-/**
- * Int extensions
- * <code>DateTime.now() + 15.seconds()</code>
- */
 fun Int.millis(): DurationBuilder = DurationBuilder(Period.millis(this))
-
 fun Int.seconds(): DurationBuilder = DurationBuilder(Period.seconds(this))
 fun Int.minutes(): DurationBuilder = DurationBuilder(Period.minutes(this))
 fun Int.hours(): DurationBuilder = DurationBuilder(Period.hours(this))
@@ -47,14 +40,10 @@ fun Int.weeks(): Period = Period.weeks(this)
 fun Int.months(): Period = Period.months(this)
 fun Int.years(): Period = Period.years(this)
 
+fun Int.times(builder: DurationBuilder): DurationBuilder = DurationBuilder(builder.self.multipliedBy(this))
 fun Int.times(period: Period): Period = period.multipliedBy(this)
 
-/**
- * Long extensions
- * <code>DateTime.now() + 15L.seconds()</code>
- */
 fun Long.millis(): DurationBuilder = DurationBuilder(Period.millis(this.toInt()))
-
 fun Long.seconds(): DurationBuilder = DurationBuilder(Period.seconds(this.toInt()))
 fun Long.minutes(): DurationBuilder = DurationBuilder(Period.minutes(this.toInt()))
 fun Long.hours(): DurationBuilder = DurationBuilder(Period.hours(this.toInt()))
@@ -64,6 +53,7 @@ fun Long.weeks(): Period = Period.weeks(this.toInt())
 fun Long.months(): Period = Period.months(this.toInt())
 fun Long.years(): Period = Period.years(this.toInt())
 
+fun Long.times(builder: DurationBuilder): DurationBuilder = DurationBuilder(builder.self.multipliedBy(this.toInt()))
 fun Long.times(period: Period): Period = period.multipliedBy(this.toInt())
 
 /**
@@ -97,12 +87,12 @@ fun String.toLocalTime(pattern: String? = null): LocalTime? = try {
   null
 }
 
-/**
- * [DateTime] extensions
- */
 fun dateTimeFromJson(json: String): DateTime = DateTime(json)
+fun dateTimeOf(year: Int, month: Int, day: Int): DateTime = DateTime(year, month, day, 0, 0)
 
 fun DateTime.startOfDay(): DateTime = this.withTimeAtStartOfDay()
+fun DateTime.startOfMonth(): DateTime = dateTimeOf(this.year, this.monthOfYear, 1)
+fun DateTime.startOfYear(): DateTime = dateTimeOf(this.year, 1, 1)
 
 operator fun DateTime.minus(builder: DurationBuilder): DateTime = this.minus(builder.self)
 operator fun DateTime.plus(builder: DurationBuilder): DateTime = this.plus(builder.self)
@@ -166,6 +156,17 @@ fun lastWeek(): DateTime = now().minusWeeks(1)
 fun lastMonth(): DateTime = now().minusMonths(1)
 fun lastYear(): DateTime = now().minusYears(1)
 
+
+operator fun LocalDateTime.minus(builder: DurationBuilder): LocalDateTime = this.minus(builder.self)
+operator fun LocalDateTime.plus(builder: DurationBuilder): LocalDateTime = this.plus(builder.self)
+
+operator fun LocalDate.minus(builder: DurationBuilder): LocalDate = this.minus(builder.self)
+operator fun LocalDate.plus(builder: DurationBuilder): LocalDate = this.plus(builder.self)
+
+operator fun LocalTime.minus(builder: DurationBuilder): LocalTime = this.minus(builder.self)
+operator fun LocalTime.plus(builder: DurationBuilder): LocalTime = this.plus(builder.self)
+
+
 /**
  * [Duration] extensions
  */
@@ -222,36 +223,20 @@ fun periodOfMinutes(m: Int): Period = Period.minutes(m)
 fun periodOfSeconds(s: Int): Period = Period.seconds(s)
 fun periodOfMillis(m: Int): Period = Period.millis(m)
 
-/**
- * [Instant] extensions
- */
 operator fun Instant.minus(builder: DurationBuilder): Instant = this.minus(builder.self.toStandardDuration())
-
 operator fun Instant.plus(builder: DurationBuilder): Instant = this.plus(builder.self.toStandardDuration())
 
-/**
- * [Interval] extensions
- */
 fun thisSecond(): Interval = now().secondOfMinute().toInterval()
-
 fun thisMinute(): Interval = now().minuteOfHour().toInterval()
 fun thisHour(): Interval = now().hourOfDay().toInterval()
 
-
-/**
- * [ReadableInstant] .. [ReadableInstant] => [Interval]
- *
- */
+//
+// [ReadableInstant] .. [ReadableInstant] => [Interval]
+//
 operator fun ReadableInstant.rangeTo(other: ReadableInstant): Interval = Interval(this, other)
 
-/**
- * [ReadableInterval] extensions
- */
 fun ReadableInterval.millis(): Long = this.toDurationMillis()
 
-/**
- * [ReadableInterval] 을 day 기준으로 열거합니다.
- */
 fun ReadableInterval.days(): List<DateTime> {
 
   tailrec fun recur(acc: MutableList<DateTime>, curr: DateTime, target: DateTime): MutableList<DateTime> {
