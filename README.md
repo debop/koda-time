@@ -19,9 +19,9 @@ kotlin 의 operatator overloading 을 제공합니다
 
 `DateTime`, `Duration`, `Instant`, `Period` 등에 대한 여러가지 Extension Function 을 제공합니다.
 
-# 사용
+### 사용
 
-### Maven
+##### Maven
 
 Maven 사용 시
 
@@ -33,15 +33,15 @@ Maven 사용 시
 </dependency>
 ```
 
+##### Gradle
 Gradle 사용 시
-### Gradle
 ```
 dependencies {
     compile "com.github.debop:joda-time-kotlin:0.1-SNAPSHOT"
 }
 ```
 
-# 빌드
+### 빌드
 
 gradle 빌드 툴을 사용합니다.
 
