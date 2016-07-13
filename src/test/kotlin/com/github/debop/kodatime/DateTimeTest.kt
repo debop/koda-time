@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.github.debop.jodatimes
+package com.github.debop.kodatime
 
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
@@ -70,10 +70,10 @@ class DateTimeTest : AbstractJodaTimesTest() {
     assertThat(DateTime.now().nextMonth() < DateTime.now() + 2.months()).isTrue()
 
     val now = DateTime.now()
-    val range: Interval = now..now.tomorrow()
+    val range: Interval = now .. now.tomorrow()
     println("range=$range")
 
-    val sec: Interval = now..now.nextSecond()
+    val sec: Interval = now .. now.nextSecond()
     assertThat(sec.millis()).isEqualTo(1000L)
   }
 

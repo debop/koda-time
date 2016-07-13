@@ -1,4 +1,4 @@
-package com.github.debop.jodatimes
+package com.github.debop.kodatime
 
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone

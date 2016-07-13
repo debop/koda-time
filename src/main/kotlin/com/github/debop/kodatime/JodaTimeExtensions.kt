@@ -12,8 +12,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@file:JvmName("jodatimeExtensions")
 
-package com.github.debop.jodatimes
+package com.github.debop.kodatime
 
 import org.joda.time.*
 import org.joda.time.base.AbstractInstant

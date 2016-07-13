@@ -84,10 +84,10 @@ artifacts.archives packageSources
 
 test {
     ignoreFailures true
-    jvmArgs "-XX:MaxPermSize=512m"
+//    jvmArgs "-XX:MaxPermSize=512m"
 }
 
-defaultTasks 'clean', 'jar'
+defaultTasks 'clean', 'check'
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.14'

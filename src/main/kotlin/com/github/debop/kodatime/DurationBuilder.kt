@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.github.debop.jodatimes
+package com.github.debop.kodatime
 
 import org.joda.time.*
 
