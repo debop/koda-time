@@ -25,7 +25,7 @@ import org.junit.Test
 /**
  * @author sunghyouk.bae@gmail.com
  */
-class ParsingTest : AbstractJodaTimesTest() {
+class ParsingTest : AbstractKodaTimesTest() {
 
   @Test fun stringToDate() {
     val expected = DateTime("2016-08-08")

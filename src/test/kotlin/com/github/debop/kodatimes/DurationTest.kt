@@ -21,7 +21,7 @@ import org.joda.time.DateTime
 import org.joda.time.Duration
 import org.junit.Test
 
-class DurationTest : AbstractJodaTimesTest() {
+class DurationTest : AbstractKodaTimesTest() {
 
   @Test fun makeDuration() {
     val now = DateTime.now()

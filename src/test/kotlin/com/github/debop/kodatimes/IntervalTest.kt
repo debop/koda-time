@@ -20,7 +20,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.joda.time.Interval
 import org.junit.Test
 
-class IntervalTest : AbstractJodaTimesTest() {
+class IntervalTest : AbstractKodaTimesTest() {
 
   @Test fun rangeTest() {
     val start = now()

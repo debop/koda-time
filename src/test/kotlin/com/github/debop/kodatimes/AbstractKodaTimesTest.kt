@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory
 /**
  * @author debop sunghyouk.bae@gmail.com
  */
-abstract class AbstractJodaTimesTest {
+abstract class AbstractKodaTimesTest {
 
   protected val log by lazy { LoggerFactory.getLogger(javaClass) }
 

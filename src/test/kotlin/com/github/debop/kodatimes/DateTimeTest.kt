@@ -24,7 +24,7 @@ import org.joda.time.Interval
 import org.joda.time.LocalDate
 import org.junit.Test
 
-class DateTimeTest : AbstractJodaTimesTest() {
+class DateTimeTest : AbstractKodaTimesTest() {
 
   @Test fun dateTimeManupulation() {
     val now = DateTime.now()
