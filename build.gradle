@@ -12,7 +12,7 @@ buildscript {
 }
 
 group = 'com.github.debop'
-version = '0.1-SNAPSHOT'
+version = '0.1'
 
 
 apply plugin: 'java'
@@ -42,6 +42,7 @@ dependencies {
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 
     compile "joda-time:joda-time:$joda_time_version"
+    compile "org.joda:joda-convert:$joda_convert_version"
 
     testCompile "org.slf4j:slf4j-api:$slf4j_version"
     testCompile "ch.qos.logback:logback-classic:$logback_version"
@@ -69,13 +70,14 @@ compileJava.dependsOn processResources
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 //    processResources.dependsOn cleanResources
@@ -84,10 +86,10 @@ artifacts.archives packageSources
 
 test {
     ignoreFailures true
-    jvmArgs "-XX:MaxPermSize=512m"
+//    jvmArgs "-XX:MaxPermSize=512m"
 }
 
-defaultTasks 'clean', 'jar'
+defaultTasks 'clean', 'check'
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.14'

@@ -1,4 +1,4 @@
-# joda-time-kotlin [![Build Status](https://travis-ci.org/debop/joda-time-kotlin.png)](https://travis-ci.org/debop/joda-time-kotlin)
+# koda-time [![Build Status](https://travis-ci.org/debop/koda-time.png)](https://travis-ci.org/debop/koda-time)
 
 [Joda Time](http://joda.org) Extensions in Kotlin
 
@@ -8,12 +8,8 @@ kotlin 의 operatator overloading 을 제공합니다
 ```kotlin
 
     val now = DateTime.now()
-
-
     val start = now + 5.minutes()
     val end = now + 15.minutes()
-
-
     val interval = start .. end
 ```
 
@@ -28,8 +24,8 @@ Maven 사용 시
 ```xml
 <dependency>
   <groupId>com.github.debop</groupId>
-  <artifactId>joda-time-kotlin</artifactId>
-  <version>0.1-SNAPSHOT</version>
+  <artifactId>koda-time</artifactId>
+  <version>0.1</version>
 </dependency>
 ```
 
@@ -37,7 +33,7 @@ Maven 사용 시
 Gradle 사용 시
 ```
 dependencies {
-    compile "com.github.debop:joda-time-kotlin:0.1-SNAPSHOT"
+    compile "com.github.debop:koda-time:0.1"
 }
 ```
 
