@@ -71,10 +71,10 @@ class DateTimeTest : AbstractKodaTimesTest() {
     assertThat(DateTime.now().nextMonth() < DateTime.now() + 2.months()).isTrue()
 
     val now = DateTime.now()
-    val range: Interval = now .. now.tomorrow()
+    val range: Interval = now..now.tomorrow()
     println("range=$range")
 
-    val sec: Interval = now .. now.nextSecond()
+    val sec: Interval = now..now.nextSecond()
     assertThat(sec.millis()).isEqualTo(1000L)
   }
 

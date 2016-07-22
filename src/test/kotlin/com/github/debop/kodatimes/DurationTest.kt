@@ -25,7 +25,7 @@ class DurationTest : AbstractKodaTimesTest() {
 
   @Test fun makeDuration() {
     val now = DateTime.now()
-    val duration: Duration = (now .. now + 1.days()).toDuration()
+    val duration: Duration = (now..now + 1.days()).toDuration()
     assertThat(duration.standardDays).isEqualTo(1L)
   }
 
