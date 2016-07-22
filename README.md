@@ -25,7 +25,7 @@ Maven 사용 시
 <dependency>
   <groupId>com.github.debop</groupId>
   <artifactId>koda-time</artifactId>
-  <version>0.1-SNAPSHOT</version>
+  <version>0.1</version>
 </dependency>
 ```
 
@@ -33,7 +33,7 @@ Maven 사용 시
 Gradle 사용 시
 ```
 dependencies {
-    compile "com.github.debop:koda-time:0.1-SNAPSHOT"
+    compile "com.github.debop:koda-time:0.1"
 }
 ```
 
