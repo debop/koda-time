@@ -34,6 +34,14 @@ class DurationBuilder(val period: Period) {
   operator fun plus(amount: Long): Duration = standardDuration.plus(amount)
   operator fun plus(amount: ReadableDuration): Duration = standardDuration.plus(amount)
 
+  operator fun times(multiplicand: Long): Duration
+      = standardDuration.times(multiplicand)
+
+  operator fun div(divisor: Long): Duration
+      = standardDuration.div(divisor)
+
+  operator fun unaryMinus(): Duration = standardDuration.negated()
+
   fun ago(): DateTime = DateTime.now().minus(period)
   fun later(): DateTime = DateTime.now().plus(period)
   fun from(moment: DateTime): DateTime = moment.plus(period)
