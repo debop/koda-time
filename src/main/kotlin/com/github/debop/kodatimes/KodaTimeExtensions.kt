@@ -24,83 +24,158 @@ import org.joda.time.format.ISODateTimeFormat
 import java.sql.Timestamp
 import java.util.*
 
+val EPOCH = DateTime(0)
 
+/** Convert [Date] to [DateTime] */
 fun Date.toDateTime(): DateTime = DateTime(this.time)
+
+/** Convert [Date] to [LocalDateTime] */
 fun Date.toLocalDateTime(): LocalDateTime = LocalDateTime.fromDateFields(this)
+
+/** Convert [Date] to [LocalDate] */
 fun Date.toLocalDate(): LocalDate = LocalDate.fromDateFields(this)
+
+/** Convert [Date] to [LocalTime] */
 fun Date.toLocalTime(): LocalTime = LocalTime.fromDateFields(this)
 
+/** Convert [Instant] to [DateTime] with TimeZone UTC */
 fun AbstractInstant.dateTimeUTC(): DateTime = this.toDateTime(DateTimeZone.UTC)
+
+/** Convert [Instant] to [MutableDateTime] with TimeZone UTC */
 fun AbstractInstant.mutableDateTimeUTC(): MutableDateTime = this.toMutableDateTime(DateTimeZone.UTC)
 
+/** Millsecond */
 fun Int.millis(): DurationBuilder = DurationBuilder(Period.millis(this))
+
+/** Seconds */
 fun Int.seconds(): DurationBuilder = DurationBuilder(Period.seconds(this))
+
+/** N Minutes */
 fun Int.minutes(): DurationBuilder = DurationBuilder(Period.minutes(this))
+
+/** N Hours */
 fun Int.hours(): DurationBuilder = DurationBuilder(Period.hours(this))
 
+/** Period in N days */
 fun Int.days(): Period = Period.days(this)
+
+/** Period in N weeks */
 fun Int.weeks(): Period = Period.weeks(this)
+
+/** Period in N months */
 fun Int.months(): Period = Period.months(this)
+
+/** Period in N years */
 fun Int.years(): Period = Period.years(this)
 
-fun Int.times(builder: DurationBuilder): DurationBuilder = DurationBuilder(builder.period.multipliedBy(this))
-fun Int.times(period: Period): Period = period.multipliedBy(this)
+/**  N times duration */
+operator fun Int.times(builder: DurationBuilder): DurationBuilder = DurationBuilder(builder.period.multipliedBy(this))
 
+/**  N times period */
+operator fun Int.times(period: Period): Period = period.multipliedBy(this)
+
+
+/** N millis duration */
 fun Long.millis(): DurationBuilder = DurationBuilder(Period.millis(this.toInt()))
+
+/** N seconds duration */
 fun Long.seconds(): DurationBuilder = DurationBuilder(Period.seconds(this.toInt()))
+
+/** N minutes duration */
 fun Long.minutes(): DurationBuilder = DurationBuilder(Period.minutes(this.toInt()))
+
+/** N hours duration */
 fun Long.hours(): DurationBuilder = DurationBuilder(Period.hours(this.toInt()))
 
+/** N days period */
 fun Long.days(): Period = Period.days(this.toInt())
+
+/** N weeks period */
 fun Long.weeks(): Period = Period.weeks(this.toInt())
+
+/** N months period */
 fun Long.months(): Period = Period.months(this.toInt())
+
+/** N years period */
 fun Long.years(): Period = Period.years(this.toInt())
 
-fun Long.times(builder: DurationBuilder): DurationBuilder = DurationBuilder(builder.period.multipliedBy(this.toInt()))
-fun Long.times(period: Period): Period = period.multipliedBy(this.toInt())
+/**  N times duration */
+operator fun Long.times(builder: DurationBuilder): DurationBuilder = DurationBuilder(builder.period.multipliedBy(this.toInt()))
+
+/**  N times period  */
+operator fun Long.times(period: Period): Period = period.multipliedBy(this.toInt())
 
 /**
- * String extensions
+ * get [DateTimeFormatter] with specified pattern
  */
 fun dateTimeFormat(pattern: String) = DateTimeFormat.forPattern(pattern)
 
+/** Parse string to [DateTime] */
 fun String.toDateTime(pattern: String? = null): DateTime? = try {
   if (pattern.isNullOrBlank()) DateTime(this)
   else DateTime.parse(this, dateTimeFormat(pattern!!))
-} catch(ignored: Exception) {
+} catch(ignored: Throwable) {
   null
 }
 
+/** Parse string to [Interval] */
 fun String.toInterval(): Interval? = try {
   Interval.parse(this)
-} catch(ignored: Exception) {
+} catch(ignored: Throwable) {
   null
 }
 
+/** Parse string to [LocalDate] */
 fun String.toLocalDate(pattern: String? = null): LocalDate? = try {
   if (pattern.isNullOrBlank()) LocalDate(this)
   else LocalDate.parse(this, dateTimeFormat(pattern!!))
-} catch(ignored: Exception) {
+} catch(ignored: Throwable) {
   null
 }
 
+/** Parse string to [LocalTime] */
 fun String.toLocalTime(pattern: String? = null): LocalTime? = try {
-  if (pattern.isNullOrBlank()) LocalTime(this) else LocalTime.parse(this, dateTimeFormat(pattern!!))
-} catch(ignored: Exception) {
+  if (pattern.isNullOrBlank())
+    LocalTime(this)
+  else LocalTime.parse(this, dateTimeFormat(pattern!!))
+} catch(ignored: Throwable) {
   null
 }
 
+/** Convert json text to [DateTime] */
 fun dateTimeFromJson(json: String): DateTime = DateTime(json)
-fun dateTimeOf(year: Int, month: Int, day: Int): DateTime = DateTime(year, month, day, 0, 0)
 
+/** Build [DateTime] */
+@JvmOverloads fun dateTimeOf(year: Int,
+                             month: Int = 1,
+                             day: Int = 1,
+                             hours: Int = 0,
+                             minutes: Int = 0,
+                             seconds: Int = 0,
+                             millis: Int = 0): DateTime =
+    DateTime(year, month, day, hours, minutes, seconds, millis)
+
+/** Start time of Day from this datetime */
 fun DateTime.startOfDay(): DateTime = this.withTimeAtStartOfDay()
-fun DateTime.startOfMonth(): DateTime = dateTimeOf(this.year, this.monthOfYear, 1)
-fun DateTime.startOfYear(): DateTime = dateTimeOf(this.year, 1, 1)
 
+fun DateTime.startOfWeek(): DateTime = this.minusDays(this.dayOfWeek - DateTimeConstants.MONDAY).startOfDay()
+
+/** Start time of Month from this datetime */
+fun DateTime.startOfMonth(): DateTime = dateTimeOf(this.year, this.monthOfYear)
+
+/** Start time of Year from this datetime */
+fun DateTime.startOfYear(): DateTime = dateTimeOf(this.year)
+
+/** DateTime `-` operator */
 operator fun DateTime.minus(builder: DurationBuilder): DateTime = this.minus(builder.period)
+
+/** DateTime `+` operator */
 operator fun DateTime.plus(builder: DurationBuilder): DateTime = this.plus(builder.period)
 
+/** next day */
 fun DateTime.tomorrow(): DateTime = this.nextDay()
+
+/** last day */
 fun DateTime.yesterday(): DateTime = this.lastDay()
 
 fun DateTime.nextSecond(): DateTime = this.plusSeconds(1)
@@ -119,38 +194,61 @@ fun DateTime.lastWeek(): DateTime = this.minusWeeks(1)
 fun DateTime.lastMonth(): DateTime = this.minusMonths(1)
 fun DateTime.lastYear(): DateTime = this.minusYears(1)
 
+/** Convert [DateTime] to [Timestamp] */
 fun DateTime.toTimestamp(): Timestamp = Timestamp(this.millis)
-fun DateTime.asUtc(): DateTime = this.toDateTime(DateTimeZone.UTC)
-fun DateTime.asLocal(tz: DateTimeZone = DateTimeZone.getDefault()): DateTime = this.toDateTime(tz)
 
+/** Convert [DateTime] timezone to UTC */
+fun DateTime.asUtc(): DateTime = this.toDateTime(DateTimeZone.UTC)
+
+/** Convert [DateTime] timezone to specified time zone. not specified to system default time zone */
+@JvmOverloads fun DateTime.asLocal(tz: DateTimeZone = DateTimeZone.getDefault()): DateTime = this.toDateTime(tz)
+
+/** Convert [DateTime] to ISO DateTime Format String (YYYY-MM-DD hh:nn:ss.zzz) */
 fun DateTime.toIsoFormatString(): String = ISODateTimeFormat.dateTime().print(this)
+
+/** Convert [DateTime] to ISO Date Format String (YYYY-MM-DD) */
 fun DateTime.toIsoFormatDateString(): String = ISODateTimeFormat.date().print(this)
+
+/** Convert [DateTime] to ISO Time Format String (hh:nn:ss.zzz) */
 fun DateTime.toIsoFormatTimeString(): String = ISODateTimeFormat.time().print(this)
+
+/** Convert [DateTime] to ISO Time Format String without millis (hh:nn:ss) */
 fun DateTime.toIsoFormatTimeNoMillisString(): String = ISODateTimeFormat.timeNoMillis().print(this)
+
+/** Convert [DateTime] to ISO DateTime Format String without millis (YYYY-MM-DD hh:nn:ss) */
 fun DateTime.toIsoFormatHMSString(): String = ISODateTimeFormat.dateHourMinuteSecond().print(this)
 
 fun DateTime.toTimestampZoneText(): TimestampZoneText = TimestampZoneText(this)
 
+/** get minimum [DateTime] */
 infix fun DateTime.min(that: DateTime): DateTime {
   return if (this.compareTo(that) < 0) this else that
 }
 
+/** get maximum [DateTime] */
 infix fun DateTime.max(that: DateTime): DateTime {
   return if (this.compareTo(that) > 0) this else that
 }
 
+/** Get month interval in specified [DateTime] */
 fun DateTime.monthInterval(): Interval {
   val start = this.withDayOfMonth(1).withTimeAtStartOfDay()
   return Interval(start, start + 1.months())
 }
 
+/** Get day interval in specified [DateTime] */
 fun DateTime.dayInterval(): Interval {
   val start = this.startOfDay()
   return Interval(start, start + 1.days())
 }
 
+/** current [DateTime] */
 fun now(): DateTime = DateTime.now()
+
+/** next day of current [DateTime] */
 fun tomorrow(): DateTime = now().tomorrow()
+
+/** last day of current [DateTime] */
 fun yesterday(): DateTime = now().yesterday()
 
 fun nextSecond(): DateTime = now().plusSeconds(1)
@@ -169,25 +267,40 @@ fun lastWeek(): DateTime = now().minusWeeks(1)
 fun lastMonth(): DateTime = now().minusMonths(1)
 fun lastYear(): DateTime = now().minusYears(1)
 
-
+/** `-` operator for [LocalDateTime] */
 operator fun LocalDateTime.minus(builder: DurationBuilder): LocalDateTime = this.minus(builder.period)
+
+/** `+` operator for [LocalDateTime] */
 operator fun LocalDateTime.plus(builder: DurationBuilder): LocalDateTime = this.plus(builder.period)
 
+/** `-` operator for [LocalDate] */
 operator fun LocalDate.minus(builder: DurationBuilder): LocalDate = this.minus(builder.period)
+
+/** `+` operator for [LocalDate] */
 operator fun LocalDate.plus(builder: DurationBuilder): LocalDate = this.plus(builder.period)
 
+/** `-` operator for [LocalTime] */
 operator fun LocalTime.minus(builder: DurationBuilder): LocalTime = this.minus(builder.period)
+
+/** `+` operator for [LocalTime] */
 operator fun LocalTime.plus(builder: DurationBuilder): LocalTime = this.plus(builder.period)
 
 
 /**
- * [Duration] extensions
+ * empty [Duration]
  */
 val emptyDuration: Duration = Duration.ZERO
 
+/** specified days duration */
 fun standardDays(days: Long): Duration = Duration.standardDays(days)
+
+/** specified hours duration */
 fun standardHours(hours: Long): Duration = Duration.standardHours(hours)
+
+/** specified minutes duration */
 fun standardMinutes(minutes: Long): Duration = Duration.standardMinutes(minutes)
+
+/** specified seconds duration */
 fun standardSeconds(seconds: Long): Duration = Duration.standardSeconds(seconds)
 
 fun Duration.days(): Long = this.standardDays
@@ -195,10 +308,19 @@ fun Duration.hours(): Long = this.standardHours
 fun Duration.minutes(): Long = this.standardMinutes
 fun Duration.seconds(): Long = this.standardSeconds
 
+/** absolute duration */
 fun Duration.abs(): Duration = if (this < emptyDuration) -this else this
+
+/** get [DateTime] from current time + duration */
 fun Duration.fromNow(): DateTime = now() + this
+
+/** get [DateTime] from current time - duration */
 fun Duration.agoNow(): DateTime = now() - this
-fun Duration.afterEpoch(): DateTime = DateTime(0) + this
+
+/** get [DateTime] from EPOCH + duration */
+fun Duration.afterEpoch(): DateTime = EPOCH + this
+
+/** difference duration with other duration  */
 fun Duration.diff(other: Duration): Duration = this - other
 
 operator fun Duration.unaryMinus(): Duration = this.negated()
@@ -216,9 +338,7 @@ infix fun Duration.max(that: Duration): Duration {
 }
 
 
-/**
- * [Period] extensions
- */
+/** current time - specified period */
 fun Period.ago(): DateTime = DateTime.now() - this
 
 fun Period.later(): DateTime = DateTime.now() + this
@@ -245,29 +365,41 @@ fun thisHour(): Interval = now().hourOfDay().toInterval()
 //
 // [ReadableInstant] .. [ReadableInstant] => [Interval]
 //
+/** get [Interval] from specified instant ~ other instant */
 operator fun ReadableInstant.rangeTo(other: ReadableInstant): Interval = Interval(this, other)
 
 fun ReadableInterval.millis(): Long = this.toDurationMillis()
 
-fun ReadableInterval.days(): List<DateTime> {
-
-  tailrec fun recur(acc: MutableList<DateTime>, curr: DateTime, target: DateTime): MutableList<DateTime> {
-    if (curr.startOfDay() > target.startOfDay()) {
-      return acc
-    } else {
-      acc += curr
-      return recur(acc, curr.nextDay(), target)
-    }
-  }
-  return recur(mutableListOf(), start, end)
+infix fun ReadableInterval.step(instance: ReadablePeriod): Sequence<DateTime> {
+  return generateSequence(start + instance) { it + instance }.takeWhile { it <= end }
 }
 
-infix fun ReadableInterval.step(instant: ReadablePeriod): List<DateTime> {
-  val acc = mutableListOf(start)
-  var current = start + instant
-  while (current <= end) {
-    acc += current
-    current += instant
-  }
-  return acc
+/** 기간을 초 단위로 열거합니다. */
+fun ReadableInterval.seconds(): Sequence<DateTime> {
+  return generateSequence(start) { it.plusSeconds(1) }.takeWhile { it <= end }
+}
+
+/** 기간을 분 단위로 열거합니다. */
+fun ReadableInterval.minutes(): Sequence<DateTime> {
+  return generateSequence(start) { it.plusMinutes(1) }.takeWhile { it <= end }
+}
+
+/** 기간을 시간 단위로 열거합니다. */
+fun ReadableInterval.hours(): Sequence<DateTime> {
+  return generateSequence(start) { it.plusHours(1) }.takeWhile { it <= end }
+}
+
+/** 기간을 일 단위로 열거합니다. */
+fun ReadableInterval.days(): Sequence<DateTime> {
+  return generateSequence(start.startOfDay()) { it.plusDays(1) }.takeWhile { it <= end }
+}
+
+/** 기간을 주 단위로 열거합니다. */
+fun ReadableInterval.weeks(): Sequence<DateTime> {
+  return generateSequence(start.startOfWeek()) { it.plusWeeks(1) }.takeWhile { it <= end }
+}
+
+/** 기간을 월 단위로 열거합니다. */
+fun ReadableInterval.months(): Sequence<DateTime> {
+  return generateSequence(start.startOfMonth()) { it.plusMonths(1) }.takeWhile { it <= end }
 }

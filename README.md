@@ -2,9 +2,10 @@
 
 [Joda Time](http://joda.org) Extensions in Kotlin
 
-joda-time 의 `DateTime` 에 대한 사칙연산 (+,-,*,/) 를 Number 수형과 유사하게 표현할 수 있도록
-kotlin 의 operatator overloading 을 제공합니다
+supply arithmetic operation (+,-,*,/) for joda-time `DateTime` in Kotlin language  
 
+### Usage 
+ 
 ```kotlin
 
     val now = DateTime.now()
@@ -13,34 +14,59 @@ kotlin 의 operatator overloading 을 제공합니다
     val interval = start .. end
 ```
 
-`DateTime`, `Duration`, `Instant`, `Period` 등에 대한 여러가지 Extension Function 을 제공합니다.
+and supply Extension functions of `DateTime`, `Duration`, `Instance`, `Period`
 
-### 사용
+### Setup
 
 ##### Maven
 
-Maven 사용 시
+add dependency
 
 ```xml
 <dependency>
   <groupId>com.github.debop</groupId>
   <artifactId>koda-time</artifactId>
-  <version>0.1</version>
+  <version>1.0</version>
 </dependency>
 ```
 
-##### Gradle
-Gradle 사용 시
+add repository
+
+```xml
+<repositories>
+    <repository>
+        <id>jcenter</id>
+        <url>http://jcenter.bintray.com</url>
+    </repository>
+</repositories>
 ```
+or
+```xml
+<repositories>
+    <repository>
+        <id>debop-releases-bintray</id>
+        <url>http://dl.bintray.com/debop/maven</url>
+    </repository>
+</repositories>
+```
+
+##### Gradle
+
+```
+repository {
+    jcenter()     
+}
 dependencies {
-    compile "com.github.debop:koda-time:0.1"
+    compile "com.github.debop:koda-time:1.0"
 }
 ```
 
-### 빌드
 
-gradle 빌드 툴을 사용합니다.
+
+### Build
+
+build by Gradle
 
 ```
-$ ./gradlew clean install
+$ ./gradlew clean build
 ```
