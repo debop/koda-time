@@ -42,7 +42,7 @@ dependencies {
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 
     compile "joda-time:joda-time:$joda_time_version"
-    compile "org.joda:joda-convert:$joda_convert_version"
+    optional "org.joda:joda-convert:$joda_convert_version"
 
     testCompile "org.slf4j:slf4j-api:$slf4j_version"
     testCompile "ch.qos.logback:logback-classic:$logback_version"
@@ -93,5 +93,5 @@ test {
 defaultTasks 'clean', 'check'
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.14'
+    gradleVersion = '3.0'
 }
