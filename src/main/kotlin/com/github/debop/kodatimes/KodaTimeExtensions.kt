@@ -167,9 +167,18 @@ fun DateTime.startOfMonth(): DateTime = dateTimeOf(this.year, this.monthOfYear)
 fun DateTime.startOfYear(): DateTime = dateTimeOf(this.year)
 
 /** DateTime `-` operator */
+operator fun DateTime.minus(millis: Long): DateTime = this.minus(millis)
+
+operator fun DateTime.minus(duration: ReadableDuration): DateTime = this.minus(duration)
+operator fun DateTime.minus(period: ReadablePeriod): DateTime = this.minus(period)
 operator fun DateTime.minus(builder: DurationBuilder): DateTime = this.minus(builder.period)
 
+
 /** DateTime `+` operator */
+operator fun DateTime.plus(millis: Long): DateTime = this.plus(millis)
+
+operator fun DateTime.plus(duration: ReadableDuration): DateTime = this.plus(duration)
+operator fun DateTime.plus(period: ReadablePeriod): DateTime = this.plus(period)
 operator fun DateTime.plus(builder: DurationBuilder): DateTime = this.plus(builder.period)
 
 /** next day */
@@ -355,7 +364,19 @@ fun periodOfMinutes(m: Int): Period = Period.minutes(m)
 fun periodOfSeconds(s: Int): Period = Period.seconds(s)
 fun periodOfMillis(m: Int): Period = Period.millis(m)
 
+operator fun Period.minus(period: ReadablePeriod): Period = this.minus(period)
+operator fun Period.minus(builder: DurationBuilder): Period = this.minus(builder.period)
+operator fun Period.plus(period: ReadablePeriod): Period = this.plus(period)
+operator fun Period.plus(builder: DurationBuilder): Period = this.plus(builder.period)
+
+operator fun Period.times(scalar: Int): Period = this.multipliedBy(scalar)
+
+operator fun Instant.minus(millis: Long): Instant = this.minus(millis)
+operator fun Instant.minus(duration: ReadableDuration): Instant = this.minus(duration)
 operator fun Instant.minus(builder: DurationBuilder): Instant = this.minus(builder.period.toStandardDuration())
+
+operator fun Instant.plus(millis: Long): Instant = this.plus(millis)
+operator fun Instant.plus(duration: ReadableDuration): Instant = this.plus(duration)
 operator fun Instant.plus(builder: DurationBuilder): Instant = this.plus(builder.period.toStandardDuration())
 
 fun thisSecond(): Interval = now().secondOfMinute().toInterval()
