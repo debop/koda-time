@@ -13,7 +13,7 @@
  * limitations under the License.
  *
  */
-@file:JvmName("KodaTimeExtensions")
+@file:JvmName("KodaTimex")
 
 package com.github.debop.kodatimes
 
@@ -45,16 +45,20 @@ fun AbstractInstant.dateTimeUTC(): DateTime = this.toDateTime(DateTimeZone.UTC)
 fun AbstractInstant.mutableDateTimeUTC(): MutableDateTime = this.toMutableDateTime(DateTimeZone.UTC)
 
 /** Millsecond */
-fun Int.millis(): DurationBuilder = DurationBuilder(Period.millis(this))
+//fun Int.millis(): DurationBuilder = DurationBuilder(Period.millis(this))
+fun Int.millis(): Period = Period.millis(this)
 
 /** Seconds */
-fun Int.seconds(): DurationBuilder = DurationBuilder(Period.seconds(this))
+//fun Int.seconds(): DurationBuilder = DurationBuilder(Period.seconds(this))
+fun Int.seconds(): Period = Period.seconds(this)
 
 /** N Minutes */
-fun Int.minutes(): DurationBuilder = DurationBuilder(Period.minutes(this))
+//fun Int.minutes(): DurationBuilder = DurationBuilder(Period.minutes(this))
+fun Int.minutes(): Period = Period.minutes(this)
 
 /** N Hours */
-fun Int.hours(): DurationBuilder = DurationBuilder(Period.hours(this))
+//fun Int.hours(): DurationBuilder = DurationBuilder(Period.hours(this))
+fun Int.hours(): Period = Period.hours(this)
 
 /** Period in N days */
 fun Int.days(): Period = Period.days(this)
@@ -355,6 +359,8 @@ fun Period.from(moment: DateTime): DateTime = moment + this
 fun Period.before(moment: DateTime): DateTime = moment - this
 fun Period.standardDuration(): Duration = this.toStandardDuration()
 
+val Period.duration: Duration get() = this.toStandardDuration()
+
 fun periodOfYears(y: Int): Period = Period.years(y)
 fun periodOfMonths(m: Int): Period = Period.months(m)
 fun periodOfWeek(w: Int): Period = Period.weeks(w)
@@ -364,63 +370,32 @@ fun periodOfMinutes(m: Int): Period = Period.minutes(m)
 fun periodOfSeconds(s: Int): Period = Period.seconds(s)
 fun periodOfMillis(m: Int): Period = Period.millis(m)
 
-operator fun Period.minus(period: ReadablePeriod): Period = this.minus(period)
+operator fun Period.minus(period: ReadablePeriod?): Period = this.minus(period)
 operator fun Period.minus(builder: DurationBuilder): Period = this.minus(builder.period)
-operator fun Period.plus(period: ReadablePeriod): Period = this.plus(period)
+operator fun Period.plus(period: ReadablePeriod?): Period = this.plus(period)
 operator fun Period.plus(builder: DurationBuilder): Period = this.plus(builder.period)
 
 operator fun Period.times(scalar: Int): Period = this.multipliedBy(scalar)
+operator fun Period.unaryMinus(): Period = this.negated()
+
+operator fun Period.rangeTo(end: ReadableInstant): Interval = Interval(this, end)
 
 operator fun Instant.minus(millis: Long): Instant = this.minus(millis)
 operator fun Instant.minus(duration: ReadableDuration): Instant = this.minus(duration)
+operator fun Instant.minus(period: Period): Instant = this.minus(period.toStandardDuration())
 operator fun Instant.minus(builder: DurationBuilder): Instant = this.minus(builder.period.toStandardDuration())
 
 operator fun Instant.plus(millis: Long): Instant = this.plus(millis)
 operator fun Instant.plus(duration: ReadableDuration): Instant = this.plus(duration)
+operator fun Instant.plus(period: Period): Instant = this.plus(period.toStandardDuration())
 operator fun Instant.plus(builder: DurationBuilder): Instant = this.plus(builder.period.toStandardDuration())
+
+operator fun ReadableInstant.rangeTo(end: ReadableInstant): Interval = Interval(this, end)
+operator fun ReadableInstant.rangeTo(duration: ReadableDuration): Interval = Interval(this, duration)
+operator fun ReadableInstant.rangeTo(period: ReadablePeriod): Interval = Interval(this, period)
 
 fun thisSecond(): Interval = now().secondOfMinute().toInterval()
 fun thisMinute(): Interval = now().minuteOfHour().toInterval()
 fun thisHour(): Interval = now().hourOfDay().toInterval()
 
-//
-// [ReadableInstant] .. [ReadableInstant] => [Interval]
-//
-/** get [Interval] from specified instant ~ other instant */
-operator fun ReadableInstant.rangeTo(other: ReadableInstant): Interval = Interval(this, other)
 
-fun ReadableInterval.millis(): Long = this.toDurationMillis()
-
-infix fun ReadableInterval.step(instance: ReadablePeriod): Sequence<DateTime> {
-  return generateSequence(start + instance) { it + instance }.takeWhile { it <= end }
-}
-
-/** 기간을 초 단위로 열거합니다. */
-fun ReadableInterval.seconds(): Sequence<DateTime> {
-  return generateSequence(start) { it.plusSeconds(1) }.takeWhile { it <= end }
-}
-
-/** 기간을 분 단위로 열거합니다. */
-fun ReadableInterval.minutes(): Sequence<DateTime> {
-  return generateSequence(start) { it.plusMinutes(1) }.takeWhile { it <= end }
-}
-
-/** 기간을 시간 단위로 열거합니다. */
-fun ReadableInterval.hours(): Sequence<DateTime> {
-  return generateSequence(start) { it.plusHours(1) }.takeWhile { it <= end }
-}
-
-/** 기간을 일 단위로 열거합니다. */
-fun ReadableInterval.days(): Sequence<DateTime> {
-  return generateSequence(start.startOfDay()) { it.plusDays(1) }.takeWhile { it <= end }
-}
-
-/** 기간을 주 단위로 열거합니다. */
-fun ReadableInterval.weeks(): Sequence<DateTime> {
-  return generateSequence(start.startOfWeek()) { it.plusWeeks(1) }.takeWhile { it <= end }
-}
-
-/** 기간을 월 단위로 열거합니다. */
-fun ReadableInterval.months(): Sequence<DateTime> {
-  return generateSequence(start.startOfMonth()) { it.plusMonths(1) }.takeWhile { it <= end }
-}

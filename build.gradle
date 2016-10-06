@@ -64,7 +64,6 @@ task packageSources(type: Jar) {
 }
 
 compileJava.dependsOn processResources
-
 /*
  * Copyright (c) 2016. Sunghyouk Bae <sunghyouk.bae@gmail.com>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -83,7 +82,9 @@ compileJava.dependsOn processResources
 
 //    processResources.dependsOn cleanResources
 
-artifacts.archives packageSources
+artifacts {
+    archives packageSources
+}
 
 test {
     ignoreFailures true
@@ -93,5 +94,5 @@ test {
 defaultTasks 'clean', 'check'
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '3.0'
+    gradleVersion = '3.1'
 }
