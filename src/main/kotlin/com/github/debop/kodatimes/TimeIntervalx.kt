@@ -26,7 +26,6 @@ infix fun ReadableInterval.step(period: ReadablePeriod): Sequence<DateTime> {
   return generateSequence(start) { it + period }.takeWhile { it <= end }
 }
 
-
 /** 기간을 초 단위로 열거합니다. */
 @JvmOverloads
 fun ReadableInterval.seconds(step: Int = 1): Sequence<DateTime> {
