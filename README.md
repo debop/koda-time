@@ -57,7 +57,7 @@ repository {
     jcenter()     
 }
 dependencies {
-    compile "com.github.debop:koda-time:1.0"
+    compile "com.github.debop:koda-time:1.0.0"
 }
 ```
 
