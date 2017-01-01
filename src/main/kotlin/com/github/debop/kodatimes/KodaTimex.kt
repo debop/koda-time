@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016. Sunghyouk Bae <sunghyouk.bae@gmail.com>
+ * Copyright (c) 2017. Sunghyouk Bae <sunghyouk.bae@gmail.com>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -284,31 +284,37 @@ fun lastYear(): DateTime = now().minusYears(1)
 /** `-` operator for [LocalDateTime] */
 operator fun LocalDateTime.minus(period: ReadablePeriod): LocalDateTime = this.minus(period)
 
+/** `-` operator for [LocalDateTime] */
 operator fun LocalDateTime.minus(duration: ReadableDuration): LocalDateTime = this.minus(duration)
 
 /** `+` operator for [LocalDateTime] */
 operator fun LocalDateTime.plus(period: ReadablePeriod): LocalDateTime = this.plus(period)
 
+/** `+` operator for [LocalDateTime] */
 operator fun LocalDateTime.plus(duration: ReadableDuration): LocalDateTime = this.plus(duration)
 
 /** `-` operator for [LocalDate] */
 operator fun LocalDate.minus(period: Period): LocalDate = this.minus(period)
 
+/** `-` operator for [LocalDate] */
 operator fun LocalDate.minus(duration: ReadableDuration): LocalDate = this.minus(duration.toPeriod())
 
 /** `+` operator for [LocalDate] */
 operator fun LocalDate.plus(period: Period): LocalDate = this.plus(period)
 
+/** `+` operator for [LocalDate] */
 operator fun LocalDate.plus(duration: ReadableDuration): LocalDate = this.plus(duration.toPeriod())
 
 /** `-` operator for [LocalTime] */
 operator fun LocalTime.minus(period: Period): LocalTime = this.minus(period)
 
+/** `-` operator for [LocalTime] */
 operator fun LocalTime.minus(duration: ReadableDuration): LocalTime = this.minus(duration.toPeriod())
 
 /** `+` operator for [LocalTime] */
 operator fun LocalTime.plus(period: Period): LocalTime = this.plus(period)
 
+/** `+` operator for [LocalTime] */
 operator fun LocalTime.plus(duration: ReadableDuration): LocalTime = this.plus(duration.toPeriod())
 
 /**
@@ -355,11 +361,11 @@ operator fun Duration.times(multiplicand: Long): Duration = this.multipliedBy(mu
 fun Duration.isZero(): Boolean = this.millis == 0L
 
 infix fun Duration.min(that: Duration): Duration {
-  return if (this.compareTo(that) < 0) this else that
+  return if (this < that) this else that
 }
 
 infix fun Duration.max(that: Duration): Duration {
-  return if (this.compareTo(that) > 0) this else that
+  return if (this > that) this else that
 }
 
 
