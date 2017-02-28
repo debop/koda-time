@@ -13,7 +13,6 @@
  * limitations under the License.
  *
  */
-
 @file:JvmName("TimeIntervalx")
 
 package com.github.debop.kodatimes

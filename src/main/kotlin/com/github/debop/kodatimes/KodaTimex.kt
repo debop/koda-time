@@ -19,12 +19,11 @@ package com.github.debop.kodatimes
 
 import org.joda.time.*
 import org.joda.time.base.AbstractInstant
-import org.joda.time.format.DateTimeFormat
-import org.joda.time.format.ISODateTimeFormat
+import org.joda.time.format.*
 import java.sql.Timestamp
 import java.util.*
 
-val EPOCH = DateTime(0)
+@JvmField val EPOCH = DateTime(0)
 
 /** Convert [Date] to [DateTime] */
 fun Date.toDateTime(): DateTime = DateTime(this.time)
@@ -113,7 +112,7 @@ operator fun Long.times(period: Period): Period = period.multipliedBy(this.toInt
 /**
  * get [DateTimeFormatter] with specified pattern
  */
-fun dateTimeFormat(pattern: String) = DateTimeFormat.forPattern(pattern)
+fun dateTimeFormat(pattern: String): DateTimeFormatter = DateTimeFormat.forPattern(pattern)
 
 /** Parse string to [DateTime] */
 fun String.toDateTime(pattern: String? = null): DateTime? = try {
@@ -173,7 +172,6 @@ fun DateTime.startOfYear(): DateTime = dateTimeOf(this.year)
 
 /** DateTime `-` operator */
 operator fun DateTime.minus(millis: Long): DateTime = this.minus(millis)
-
 operator fun DateTime.minus(duration: ReadableDuration): DateTime = this.minus(duration)
 operator fun DateTime.minus(period: ReadablePeriod): DateTime = this.minus(period)
 //operator fun DateTime.minus(builder: DurationBuilder): DateTime = this.minus(builder.period)
@@ -181,7 +179,6 @@ operator fun DateTime.minus(period: ReadablePeriod): DateTime = this.minus(perio
 
 /** DateTime `+` operator */
 operator fun DateTime.plus(millis: Long): DateTime = this.plus(millis)
-
 operator fun DateTime.plus(duration: ReadableDuration): DateTime = this.plus(duration)
 operator fun DateTime.plus(period: ReadablePeriod): DateTime = this.plus(period)
 //operator fun DateTime.plus(builder: DurationBuilder): DateTime = this.plus(builder.period)
@@ -236,12 +233,12 @@ fun DateTime.toTimestampZoneText(): TimestampZoneText = TimestampZoneText(this)
 
 /** get minimum [DateTime] */
 infix fun DateTime.min(that: DateTime): DateTime {
-  return if (this.compareTo(that) < 0) this else that
+  return if (this < that) this else that
 }
 
 /** get maximum [DateTime] */
 infix fun DateTime.max(that: DateTime): DateTime {
-  return if (this.compareTo(that) > 0) this else that
+  return if (this > that) this else that
 }
 
 /** Get month interval in specified [DateTime] */

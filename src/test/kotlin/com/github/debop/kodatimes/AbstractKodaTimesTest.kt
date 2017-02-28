@@ -23,6 +23,6 @@ import org.slf4j.LoggerFactory
  */
 abstract class AbstractKodaTimesTest {
 
-  protected val log by lazy { LoggerFactory.getLogger(javaClass) }
+  protected val log by lazy { LoggerFactory.getLogger(this::class.java) }
 
 }

@@ -4,6 +4,7 @@ buildscript {
         jcenter()
         mavenCentral()
         maven { url "https://repo.spring.io/plugins-release" }
+        maven { url "https://dl.bintray.com/kotlin/kotlin-dev/" }
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
@@ -12,7 +13,7 @@ buildscript {
 }
 
 group = 'com.github.debop'
-version = '1.0.1-SNAPSHOT'
+version = '1.1.0-SNAPSHOT'
 
 apply plugin: 'java'
 apply plugin: 'kotlin'
@@ -29,9 +30,20 @@ compileTestJava {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
+compileKotlin {
+    sourceCompatibility = JavaVersion.VERSION_1_6
+    targetCompatibility = JavaVersion.VERSION_1_6
+
+    kotlinOptions {
+        apiVersion = "1.1"
+        languageVersion = "1.1"
+    }
+}
+
 repositories {
     jcenter()
     mavenCentral()
+    maven { url "https://dl.bintray.com/kotlin/kotlin-dev/" }
 }
 
 dependencies {
@@ -41,7 +53,7 @@ dependencies {
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 
     compile "joda-time:joda-time:$joda_time_version"
-    optional "org.joda:joda-convert:$joda_convert_version"
+    compile "org.joda:joda-convert:$joda_convert_version"
 
     testCompile "org.slf4j:slf4j-api:$slf4j_version"
     testCompile "ch.qos.logback:logback-classic:$logback_version"
@@ -57,32 +69,22 @@ tasks.withType(JavaCompile) {
     options.compilerArgs << '-Xlint:unchecked'
 }
 
-task packageSources(type: Jar) {
+task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
     from sourceSets.main.allSource
 }
 
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
 compileJava.dependsOn processResources
-/*
- * Copyright (c) 2016. Sunghyouk Bae <sunghyouk.bae@gmail.com>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- */
 
 //    processResources.dependsOn cleanResources
 
 artifacts {
-    archives packageSources
+    archives sourcesJar, javadocJar
 }
 
 test {
@@ -93,5 +95,5 @@ test {
 defaultTasks 'clean', 'check'
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '3.2.1'
+    gradleVersion = '3.4'
 }
