@@ -1,16 +1,21 @@
 buildscript {
 
     repositories {
-        jcenter()
         mavenCentral()
         maven { url "https://repo.spring.io/plugins-release" }
         maven { url "https://dl.bintray.com/kotlin/kotlin-dev/" }
+        //maven { url "https://dl.bintray.com/kotlin/kotlin-eap-1.1"}
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        //classpath "com.netflix.nebula:nebula-kotlin-plugin:1.1.0-rc-91"
         classpath "org.springframework.build.gradle:propdeps-plugin:0.0.7"
     }
 }
+
+plugins {
+    id 'nebula.kotlin' version '1.1.0-rc-91'
+}
+
 
 group = 'com.github.debop'
 version = '1.1.0-SNAPSHOT'
@@ -22,8 +27,8 @@ apply plugin: 'propdeps'
 apply plugin: 'propdeps-maven'
 apply plugin: 'propdeps-idea'
 
-sourceCompatibility = JavaVersion.VERSION_1_6
-targetCompatibility = JavaVersion.VERSION_1_6
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 compileTestJava {
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -31,12 +36,13 @@ compileTestJava {
 }
 
 compileKotlin {
-    sourceCompatibility = JavaVersion.VERSION_1_6
-    targetCompatibility = JavaVersion.VERSION_1_6
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 
     kotlinOptions {
         apiVersion = "1.1"
         languageVersion = "1.1"
+        jvmTarget="1.8"
     }
 }
 
@@ -47,10 +53,10 @@ repositories {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib"
 
-    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
-    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    testCompile "org.jetbrains.kotlin:kotlin-test"
+    testCompile "org.jetbrains.kotlin:kotlin-test-junit"
 
     compile "joda-time:joda-time:$joda_time_version"
     compile "org.joda:joda-convert:$joda_convert_version"
