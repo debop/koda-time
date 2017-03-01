@@ -14,6 +14,7 @@
  *
  */
 @file:JvmName("KodaTimex")
+@file:Suppress("EXTENSION_SHADOWED_BY_MEMBER")
 
 package com.github.debop.kodatimes
 
