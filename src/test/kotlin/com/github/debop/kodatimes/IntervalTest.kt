@@ -24,11 +24,11 @@ class IntervalTest : AbstractKodaTimesTest() {
 
   @Test fun rangeTest() {
     val start = now()
-    val end = start + 1.days()
+    val end = start + 1.days() 
 
     val range: Interval = start..end
 
-    val inRange = range.days().all { start.startOfDay() <= it && it <= end }
+    val inRange = range.days().all { it in start.startOfDay()..end }
     assertThat(inRange).isTrue()
 
     assertThat(range.days().last()).isEqualTo(end.startOfDay())
@@ -36,12 +36,13 @@ class IntervalTest : AbstractKodaTimesTest() {
 
   @Test fun rangeStepTest() {
     val start = now()
-    val end = start + 1.days()
+    val end = start + 1.days() + 1.millis()
 
+    // range contains is start <= x && x < end
     (start..end step 1.hours().toPeriod()).forEach {
-      assertThat(start <= it && it <= end).isTrue()
+      assertThat(it in start..end).isTrue()
     }
 
-    assertThat((start..end).hours().all { start <= it && it <= end }).isTrue()
+    assertThat((start..end).hours().all { it in start..end }).isTrue()
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016. Sunghyouk Bae <sunghyouk.bae@gmail.com>
+ * Copyright (c) 2017. Sunghyouk Bae <sunghyouk.bae@gmail.com>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,18 +13,18 @@
  * limitations under the License.
  *
  */
-@file:JvmName("KodaTimeExtensions")
+@file:JvmName("KodaTimex")
+@file:Suppress("EXTENSION_SHADOWED_BY_MEMBER")
 
 package com.github.debop.kodatimes
 
 import org.joda.time.*
 import org.joda.time.base.AbstractInstant
-import org.joda.time.format.DateTimeFormat
-import org.joda.time.format.ISODateTimeFormat
+import org.joda.time.format.*
 import java.sql.Timestamp
 import java.util.*
 
-val EPOCH = DateTime(0)
+@JvmField val EPOCH = DateTime(0)
 
 /** Convert [Date] to [DateTime] */
 fun Date.toDateTime(): DateTime = DateTime(this.time)
@@ -45,16 +45,20 @@ fun AbstractInstant.dateTimeUTC(): DateTime = this.toDateTime(DateTimeZone.UTC)
 fun AbstractInstant.mutableDateTimeUTC(): MutableDateTime = this.toMutableDateTime(DateTimeZone.UTC)
 
 /** Millsecond */
-fun Int.millis(): DurationBuilder = DurationBuilder(Period.millis(this))
+//fun Int.millis(): DurationBuilder = DurationBuilder(Period.millis(this))
+fun Int.millis(): Period = Period.millis(this)
 
 /** Seconds */
-fun Int.seconds(): DurationBuilder = DurationBuilder(Period.seconds(this))
+//fun Int.seconds(): DurationBuilder = DurationBuilder(Period.seconds(this))
+fun Int.seconds(): Period = Period.seconds(this)
 
 /** N Minutes */
-fun Int.minutes(): DurationBuilder = DurationBuilder(Period.minutes(this))
+//fun Int.minutes(): DurationBuilder = DurationBuilder(Period.minutes(this))
+fun Int.minutes(): Period = Period.minutes(this)
 
 /** N Hours */
-fun Int.hours(): DurationBuilder = DurationBuilder(Period.hours(this))
+//fun Int.hours(): DurationBuilder = DurationBuilder(Period.hours(this))
+fun Int.hours(): Period = Period.hours(this)
 
 /** Period in N days */
 fun Int.days(): Period = Period.days(this)
@@ -68,24 +72,25 @@ fun Int.months(): Period = Period.months(this)
 /** Period in N years */
 fun Int.years(): Period = Period.years(this)
 
-/**  N times duration */
-operator fun Int.times(builder: DurationBuilder): DurationBuilder = DurationBuilder(builder.period.multipliedBy(this))
+///**  N times duration */
+//operator fun Int.times(builder: DurationBuilder): DurationBuilder = DurationBuilder(builder.period.multipliedBy(this))
 
 /**  N times period */
 operator fun Int.times(period: Period): Period = period.multipliedBy(this)
 
 
-/** N millis duration */
-fun Long.millis(): DurationBuilder = DurationBuilder(Period.millis(this.toInt()))
+/** N millis period */
+fun Long.millis(): Period = Period.millis(this.toInt())
 
-/** N seconds duration */
-fun Long.seconds(): DurationBuilder = DurationBuilder(Period.seconds(this.toInt()))
+/** N seconds period */
+fun Long.seconds(): Period = Period.seconds(this.toInt())
 
-/** N minutes duration */
-fun Long.minutes(): DurationBuilder = DurationBuilder(Period.minutes(this.toInt()))
+/** N minutes period */
+fun Long.minutes(): Period = Period.minutes(this.toInt())
 
-/** N hours duration */
-fun Long.hours(): DurationBuilder = DurationBuilder(Period.hours(this.toInt()))
+/** N hours period */
+fun Long.hours(): Period = Period.hours(this.toInt())
+
 
 /** N days period */
 fun Long.days(): Period = Period.days(this.toInt())
@@ -99,8 +104,8 @@ fun Long.months(): Period = Period.months(this.toInt())
 /** N years period */
 fun Long.years(): Period = Period.years(this.toInt())
 
-/**  N times duration */
-operator fun Long.times(builder: DurationBuilder): DurationBuilder = DurationBuilder(builder.period.multipliedBy(this.toInt()))
+///**  N times duration */
+//operator fun Long.times(builder: DurationBuilder): DurationBuilder = DurationBuilder(builder.period.multipliedBy(this.toInt()))
 
 /**  N times period  */
 operator fun Long.times(period: Period): Period = period.multipliedBy(this.toInt())
@@ -108,7 +113,7 @@ operator fun Long.times(period: Period): Period = period.multipliedBy(this.toInt
 /**
  * get [DateTimeFormatter] with specified pattern
  */
-fun dateTimeFormat(pattern: String) = DateTimeFormat.forPattern(pattern)
+fun dateTimeFormat(pattern: String): DateTimeFormatter = DateTimeFormat.forPattern(pattern)
 
 /** Parse string to [DateTime] */
 fun String.toDateTime(pattern: String? = null): DateTime? = try {
@@ -167,10 +172,17 @@ fun DateTime.startOfMonth(): DateTime = dateTimeOf(this.year, this.monthOfYear)
 fun DateTime.startOfYear(): DateTime = dateTimeOf(this.year)
 
 /** DateTime `-` operator */
-operator fun DateTime.minus(builder: DurationBuilder): DateTime = this.minus(builder.period)
+operator fun DateTime.minus(millis: Long): DateTime = this.minus(millis)
+operator fun DateTime.minus(duration: ReadableDuration): DateTime = this.minus(duration)
+operator fun DateTime.minus(period: ReadablePeriod): DateTime = this.minus(period)
+//operator fun DateTime.minus(builder: DurationBuilder): DateTime = this.minus(builder.period)
+
 
 /** DateTime `+` operator */
-operator fun DateTime.plus(builder: DurationBuilder): DateTime = this.plus(builder.period)
+operator fun DateTime.plus(millis: Long): DateTime = this.plus(millis)
+operator fun DateTime.plus(duration: ReadableDuration): DateTime = this.plus(duration)
+operator fun DateTime.plus(period: ReadablePeriod): DateTime = this.plus(period)
+//operator fun DateTime.plus(builder: DurationBuilder): DateTime = this.plus(builder.period)
 
 /** next day */
 fun DateTime.tomorrow(): DateTime = this.nextDay()
@@ -222,12 +234,12 @@ fun DateTime.toTimestampZoneText(): TimestampZoneText = TimestampZoneText(this)
 
 /** get minimum [DateTime] */
 infix fun DateTime.min(that: DateTime): DateTime {
-  return if (this.compareTo(that) < 0) this else that
+  return if (this < that) this else that
 }
 
 /** get maximum [DateTime] */
 infix fun DateTime.max(that: DateTime): DateTime {
-  return if (this.compareTo(that) > 0) this else that
+  return if (this > that) this else that
 }
 
 /** Get month interval in specified [DateTime] */
@@ -268,23 +280,40 @@ fun lastMonth(): DateTime = now().minusMonths(1)
 fun lastYear(): DateTime = now().minusYears(1)
 
 /** `-` operator for [LocalDateTime] */
-operator fun LocalDateTime.minus(builder: DurationBuilder): LocalDateTime = this.minus(builder.period)
+operator fun LocalDateTime.minus(period: ReadablePeriod): LocalDateTime = this.minus(period)
+
+/** `-` operator for [LocalDateTime] */
+operator fun LocalDateTime.minus(duration: ReadableDuration): LocalDateTime = this.minus(duration)
 
 /** `+` operator for [LocalDateTime] */
-operator fun LocalDateTime.plus(builder: DurationBuilder): LocalDateTime = this.plus(builder.period)
+operator fun LocalDateTime.plus(period: ReadablePeriod): LocalDateTime = this.plus(period)
+
+/** `+` operator for [LocalDateTime] */
+operator fun LocalDateTime.plus(duration: ReadableDuration): LocalDateTime = this.plus(duration)
 
 /** `-` operator for [LocalDate] */
-operator fun LocalDate.minus(builder: DurationBuilder): LocalDate = this.minus(builder.period)
+operator fun LocalDate.minus(period: Period): LocalDate = this.minus(period)
+
+/** `-` operator for [LocalDate] */
+operator fun LocalDate.minus(duration: ReadableDuration): LocalDate = this.minus(duration.toPeriod())
 
 /** `+` operator for [LocalDate] */
-operator fun LocalDate.plus(builder: DurationBuilder): LocalDate = this.plus(builder.period)
+operator fun LocalDate.plus(period: Period): LocalDate = this.plus(period)
+
+/** `+` operator for [LocalDate] */
+operator fun LocalDate.plus(duration: ReadableDuration): LocalDate = this.plus(duration.toPeriod())
 
 /** `-` operator for [LocalTime] */
-operator fun LocalTime.minus(builder: DurationBuilder): LocalTime = this.minus(builder.period)
+operator fun LocalTime.minus(period: Period): LocalTime = this.minus(period)
+
+/** `-` operator for [LocalTime] */
+operator fun LocalTime.minus(duration: ReadableDuration): LocalTime = this.minus(duration.toPeriod())
 
 /** `+` operator for [LocalTime] */
-operator fun LocalTime.plus(builder: DurationBuilder): LocalTime = this.plus(builder.period)
+operator fun LocalTime.plus(period: Period): LocalTime = this.plus(period)
 
+/** `+` operator for [LocalTime] */
+operator fun LocalTime.plus(duration: ReadableDuration): LocalTime = this.plus(duration.toPeriod())
 
 /**
  * empty [Duration]
@@ -330,11 +359,11 @@ operator fun Duration.times(multiplicand: Long): Duration = this.multipliedBy(mu
 fun Duration.isZero(): Boolean = this.millis == 0L
 
 infix fun Duration.min(that: Duration): Duration {
-  return if (this.compareTo(that) < 0) this else that
+  return if (this < that) this else that
 }
 
 infix fun Duration.max(that: Duration): Duration {
-  return if (this.compareTo(that) > 0) this else that
+  return if (this > that) this else that
 }
 
 
@@ -346,6 +375,8 @@ fun Period.from(moment: DateTime): DateTime = moment + this
 fun Period.before(moment: DateTime): DateTime = moment - this
 fun Period.standardDuration(): Duration = this.toStandardDuration()
 
+val Period.duration: Duration get() = this.toStandardDuration()
+
 fun periodOfYears(y: Int): Period = Period.years(y)
 fun periodOfMonths(m: Int): Period = Period.months(m)
 fun periodOfWeek(w: Int): Period = Period.weeks(w)
@@ -355,51 +386,30 @@ fun periodOfMinutes(m: Int): Period = Period.minutes(m)
 fun periodOfSeconds(s: Int): Period = Period.seconds(s)
 fun periodOfMillis(m: Int): Period = Period.millis(m)
 
-operator fun Instant.minus(builder: DurationBuilder): Instant = this.minus(builder.period.toStandardDuration())
-operator fun Instant.plus(builder: DurationBuilder): Instant = this.plus(builder.period.toStandardDuration())
+operator fun Period.minus(period: ReadablePeriod?): Period = this.minus(period)
+operator fun Period.plus(period: ReadablePeriod?): Period = this.plus(period)
+
+operator fun Period.times(scalar: Int): Period = this.multipliedBy(scalar)
+operator fun Period.unaryMinus(): Period = this.negated()
+
+operator fun Period.rangeTo(end: ReadableInstant): Interval = Interval(this, end)
+
+operator fun Instant.minus(millis: Long): Instant = this.minus(millis)
+operator fun Instant.minus(duration: ReadableDuration): Instant = this.minus(duration)
+operator fun Instant.minus(period: Period): Instant = this.minus(period.toStandardDuration())
+//operator fun Instant.minus(builder: DurationBuilder): Instant = this.minus(builder.period.toStandardDuration())
+
+operator fun Instant.plus(millis: Long): Instant = this.plus(millis)
+operator fun Instant.plus(duration: ReadableDuration): Instant = this.plus(duration)
+operator fun Instant.plus(period: Period): Instant = this.plus(period.toStandardDuration())
+//operator fun Instant.plus(builder: DurationBuilder): Instant = this.plus(builder.period.toStandardDuration())
+
+operator fun ReadableInstant.rangeTo(end: ReadableInstant): Interval = Interval(this, end)
+operator fun ReadableInstant.rangeTo(duration: ReadableDuration): Interval = Interval(this, duration)
+operator fun ReadableInstant.rangeTo(period: ReadablePeriod): Interval = Interval(this, period)
 
 fun thisSecond(): Interval = now().secondOfMinute().toInterval()
 fun thisMinute(): Interval = now().minuteOfHour().toInterval()
 fun thisHour(): Interval = now().hourOfDay().toInterval()
 
-//
-// [ReadableInstant] .. [ReadableInstant] => [Interval]
-//
-/** get [Interval] from specified instant ~ other instant */
-operator fun ReadableInstant.rangeTo(other: ReadableInstant): Interval = Interval(this, other)
 
-fun ReadableInterval.millis(): Long = this.toDurationMillis()
-
-infix fun ReadableInterval.step(instance: ReadablePeriod): Sequence<DateTime> {
-  return generateSequence(start + instance) { it + instance }.takeWhile { it <= end }
-}
-
-/** 기간을 초 단위로 열거합니다. */
-fun ReadableInterval.seconds(): Sequence<DateTime> {
-  return generateSequence(start) { it.plusSeconds(1) }.takeWhile { it <= end }
-}
-
-/** 기간을 분 단위로 열거합니다. */
-fun ReadableInterval.minutes(): Sequence<DateTime> {
-  return generateSequence(start) { it.plusMinutes(1) }.takeWhile { it <= end }
-}
-
-/** 기간을 시간 단위로 열거합니다. */
-fun ReadableInterval.hours(): Sequence<DateTime> {
-  return generateSequence(start) { it.plusHours(1) }.takeWhile { it <= end }
-}
-
-/** 기간을 일 단위로 열거합니다. */
-fun ReadableInterval.days(): Sequence<DateTime> {
-  return generateSequence(start.startOfDay()) { it.plusDays(1) }.takeWhile { it <= end }
-}
-
-/** 기간을 주 단위로 열거합니다. */
-fun ReadableInterval.weeks(): Sequence<DateTime> {
-  return generateSequence(start.startOfWeek()) { it.plusWeeks(1) }.takeWhile { it <= end }
-}
-
-/** 기간을 월 단위로 열거합니다. */
-fun ReadableInterval.months(): Sequence<DateTime> {
-  return generateSequence(start.startOfMonth()) { it.plusMonths(1) }.takeWhile { it <= end }
-}
