@@ -4,24 +4,19 @@ buildscript {
         mavenCentral()
         maven { url "https://repo.spring.io/plugins-release" }
         maven { url "https://dl.bintray.com/kotlin/kotlin-dev/" }
-        //maven { url "https://dl.bintray.com/kotlin/kotlin-eap-1.1"}
     }
     dependencies {
-        //classpath "com.netflix.nebula:nebula-kotlin-plugin:1.1.0-rc-91"
+        classpath "com.netflix.nebula:nebula-kotlin-plugin:$kotlin_version"
         classpath "org.springframework.build.gradle:propdeps-plugin:0.0.7"
     }
 }
-
-plugins {
-    id 'nebula.kotlin' version '1.1.0-rc-91'
-}
-
 
 group = 'com.github.debop'
 version = '1.1.0-SNAPSHOT'
 
 apply plugin: 'java'
 apply plugin: 'kotlin'
+apply plugin: 'nebula.kotlin'
 apply plugin: 'maven-publish'
 apply plugin: 'propdeps'
 apply plugin: 'propdeps-maven'
@@ -42,7 +37,7 @@ compileKotlin {
     kotlinOptions {
         apiVersion = "1.1"
         languageVersion = "1.1"
-        jvmTarget="1.8"
+        jvmTarget = "1.8"
     }
 }
 
@@ -75,7 +70,7 @@ tasks.withType(JavaCompile) {
     options.compilerArgs << '-Xlint:unchecked'
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
+task sourceJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
     from sourceSets.main.allSource
 }
@@ -90,7 +85,7 @@ compileJava.dependsOn processResources
 //    processResources.dependsOn cleanResources
 
 artifacts {
-    archives sourcesJar, javadocJar
+    archives sourceJar, javadocJar
 }
 
 test {
