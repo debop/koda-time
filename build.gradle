@@ -21,6 +21,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'propdeps'
 apply plugin: 'propdeps-maven'
 apply plugin: 'propdeps-idea'
+apply plugin: 'application'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
@@ -97,4 +98,12 @@ defaultTasks 'clean', 'check'
 
 task wrapper(type: Wrapper) {
     gradleVersion = '3.4'
+}
+
+mainClassName = 'com.github.debop.kodatimes.AppKt'
+
+jar {
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
 }
