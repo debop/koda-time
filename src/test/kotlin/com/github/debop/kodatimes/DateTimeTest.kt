@@ -16,23 +16,25 @@
 
 package com.github.debop.kodatimes
 
-import org.assertj.core.api.Assertions
-import org.assertj.core.api.Assertions.assertThat
-import org.assertj.jodatime.api.Assertions.assertThat
 import org.joda.time.*
 import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class DateTimeTest : AbstractKodaTimesTest() {
+
+  private val EXPECTED_DATETIME_STR = "2013-03-02T07:08:09.123+0900"
 
   @Test fun dateTimeManupulation() {
     val now = DateTime.now()
 
-    Assertions.assertThat(now).isEqualTo(now)
-    assertThat(now == now).isTrue()
-    assertThat((now + 1.hours()).isAfter(now)).isTrue()
+    assertEquals(now, now)
+    assertTrue { (now + 1.hours()).isAfter(now) }
+    assertTrue { (now + 1.hours()).isAfterNow }
   }
 
   @Test fun builderPattern() {
+
     val actual =
         DateTime.parse("2014-01-01T01:01:01.123+0900")
             .withYear(2013)
@@ -43,9 +45,8 @@ class DateTimeTest : AbstractKodaTimesTest() {
             .withMinuteOfHour(8)
             .withSecondOfMinute(9)
 
-    val expected = DateTime.parse("2013-03-02T07:08:09.123+0900")
-
-    assertThat(actual).isEqualTo(expected)
+    val expected = DateTime.parse(EXPECTED_DATETIME_STR)
+    assertEquals(expected, actual)
   }
 
   @Test fun builderPatternWithMillis() {
@@ -60,20 +61,20 @@ class DateTimeTest : AbstractKodaTimesTest() {
             .withSecondOfMinute(9)
             .withMillisOfSecond(500)
 
-    val expected = DateTime.parse("2013-03-02T07:08:09.500+0900")
+    val expected = DateTime.parse(EXPECTED_DATETIME_STR)
 
-    assertThat(actual).isEqualTo(expected)
+    assertEquals(expected.withMillisOfSecond(500), actual)
   }
 
   @Test fun operatorTest() {
-    assertThat(DateTime.now().nextMonth() < DateTime.now() + 2.months()).isTrue()
+    assertTrue { DateTime.now().nextMonth() < DateTime.now() + 2.months() }
 
     val now = DateTime.now()
-    val range: Interval = now..now.tomorrow()
+    val range: Interval = now .. now.tomorrow()
     println("range=$range")
 
-    val sec: Interval = now..now.nextSecond()
-    assertThat(sec.millis()).isEqualTo(1000L)
+    val sec: Interval = now .. now.nextSecond()
+    assertEquals(1000L, sec.millis())
   }
 
   @Test fun sortDateTime() {
@@ -82,9 +83,8 @@ class DateTimeTest : AbstractKodaTimesTest() {
 
     val expected = listOf(now - 2.seconds(), now, now + 1.seconds(), now + 3.seconds(), now + 10.seconds())
     val sorted = list.sorted()
-    assertThat(sorted).isEqualTo(expected)
-
-    Assertions.assertThat(list.max()).isEqualTo(now + 10.seconds())
+    assertEquals(expected, sorted)
+    assertEquals(now + 10.seconds(), list.max())
   }
 
   @Test fun sortLocalDate() {
@@ -94,8 +94,7 @@ class DateTimeTest : AbstractKodaTimesTest() {
 
     val expected = listOf(today + 1.days(), today + 2.days(), today + 3.days(), today + 10.days())
     val sorted = list.sorted()
-    assertThat(sorted).isEqualTo(expected)
-    assertThat(list.max()).isEqualTo(today + 10.days())
+    assertEquals(expected, sorted)
+    assertEquals(today + 10.days(), list.max())
   }
-
 }

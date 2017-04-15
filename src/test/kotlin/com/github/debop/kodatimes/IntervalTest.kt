@@ -16,22 +16,23 @@
 
 package com.github.debop.kodatimes
 
-import org.assertj.core.api.Assertions.assertThat
 import org.joda.time.Interval
 import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class IntervalTest : AbstractKodaTimesTest() {
 
   @Test fun rangeTest() {
     val start = now()
-    val end = start + 1.days() 
+    val end = start + 1.days()
 
-    val range: Interval = start..end
+    val range: Interval = start .. end
 
-    val inRange = range.days().all { it in start.startOfDay()..end }
-    assertThat(inRange).isTrue()
-
-    assertThat(range.days().last()).isEqualTo(end.startOfDay())
+    assertTrue {
+      range.days().all { it in start.startOfDay() .. end }
+    }
+    assertEquals(end.startOfDay(), range.days().last())
   }
 
   @Test fun rangeStepTest() {
@@ -39,10 +40,10 @@ class IntervalTest : AbstractKodaTimesTest() {
     val end = start + 1.days() + 1.millis()
 
     // range contains is start <= x && x < end
-    (start..end step 1.hours().toPeriod()).forEach {
-      assertThat(it in start..end).isTrue()
+    (start .. end step 1.hours().toPeriod()).forEach {
+      assertTrue { it in start .. end }
     }
 
-    assertThat((start..end).hours().all { it in start..end }).isTrue()
+    assertTrue((start .. end).hours().all { it in start .. end })
   }
 }

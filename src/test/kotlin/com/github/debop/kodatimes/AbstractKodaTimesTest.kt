@@ -18,9 +18,6 @@ package com.github.debop.kodatimes
 
 import org.slf4j.LoggerFactory
 
-/**
- * @author debop sunghyouk.bae@gmail.com
- */
 abstract class AbstractKodaTimesTest {
 
   protected val log by lazy { LoggerFactory.getLogger(this::class.java) }

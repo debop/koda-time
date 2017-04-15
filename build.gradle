@@ -12,7 +12,7 @@ buildscript {
 }
 
 group = 'com.github.debop'
-version = '1.1.0'
+version = '1.1.1'
 
 apply plugin: 'java'
 apply plugin: 'kotlin'
@@ -21,6 +21,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'propdeps'
 apply plugin: 'propdeps-maven'
 apply plugin: 'propdeps-idea'
+apply plugin: 'application'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
@@ -50,9 +51,6 @@ repositories {
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib"
 
-    testCompile "org.jetbrains.kotlin:kotlin-test"
-    testCompile "org.jetbrains.kotlin:kotlin-test-junit"
-
     compile "joda-time:joda-time:$joda_time_version"
     compile "org.joda:joda-convert:$joda_convert_version"
 
@@ -60,8 +58,11 @@ dependencies {
     testCompile "ch.qos.logback:logback-classic:$logback_version"
 
     testCompile "junit:junit:$junit_version"
-    testCompile "org.assertj:assertj-core:$assertj_core_java8_version"
-    testCompile "org.assertj:assertj-joda-time:$assertj_joda_time_java8_version"
+    testCompile "org.jetbrains.kotlin:kotlin-test"
+    testCompile "org.jetbrains.kotlin:kotlin-test-junit"
+
+//    testCompile "org.assertj:assertj-core:$assertj_core_java8_version"
+//    testCompile "org.assertj:assertj-joda-time:$assertj_joda_time_java8_version"
 }
 
 tasks.withType(JavaCompile) {
@@ -90,11 +91,18 @@ artifacts {
 
 test {
     ignoreFailures true
-//    jvmArgs "-XX:MaxPermSize=512m"
 }
 
-defaultTasks 'clean', 'check'
+defaultTasks 'clean', 'assemble'
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '3.4'
+    gradleVersion = '3.5'
+}
+
+mainClassName = 'com.github.debop.kodatimes.AppKt'
+
+jar {
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
 }
