@@ -1,5 +1,8 @@
 # koda-times change Logs
 
+# 1.1.2
+
+* Change build tool to [Kobalt](http://beust.com/kobalt) (Build system with Kotlin syntax)
 
 # 1.1.1
 

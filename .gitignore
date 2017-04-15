@@ -25,3 +25,5 @@ build/
 # kobalt
 .kobalt
 !kobalt/wrapper/kobalt-wrapper.jar
+kobaltBuild
+libs
