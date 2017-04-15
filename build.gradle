@@ -12,7 +12,7 @@ buildscript {
 }
 
 group = 'com.github.debop'
-version = '1.1.1'
+version = '1.1.2-SNAPSHOT'
 
 apply plugin: 'java'
 apply plugin: 'kotlin'
@@ -80,10 +80,6 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 
 compileJava.dependsOn processResources
 
-artifacts {
-    archives sourceJar, javadocJar
-}
-
 test {
     ignoreFailures true
 }
@@ -97,13 +93,12 @@ task wrapper(type: Wrapper) {
 publishing {
     publications {
         maven(MavenPublication) {
-            groupId 'com.github.debop'
-            artifactId 'koda-time'
-            version '1.1.1'
 
             from components.java
-            artifact sourceJar
-            artifact javadocJar
+            
+            artifacts {
+                archives sourceJar, javadocJar
+            }
         }
     }
 }
