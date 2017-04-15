@@ -17,3 +17,11 @@ hs_err_pid*
 !gradle/wrapper/gradle-wrapper.jar
 build/
 .gradle
+
+# eclipse
+.classpath
+.project
+
+# kobalt
+.kobalt
+!kobalt/wrapper/kobalt-wrapper.jar

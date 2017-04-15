@@ -1,0 +1,18 @@
+{
+  "tasks": [
+    {
+      "taskName": "koda-time:compile",
+      "inputChecksum": "5def00c04817b29261d463787db8a817",
+      "outputChecksum": "bfff0bc8036fbd2b40b8416baddbd246"
+    },
+    {
+      "taskName": "koda-time:assemble",
+      "inputChecksum": "bfff0bc8036fbd2b40b8416baddbd246"
+    },
+    {
+      "taskName": "koda-time:compileTest",
+      "inputChecksum": "0251cab06962d25a1b0450e65c627464",
+      "outputChecksum": "89d8af14f04d38cf3b3c3263620d336b"
+    }
+  ]
+}
