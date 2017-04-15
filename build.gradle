@@ -60,9 +60,6 @@ dependencies {
     testCompile "junit:junit:$junit_version"
     testCompile "org.jetbrains.kotlin:kotlin-test"
     testCompile "org.jetbrains.kotlin:kotlin-test-junit"
-
-//    testCompile "org.assertj:assertj-core:$assertj_core_java8_version"
-//    testCompile "org.assertj:assertj-joda-time:$assertj_joda_time_java8_version"
 }
 
 tasks.withType(JavaCompile) {
@@ -83,8 +80,6 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 
 compileJava.dependsOn processResources
 
-//    processResources.dependsOn cleanResources
-
 artifacts {
     archives sourceJar, javadocJar
 }
@@ -97,6 +92,20 @@ defaultTasks 'clean', 'assemble'
 
 task wrapper(type: Wrapper) {
     gradleVersion = '3.5'
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId 'com.github.debop'
+            artifactId 'koda-time'
+            version '1.1.1'
+
+            from components.java
+            artifact sourceJar
+            artifact javadocJar
+        }
+    }
 }
 
 mainClassName = 'com.github.debop.kodatimes.AppKt'
