@@ -16,45 +16,48 @@
 
 package com.github.debop.kodatimes
 
-import org.assertj.core.api.Assertions.assertThat
-import org.joda.time.DateTime
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
+import org.joda.time.*
 import org.junit.Test
+import kotlin.test.*
+
 
 /**
  * @author sunghyouk.bae@gmail.com
  */
 class ParsingTest : AbstractKodaTimesTest() {
 
+  private val EXPECTED_DATE_STR = "2016-08-19"
+  private val EXPECTED_TIME_STR = "17:55:34"
+
   @Test fun stringToDate() {
-    val expected = DateTime("2016-08-08")
+    val expected = DateTime(EXPECTED_DATE_STR)
 
-    assertThat("2016-08-08".toDateTime()).isEqualTo(expected)
-    assertThat("2016-08-08".toDateTime("yyyy-MM-dd")).isEqualTo(expected)
+    assertEquals(expected, EXPECTED_DATE_STR.toDateTime())
+    assertEquals(expected, EXPECTED_DATE_STR.toDateTime("yyyy-MM-dd"))
 
-    assertThat("".toDateTime()).isNull()
+    assertNull("".toDateTime())
   }
 
   @Test fun stringToLocalDate() {
-    val expected = LocalDate("2016-08-08")
+    val expected = LocalDate(EXPECTED_DATE_STR)
 
-    assertThat("2016-08-08".toLocalDate()).isEqualTo(expected)
-    assertThat("2016-08-08".toLocalDate("yyyy-MM-dd")).isEqualTo(expected)
+    assertEquals(expected, EXPECTED_DATE_STR.toLocalDate())
+    assertEquals(expected, EXPECTED_DATE_STR.toLocalDate("yyyy-MM-dd"))
 
-    assertThat("".toLocalDate()).isNull()
+    assertNull("".toLocalDate())
   }
 
   @Test fun stringToLocalTime() {
-    val expected = LocalTime("17:55:34")
+    val expected = LocalTime(EXPECTED_TIME_STR)
 
-    assertThat("17:55:34".toLocalTime()).isEqualTo(expected)
-    assertThat("17:55:34".toLocalTime("HH:mm:ss")).isEqualTo(expected)
+    assertEquals(expected, EXPECTED_TIME_STR.toLocalTime())
+    assertEquals(expected, EXPECTED_TIME_STR.toLocalTime("HH:mm:ss"))
 
     // hh : [0~12], HH: [0~24]
-    assertThat("17:55:34".toLocalTime("hh:mm:ss")).isNull()
+    assertNull(EXPECTED_TIME_STR.toLocalTime("hh:mm:ss"))
+    assertNotNull(EXPECTED_TIME_STR.toLocalTime("HH:mm:ss"))
 
-    assertThat("".toLocalTime()).isNull()
-    assertThat("".toLocalTime("HH:mm:ss")).isNull()
+    assertNull("".toLocalTime())
+    assertNull("".toLocalTime("HH:mm:ss"))
   }
 }

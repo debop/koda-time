@@ -16,28 +16,29 @@
 
 package com.github.debop.kodatimes
 
-import org.assertj.core.api.Assertions.assertThat
+
 import org.joda.time.DateTime
 import org.joda.time.Duration
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class DurationTest : AbstractKodaTimesTest() {
 
   @Test fun makeDuration() {
     val now = DateTime.now()
-    val duration: Duration = (now..now + 1.days()).toDuration()
-    assertThat(duration.standardDays).isEqualTo(1L)
+    val duration: Duration = (now .. now + 1.days()).toDuration()
+    assertEquals(1L, duration.standardDays)
 
-    assertThat((now..now + 7.days()).toDuration().standardDays).isEqualTo(7L)
-    assertThat((now..now + 40.days()).toDuration().standardDays).isEqualTo(40L)
-    assertThat((now..now + 500.days()).toDuration().standardDays).isEqualTo(500L)
+    assertEquals(7L, (now .. now + 7.days()).toDuration().standardDays)
+    assertEquals(40L, (now .. now + 40.days()).toDuration().standardDays)
+    assertEquals(500L, (now .. now + 500.days()).toDuration().standardDays)
   }
 
   @Test fun sortDuration() {
     val list = listOf(1.seconds(), 5.seconds(), 2.seconds(), 4.seconds()).map { it.duration }
     val expected = listOf(1.seconds(), 2.seconds(), 4.seconds(), 5.seconds()).map { it.duration }
 
-    assertThat(list.sorted()).isEqualTo(expected)
-    assertThat(list.max()).isEqualTo(5.seconds().duration)
+    assertEquals(expected, list.sorted())
+    assertEquals(5.seconds().duration, list.max())
   }
 }
