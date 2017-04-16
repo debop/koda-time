@@ -1,6 +1,6 @@
 # koda-time 
 [![Build Status](https://travis-ci.org/debop/koda-time.png)](https://travis-ci.org/debop/koda-time) 
-[![Download](https://api.bintray.com/debop/maven/koda-time/images/download.svg)](https://bintray.com/debop/maven/koda-time/_latestVersion)
+[![Download](https://api.bintray.com/packages/debop/maven/koda-time/images/download.svg)](https://bintray.com/debop/maven/koda-time/_latestVersion)
 
 [Joda Time](http://joda.org) Extensions in Kotlin
 
