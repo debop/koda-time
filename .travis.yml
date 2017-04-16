@@ -5,7 +5,9 @@ jdk:
 
 sudo: false
 
-cache:
-  directories:
-    - $HOME/.m2
-    - $HOME/.gradle
+before_install:
+  - touch local.properties
+
+install: true
+
+script: ./kobaltw assemble test
