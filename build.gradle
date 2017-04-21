@@ -1,0 +1,52 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url "https://repo.spring.io/plugins-release" }
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.netflix.nebula:nebula-kotlin-plugin:$kotlin_version"
+        classpath "com.netflix.nebula:nebula-publishing-plugin:4.9.1"
+        classpath "org.springframework.build.gradle:propdeps-plugin:0.0.7"
+    }
+}
+
+// nebula.kotlin plugin 을 지정하면, kotlin 관련 설정을 기본적으로 설정해준다. 특히 jvm-target 1.8 을 지정해 준다.
+apply plugin: 'nebula.kotlin'
+
+apply plugin: 'maven'
+apply plugin: 'nebula.maven-publish'
+apply plugin: 'nebula.source-jar'
+apply plugin: 'nebula.javadoc-jar'
+apply plugin: 'propdeps'
+apply plugin: 'propdeps-maven'
+
+group = 'com.github.debop'
+version = '1.1.2-SNAPSHOT'
+
+artifacts {
+    archives sourceJar, javadocJar
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+    compile("joda-time:joda-time:2.9.9")
+    compile("org.joda:joda-convert:1.8.1")
+
+    testCompile("org.slf4j:slf4j-api:1.7.24")
+    testCompile("ch.qos.logback:logback-classic:1.2.3")
+    testCompile("junit:junit:4.12")
+    testCompile("org.jetbrains.kotlin:kotlin-test")
+}
+
+publishing {
+    publications {
+        nebula(MavenPublication) {
+        }
+    }
+}

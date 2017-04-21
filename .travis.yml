@@ -5,9 +5,6 @@ jdk:
 
 sudo: false
 
-before_install:
-  - touch local.properties
-
 install: true
 
-script: ./kobaltw assemble test
+script: ./gradlew build
