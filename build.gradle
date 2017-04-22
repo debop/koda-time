@@ -36,7 +36,7 @@ repositories {
 
 dependencies {
     compile("joda-time:joda-time:2.9.9")
-    compile("org.joda:joda-convert:1.8.1")
+    provided("org.joda:joda-convert:1.8.1")
 
     testCompile("org.slf4j:slf4j-api:1.7.24")
     testCompile("ch.qos.logback:logback-classic:1.2.3")
