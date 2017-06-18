@@ -51,6 +51,5 @@ class JavatimexTest {
         val ms = now.toEpochMilli()
         assertThat(ms.instant).isEqualTo(now)
         assertThat(ms.toLocalDateTime()).isEqualTo(now.toLocalDateTime())
-
     }
 }

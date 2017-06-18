@@ -179,7 +179,7 @@ val Instant.dayInterval: Interval
 
 operator fun Period.unaryMinus(): Period = this.negated()
 
-fun Period.yearSequence(): Sequence<Int> = buildSequence<Int> {
+suspend fun Period.yearSequence(): Sequence<Int> = buildSequence<Int> {
     var year = 0
     val years = this@yearSequence.years
     if (years > 0) {
@@ -193,7 +193,7 @@ fun Period.yearSequence(): Sequence<Int> = buildSequence<Int> {
     }
 }
 
-fun Period.monthSequence(): Sequence<Int> = buildSequence<Int> {
+suspend fun Period.monthSequence(): Sequence<Int> = buildSequence<Int> {
     var month = 0
     val months = this@monthSequence.months
     if (months > 0) {
@@ -207,7 +207,7 @@ fun Period.monthSequence(): Sequence<Int> = buildSequence<Int> {
     }
 }
 
-fun Period.daySequence(): Sequence<Int> = buildSequence<Int> {
+suspend fun Period.daySequence(): Sequence<Int> = buildSequence<Int> {
     var day = 0
     val days = this@daySequence.days
     if (days > 0) {
