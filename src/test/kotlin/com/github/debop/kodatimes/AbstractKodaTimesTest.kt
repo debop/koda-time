@@ -16,10 +16,15 @@
 
 package com.github.debop.kodatimes
 
+import org.junit.Test
 import org.slf4j.LoggerFactory
 
-abstract class AbstractKodaTimesTest {
+// kobalt test 에서 abstract class에 대해서도 test 를 만들려고 한다  
+open class AbstractKodaTimesTest {
 
   protected val log by lazy { LoggerFactory.getLogger(this::class.java) }
 
+  @Test fun dummy() {
+    println("Dummy test function")
+  }
 }

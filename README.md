@@ -1,4 +1,6 @@
-# koda-time [![Build Status](https://travis-ci.org/debop/koda-time.png)](https://travis-ci.org/debop/koda-time)
+# koda-time 
+[![Build Status](https://travis-ci.org/debop/koda-time.png)](https://travis-ci.org/debop/koda-time) 
+[![Download](https://api.bintray.com/packages/debop/maven/koda-time/images/download.svg)](https://bintray.com/debop/maven/koda-time/_latestVersion)
 
 [Joda Time](http://joda.org) Extensions in Kotlin
 
@@ -26,7 +28,7 @@ add dependency
 <dependency>
   <groupId>com.github.debop</groupId>
   <artifactId>koda-time</artifactId>
-  <version>1.1.1</version>
+  <version>1.1.3</version>
 </dependency>
 ```
 
@@ -57,7 +59,7 @@ repository {
     jcenter()     
 }
 dependencies {
-    compile "com.github.debop:koda-time:1.1.1"
+    compile "com.github.debop:koda-time:1.1.3"
 }
 ```
 
