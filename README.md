@@ -28,7 +28,7 @@ add dependency
 <dependency>
   <groupId>com.github.debop</groupId>
   <artifactId>koda-time</artifactId>
-  <version>1.1.1</version>
+  <version>1.1.3</version>
 </dependency>
 ```
 
@@ -59,7 +59,7 @@ repository {
     jcenter()     
 }
 dependencies {
-    compile "com.github.debop:koda-time:1.1.1"
+    compile "com.github.debop:koda-time:1.1.3"
 }
 ```
 
