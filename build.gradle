@@ -12,7 +12,7 @@ buildscript {
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.netflix.nebula:nebula-kotlin-plugin:$kotlin_version"
-        classpath "com.netflix.nebula:nebula-publishing-plugin:4.9.1"
+        classpath "com.netflix.nebula:nebula-publishing-plugin:5.1.1"
         classpath "io.spring.gradle:propdeps-plugin:0.0.9.RELEASE"
     }
 }
