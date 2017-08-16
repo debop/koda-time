@@ -15,6 +15,7 @@
 
 package com.github.debop.kodatimes
 
+import org.assertj.core.api.Assertions.assertThat
 import org.joda.time.Interval
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -44,6 +45,23 @@ class IntervalTest : AbstractKodaTimesTest() {
     }
 
     assertTrue((start .. end).hours().all { it in start .. end })
+  }
+
+  @Test fun `chunk years`() {
+    val start = now().startOfYear()
+    val end = start + 5.years()
+    log.debug("start=$start, end=$end")
+    val interval = start .. end
+
+    val chunks = interval.chunkYear(4).toList()
+
+    assertThat(chunks.size).isEqualTo(2)
+
+    chunks.forEach { chunk ->
+      log.debug("chunk=$chunk")
+      assertThat(chunk.size).isLessThanOrEqualTo(4)
+      assertThat(chunk.first() >= start && chunk.first() <= end).isTrue()
+    }
   }
 
   @Test fun `windowed year`() {

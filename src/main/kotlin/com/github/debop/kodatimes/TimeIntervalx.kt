@@ -147,13 +147,61 @@ suspend fun ReadableInterval.buildSequence(periodUnit: PeriodUnit = DAY, step: I
   }
 }
 
-fun ReadableInterval.windowedYear(size: Int, step: Int = 1): Sequence<List<DateTime>> = buildSequence {
-  var current = start.startOfYear()
-  val limit = end.startOfYear() - size.years() + 1.years()
+
+//
+// Adopted Kotlin 1.2
+// https://github.com/Kotlin/KEEP/blob/master/proposals/stdlib/window-sliding.md
+//
+
+/**
+ * partitions source into blocks of the given size
+ */
+fun ReadableInterval.chunkYear(size: Int): Sequence<List<DateTime>> = buildSequence {
+  val startYear = start.startOfYear()
+  var current = start.year
+  val limit = end.year
 
   while (current <= limit) {
-    yield(List(size) { current + it.years() })
-    current += 1.years()
+    yield(List(Math.min(size, limit - current + 1)) { dateTimeOf(current + it, 1, 1) })
+    current += size
   }
 }
+
+inline fun <R> ReadableInterval.chunkYear(size: Int, crossinline transform: (List<DateTime>) -> R): Sequence<R> =
+    chunkYear(size).map { transform(it) }
+
+
+/**
+ * takes a window of the given size and moves it along  with the given step (like Scala sliding)
+ */
+fun ReadableInterval.windowedYear(size: Int, step: Int = 1): Sequence<List<DateTime>> = buildSequence {
+  val startYear = start.startOfYear()
+  var current = start.year
+  val limit = end.year
+
+  while (current <= limit) {
+    yield(List(Math.min(size, limit - current + 1)) { dateTimeOf(current + it, 1, 1) })
+    current += step
+  }
+}
+
+inline fun <R> ReadableInterval.windowedYear(size: Int, step: Int = 1, crossinline transform: (List<DateTime>) -> R): Sequence<R> =
+    windowedYear(size, step).map { transform(it) }
+
+/**
+ * pairwise operation which applies the immediate transform on an each pair
+ */
+fun ReadableInterval.zipWithNext(): Sequence<Pair<DateTime, DateTime>> = buildSequence {
+  val startYear = start.startOfYear()
+  var current = start.year
+  val limit = end.year
+
+  while (current < limit) {
+    yield(Pair(dateTimeOf(current), dateTimeOf(current + 1)))
+    current++
+  }
+}
+
+inline fun <R> ReadableInterval.zipWithNext(crossinline transform: (DateTime, DateTime) -> R): Sequence<R> =
+    zipWithNext().map { (a, b) -> transform(a, b) }
 
