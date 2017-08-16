@@ -112,8 +112,12 @@ publishing {
     }
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.0.2'
-    distributionType = "BIN"
+clean {
+    delete "out/"
+}
+
+wrapper {
+    gradleVersion = '4.1'
+    distributionType = 'BIN'
 }
 
