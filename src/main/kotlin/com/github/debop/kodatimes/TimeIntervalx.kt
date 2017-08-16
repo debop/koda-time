@@ -11,12 +11,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 @file:JvmName("TimeIntervalx")
 
 package com.github.debop.kodatimes
 
+import com.github.debop.kodatimes.PeriodUnit.*
 import org.joda.time.DateTime
 import org.joda.time.ReadableInterval
 import org.joda.time.ReadablePeriod
@@ -35,7 +35,7 @@ fun ReadableInterval.seconds(step: Int = 1): Sequence<DateTime> {
 }
 
 @JvmOverloads
-suspend fun ReadableInterval.builldSeconds(step: Int = 1): Sequence<DateTime> = buildSequence {
+suspend fun ReadableInterval.buildSeconds(step: Int = 1): Sequence<DateTime> = buildSequence {
   var current = start
   while (current <= end) {
     yield(current)
@@ -130,6 +130,30 @@ suspend fun ReadableInterval.buildYears(step: Int = 1): Sequence<DateTime> = bui
   while (current <= end) {
     yield(current)
     current += step.years()
+  }
+}
+
+@JvmOverloads
+suspend fun ReadableInterval.buildSequence(periodUnit: PeriodUnit = DAY, step: Int = 1): Sequence<DateTime> {
+  return when (periodUnit) {
+    SECOND -> buildSeconds(step)
+    MINUTE -> buildMinutes(step)
+    HOUR   -> buildHours(step)
+    DAY    -> buildDays(step)
+    WEEK   -> buildWeeks(step)
+    MONTH  -> buildMonths(step)
+    YEAR   -> buildYears(step)
+    else   -> throw UnsupportedOperationException("Not supported period unit. periodUnit=$periodUnit")
+  }
+}
+
+fun ReadableInterval.windowedYear(size: Int, step: Int = 1): Sequence<List<DateTime>> = buildSequence {
+  var current = start.startOfYear()
+  val limit = end.startOfYear() - size.years() + 1.years()
+
+  while (current <= limit) {
+    yield(List(size) { current + it.years() })
+    current += 1.years()
   }
 }
 

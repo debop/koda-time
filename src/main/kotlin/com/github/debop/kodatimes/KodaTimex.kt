@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017. Sunghyouk Bae <sunghyouk.bae@gmail.com>
+ * Copyright (c) 2016. Sunghyouk Bae <sunghyouk.bae@gmail.com>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -11,7 +11,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 @file:JvmName("KodaTimex")
 @file:Suppress("EXTENSION_SHADOWED_BY_MEMBER")
@@ -20,7 +19,9 @@ package com.github.debop.kodatimes
 
 import org.joda.time.*
 import org.joda.time.base.AbstractInstant
-import org.joda.time.format.*
+import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.DateTimeFormatter
+import org.joda.time.format.ISODateTimeFormat
 import java.sql.Timestamp
 import java.util.*
 
@@ -404,7 +405,7 @@ operator fun Instant.plus(duration: ReadableDuration): Instant = this.plus(durat
 operator fun Instant.plus(period: Period): Instant = this.plus(period.toStandardDuration())
 //operator fun Instant.plus(builder: DurationBuilder): Instant = this.plus(builder.period.toStandardDuration())
 
-operator fun ReadableInstant.rangeTo(end: ReadableInstant): Interval = Interval(this, end)
+operator fun ReadableInstant.rangeTo(endExclusive: ReadableInstant): Interval = Interval(this, endExclusive)
 operator fun ReadableInstant.rangeTo(duration: ReadableDuration): Interval = Interval(this, duration)
 operator fun ReadableInstant.rangeTo(period: ReadablePeriod): Interval = Interval(this, period)
 

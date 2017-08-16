@@ -11,7 +11,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package com.github.debop.kodatimes
@@ -45,5 +44,20 @@ class IntervalTest : AbstractKodaTimesTest() {
     }
 
     assertTrue((start .. end).hours().all { it in start .. end })
+  }
+
+  @Test fun `windowed year`() {
+    val start = now().startOfYear()
+    val end = start + 5.years()
+
+    log.debug("start=$start, end=$end")
+
+    val interval = start .. end
+    val windowed = interval.windowedYear(3, 1)
+    windowed.forEach { items ->
+      assertTrue { items.first() in interval }
+      log.debug("items = $items")
+    }
+    assertTrue { windowed.count() == 4 }
   }
 }
