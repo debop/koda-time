@@ -71,11 +71,11 @@ class IntervalTest : AbstractKodaTimesTest() {
     log.debug("start=$start, end=$end")
 
     val interval = start .. end
-    val windowed = interval.windowedYear(3, 1)
+    val windowed = interval.windowedYear(3, 2)
     windowed.forEach { items ->
       assertTrue { items.first() in interval }
       log.debug("items = $items")
     }
-    assertTrue { windowed.count() == 4 }
+    assertThat(windowed.count()).isEqualTo(3)
   }
 }
