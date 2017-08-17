@@ -79,4 +79,21 @@ class IntervalTest : AbstractKodaTimesTest() {
     }
     assertThat(windowed.count()).isEqualTo(2)
   }
+
+  @Test
+  fun `zipWithNext years`() {
+    val start = now().startOfYear()
+    val endExclusive = start + 5.years()
+    log.debug("start=$start, end=$endExclusive")
+    val interval = start .. endExclusive
+
+    val pairs = interval.zipWithNext().toList()
+    assertThat(pairs.size).isEqualTo(4)
+
+    pairs.forEach { (current, next) ->
+      log.debug("current=$current, next=$next")
+      assertThat(current in interval).isTrue()
+      assertThat(next in interval).isTrue()
+    }
+  }
 }

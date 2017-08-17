@@ -194,7 +194,7 @@ inline fun <R> ReadableInterval.windowedYear(size: Int, step: Int = 1, crossinli
 fun ReadableInterval.zipWithNext(): Sequence<Pair<DateTime, DateTime>> = buildSequence {
   val startYear = start.startOfYear()
   var current = start.year
-  val limit = end.year
+  val limit = end.year - 1
 
   while (current < limit) {
     yield(Pair(dateTimeOf(current), dateTimeOf(current + 1)))
