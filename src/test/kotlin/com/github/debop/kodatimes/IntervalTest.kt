@@ -49,9 +49,9 @@ class IntervalTest : AbstractKodaTimesTest() {
 
   @Test fun `chunk years`() {
     val start = now().startOfYear()
-    val end = start + 5.years()
-    log.debug("start=$start, end=$end")
-    val interval = start .. end
+    val endExclusive = start + 5.years()
+    log.debug("start=$start, end=$endExclusive")
+    val interval = start .. endExclusive
 
     val chunks = interval.chunkYear(4).toList()
 
@@ -60,22 +60,23 @@ class IntervalTest : AbstractKodaTimesTest() {
     chunks.forEach { chunk ->
       log.debug("chunk=$chunk")
       assertThat(chunk.size).isLessThanOrEqualTo(4)
-      assertThat(chunk.first() >= start && chunk.first() <= end).isTrue()
+      assertThat(chunk.first() in interval).isTrue()
+      assertThat(chunk.last() in interval).isTrue()
     }
   }
 
   @Test fun `windowed year`() {
     val start = now().startOfYear()
-    val end = start + 5.years()
-
-    log.debug("start=$start, end=$end")
-
-    val interval = start .. end
+    val endExclusive = start + 5.years()
+    log.debug("start=$start, end=$endExclusive")
+    val interval = start .. endExclusive
+    
     val windowed = interval.windowedYear(3, 2)
     windowed.forEach { items ->
-      assertTrue { items.first() in interval }
       log.debug("items = $items")
+      assertThat(items.first() in interval).isTrue()
+      assertThat(items.last() in interval).isTrue()
     }
-    assertThat(windowed.count()).isEqualTo(3)
+    assertThat(windowed.count()).isEqualTo(2)
   }
 }
