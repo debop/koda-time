@@ -258,6 +258,9 @@ fun DateTime.dayInterval(): Interval {
 /** current [DateTime] */
 fun now(): DateTime = DateTime.now()
 
+/** Today (only date part without time part) */
+fun today(): DateTime = now().withTimeAtStartOfDay()
+
 /** next day of current [DateTime] */
 fun tomorrow(): DateTime = now().tomorrow()
 
