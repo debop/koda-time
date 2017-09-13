@@ -21,7 +21,7 @@ import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class IntervalTest : AbstractKodaTimesTest() {
+class TimeIntervalxTest : AbstractKodaTimesTest() {
 
   @Test fun rangeTest() {
     val start = now()
@@ -47,6 +47,16 @@ class IntervalTest : AbstractKodaTimesTest() {
     assertTrue((start .. end).hours().all { it in start .. end })
   }
 
+  @Test fun `chunk years by zero or negative number`() {
+    val start = now().startOfYear()
+    val endExclusive = start + 5.years()
+    val interval = start .. endExclusive
+
+    assertThat(interval.chunkYear(0).toList()).hasSize(0)
+    assertThat(interval.chunkYear(-1).toList()).hasSize(0)
+    assertThat(interval.chunkYear(1).toList().size).isGreaterThan(0)
+  }
+
   @Test fun `chunk years`() {
     val start = now().startOfYear()
     val endExclusive = start + 5.years()
@@ -54,6 +64,7 @@ class IntervalTest : AbstractKodaTimesTest() {
     val interval = start .. endExclusive
 
     val chunks = interval.chunkYear(4).toList()
+    chunks.forEach(::println)
 
     assertThat(chunks.size).isEqualTo(2)
 
@@ -65,12 +76,87 @@ class IntervalTest : AbstractKodaTimesTest() {
     }
   }
 
+  @Test fun `chunk months`() {
+    val start = now().startOfMonth()
+    val endExclusive = start + 13.months()
+    log.debug("start=$start, end=$endExclusive")
+    val interval = start .. endExclusive
+
+    assertThat(interval.chunkMonth(0).toList()).hasSize(0)
+    assertThat(interval.chunkMonth(-1).toList()).hasSize(0)
+
+    val chunks = interval.chunkMonth(5).toList()
+
+    chunks.forEach(::println)
+    assertThat(chunks.size).isEqualTo(3)
+
+    chunks.forEach {
+      log.debug("chunk=$it")
+      assertTrue { it.size <= 5 }
+      assertTrue { it.first() in interval }
+      assertTrue { it.last() in interval }
+    }
+  }
+
+  @Test fun `chunk month and aggregate`() {
+    val start = now().startOfMonth()
+    val endExclusive = start + 13.months()
+    log.debug("start=$start, end=$endExclusive")
+    val interval = start .. endExclusive
+
+    val intervals = interval.chunkMonth(5) { months -> months.first() .. months.last() }.toList()
+
+    assertEquals(3, intervals.size)
+
+    intervals.forEach {
+      assertTrue { interval.contains(interval) }
+    }
+  }
+
+  @Test fun `chunk days`() {
+    val start = now().startOfDay()
+    val endExclusive = start + 66.days()
+    log.debug("start=$start, end=$endExclusive")
+    val interval = start .. endExclusive
+
+    assertThat(interval.chunkDay(0).toList()).hasSize(0)
+    assertThat(interval.chunkDay(-1).toList()).hasSize(0)
+
+    val chunks = interval.chunkDay(30).toList()
+
+    chunks.forEach(::println)
+    assertThat(chunks.size).isEqualTo(3)
+
+    chunks.forEach {
+      log.debug("chunk=$it")
+      assertTrue { it.size <= 30 }
+      assertTrue { it.first() in interval }
+      assertTrue { it.last() in interval }
+    }
+  }
+
+  @Test fun `chunk day and aggregate`() {
+    val start = now().startOfDay()
+    val endExclusive = start + 66.days()
+    log.debug("start=$start, end=$endExclusive")
+    val interval = start .. endExclusive
+
+    val intervals = interval.chunkDay(30) { days -> days.first() .. days.last() }.toList()
+
+    intervals.forEach(::println)
+    assertEquals(3, intervals.size)
+
+    intervals.forEach {
+      assertTrue { interval.contains(interval) }
+    }
+  }
+
   @Test fun `windowed year`() {
     val start = now().startOfYear()
     val endExclusive = start + 5.years()
     log.debug("start=$start, end=$endExclusive")
     val interval = start .. endExclusive
-    
+
     val windowed = interval.windowedYear(3, 2)
     windowed.forEach { items ->
       log.debug("items = $items")

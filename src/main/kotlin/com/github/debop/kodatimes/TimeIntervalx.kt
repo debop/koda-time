@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 @file:JvmName("TimeIntervalx")
 
 package com.github.debop.kodatimes
@@ -153,23 +154,67 @@ suspend fun ReadableInterval.buildSequence(periodUnit: PeriodUnit = DAY, step: I
 // https://github.com/Kotlin/KEEP/blob/master/proposals/stdlib/window-sliding.md
 //
 
+fun ReadableInterval.chunk(size: Int, periodUnit: PeriodUnit): Sequence<List<DateTime>> = when (periodUnit) {
+  PeriodUnit.YEAR  -> chunkYear(size)
+  PeriodUnit.MONTH -> chunkMonth(size)
+  else             -> throw UnsupportedOperationException("Unsupported period unit [$periodUnit]")
+}
+
+inline fun <R> ReadableInterval.chunk(size: Int, periodUnit: PeriodUnit, crossinline transform: (List<DateTime>) -> R): Sequence<R> =
+    chunk(size, periodUnit).map { transform(it) }
+
 /**
  * partitions source into blocks of the given size
  */
 fun ReadableInterval.chunkYear(size: Int): Sequence<List<DateTime>> = buildSequence {
-  val startYear = start.startOfYear()
-  var current = start.year
-  val limit = end.year
+  if (size <= 0)
+    return@buildSequence
 
-  while (current < limit) {
-    yield(List(Math.min(size, limit - current)) { dateTimeOf(current + it, 1, 1) })
-    current += size
+  var current = start.startOfYear()
+  val increment = size.years()
+
+  while (current < end) {
+    yield(List(size) { current + it.years() }.takeWhile { it < end })
+    current += increment
   }
 }
 
 inline fun <R> ReadableInterval.chunkYear(size: Int, crossinline transform: (List<DateTime>) -> R): Sequence<R> =
     chunkYear(size).map { transform(it) }
 
+
+fun ReadableInterval.chunkMonth(size: Int): Sequence<List<DateTime>> = buildSequence {
+  if (size <= 0)
+    return@buildSequence
+
+  var current = start.startOfMonth()
+  val increment = size.months()
+
+  while (current < end) {
+    yield(List(size) { current + it.months() }.takeWhile { it < end })
+    current += increment
+  }
+}
+
+inline fun <R> ReadableInterval.chunkMonth(size: Int, crossinline transform: (List<DateTime>) -> R): Sequence<R> =
+    chunkMonth(size).map { transform(it) }
+
+
+fun ReadableInterval.chunkDay(size: Int): Sequence<List<DateTime>> = buildSequence {
+  if (size <= 0)
+    return@buildSequence
+
+  var current = start.startOfDay()
+  val increment = size.days()
+
+  while (current < end) {
+    yield(List(size) { current + it.days() }.takeWhile { it < end })
+    current += increment
+  }
+}
+
+inline fun <R> ReadableInterval.chunkDay(size: Int, crossinline transform: (List<DateTime>) -> R): Sequence<R> =
+    chunkDay(size).map { transform(it) }
 
 /**
  * takes a window of the given size and moves it along  with the given step (like Scala sliding)
@@ -185,7 +230,9 @@ fun ReadableInterval.windowedYear(size: Int, step: Int = 1): Sequence<List<DateT
   }
 }
 
-inline fun <R> ReadableInterval.windowedYear(size: Int, step: Int = 1, crossinline transform: (List<DateTime>) -> R): Sequence<R> =
+inline fun <R> ReadableInterval.windowedYear(size: Int,
+                                             step: Int = 1,
+                                             crossinline transform: (List<DateTime>) -> R): Sequence<R> =
     windowedYear(size, step).map { transform(it) }
 
 /**
