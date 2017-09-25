@@ -120,14 +120,14 @@ fun dateTimeFormat(pattern: String): DateTimeFormatter = DateTimeFormat.forPatte
 fun String.toDateTime(pattern: String? = null): DateTime? = try {
   if (pattern.isNullOrBlank()) DateTime(this)
   else DateTime.parse(this, dateTimeFormat(pattern!!))
-} catch(ignored: Throwable) {
+} catch (ignored: Throwable) {
   null
 }
 
 /** Parse string to [Interval] */
 fun String.toInterval(): Interval? = try {
   Interval.parse(this)
-} catch(ignored: Throwable) {
+} catch (ignored: Throwable) {
   null
 }
 
@@ -135,7 +135,7 @@ fun String.toInterval(): Interval? = try {
 fun String.toLocalDate(pattern: String? = null): LocalDate? = try {
   if (pattern.isNullOrBlank()) LocalDate(this)
   else LocalDate.parse(this, dateTimeFormat(pattern!!))
-} catch(ignored: Throwable) {
+} catch (ignored: Throwable) {
   null
 }
 
@@ -144,7 +144,7 @@ fun String.toLocalTime(pattern: String? = null): LocalTime? = try {
   if (pattern.isNullOrBlank())
     LocalTime(this)
   else LocalTime.parse(this, dateTimeFormat(pattern!!))
-} catch(ignored: Throwable) {
+} catch (ignored: Throwable) {
   null
 }
 
@@ -172,8 +172,19 @@ fun DateTime.startOfMonth(): DateTime = dateTimeOf(this.year, this.monthOfYear)
 /** Start time of Year from this datetime */
 fun DateTime.startOfYear(): DateTime = dateTimeOf(this.year)
 
+@JvmOverloads
+fun DateTime.trimToHour(hour: Int = this.hourOfDay): DateTime = startOfDay().withHourOfDay(hour)
+
+@JvmOverloads
+fun DateTime.trimToMinute(minute: Int = this.minuteOfHour): DateTime = trimToHour().withMinuteOfHour(minute)
+
+@JvmOverloads
+fun DateTime.trimToSecond(second: Int = this.secondOfMinute): DateTime = trimToMinute().withSecondOfMinute(second)
+
+
 /** DateTime `-` operator */
 operator fun DateTime.minus(millis: Long): DateTime = this.minus(millis)
+
 operator fun DateTime.minus(duration: ReadableDuration): DateTime = this.minus(duration)
 operator fun DateTime.minus(period: ReadablePeriod): DateTime = this.minus(period)
 //operator fun DateTime.minus(builder: DurationBuilder): DateTime = this.minus(builder.period)
@@ -181,6 +192,7 @@ operator fun DateTime.minus(period: ReadablePeriod): DateTime = this.minus(perio
 
 /** DateTime `+` operator */
 operator fun DateTime.plus(millis: Long): DateTime = this.plus(millis)
+
 operator fun DateTime.plus(duration: ReadableDuration): DateTime = this.plus(duration)
 operator fun DateTime.plus(period: ReadablePeriod): DateTime = this.plus(period)
 //operator fun DateTime.plus(builder: DurationBuilder): DateTime = this.plus(builder.period)

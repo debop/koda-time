@@ -104,7 +104,7 @@ class TimeIntervalxTest : AbstractKodaTimesTest() {
     log.debug("start=$start, end=$endExclusive")
     val interval = start .. endExclusive
 
-    val intervals = interval.chunkMonth(5) { months -> months.first() .. months.last() }.toList()
+    val intervals = interval.chunkMonth(5).map { months -> months.first() .. months.last() }.toList()
 
     assertEquals(3, intervals.size)
 
@@ -141,7 +141,7 @@ class TimeIntervalxTest : AbstractKodaTimesTest() {
     log.debug("start=$start, end=$endExclusive")
     val interval = start .. endExclusive
 
-    val intervals = interval.chunkDay(30) { days -> days.first() .. days.last() }.toList()
+    val intervals = interval.chunkDay(30).map { days -> days.first() .. days.last() }.toList()
 
     intervals.forEach(::println)
     assertEquals(3, intervals.size)
@@ -163,7 +163,7 @@ class TimeIntervalxTest : AbstractKodaTimesTest() {
       assertThat(items.first() in interval).isTrue()
       assertThat(items.last() in interval).isTrue()
     }
-    assertThat(windowed.count()).isEqualTo(2)
+    assertThat(windowed.count()).isEqualTo(3)
   }
 
   @Test
@@ -173,7 +173,7 @@ class TimeIntervalxTest : AbstractKodaTimesTest() {
     log.debug("start=$start, end=$endExclusive")
     val interval = start .. endExclusive
 
-    val pairs = interval.zipWithNext().toList()
+    val pairs = interval.zipWithNextYear().toList()
     assertThat(pairs.size).isEqualTo(4)
 
     pairs.forEach { (current, next) ->
