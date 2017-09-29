@@ -20,14 +20,12 @@ import org.joda.time.*
 import org.junit.Test
 import kotlin.test.*
 
-
-/**
- * @author sunghyouk.bae@gmail.com
- */
 class ParsingTest : AbstractKodaTimesTest() {
 
-  private val EXPECTED_DATE_STR = "2016-08-19"
-  private val EXPECTED_TIME_STR = "17:55:34"
+  companion object {
+    private val EXPECTED_DATE_STR: String = "2016-08-19"
+    private val EXPECTED_TIME_STR: String = "17:55:34"
+  }
 
   @Test fun stringToDate() {
     val expected = DateTime(EXPECTED_DATE_STR)
@@ -35,6 +33,7 @@ class ParsingTest : AbstractKodaTimesTest() {
     assertEquals(expected, EXPECTED_DATE_STR.toDateTime())
     assertEquals(expected, EXPECTED_DATE_STR.toDateTime("yyyy-MM-dd"))
 
+    assertNull(EXPECTED_DATE_STR.toDateTime("dd/MM/yyyy"))
     assertNull("".toDateTime())
   }
 
@@ -44,6 +43,7 @@ class ParsingTest : AbstractKodaTimesTest() {
     assertEquals(expected, EXPECTED_DATE_STR.toLocalDate())
     assertEquals(expected, EXPECTED_DATE_STR.toLocalDate("yyyy-MM-dd"))
 
+    assertNull(EXPECTED_DATE_STR.toLocalDate("dd/MM/yyyy"))
     assertNull("".toLocalDate())
   }
 
