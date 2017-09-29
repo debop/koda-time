@@ -55,6 +55,7 @@ fun Timestamp?.toDateTome(): DateTime? = this?.let { DateTime(time) }
 
 @JvmOverloads
 fun instantOf(epochMillis: Long = 0): Instant = Instant.ofEpochMilli(epochMillis)
+
 fun nowInstant(): Instant = Instant.now()
 val EPOCH: Instant get() = Instant.EPOCH
 
@@ -149,8 +150,10 @@ fun Instant.with(year: Int, monthOfYear: Int = 1, dayOfMonth: Int = 1,
 
 
 val Instant.startOfDay: Instant get() = this.with(ChronoField.MILLI_OF_DAY, 0)
+val Instant.startOfWeek: Instant get() = this.with(ChronoField.DAY_OF_WEEK, 1).startOfDay
 val Instant.startOfMonth: Instant get() = this.with(ChronoField.DAY_OF_MONTH, 1).startOfDay
 val Instant.startOfYear: Instant get() = this.with(ChronoField.MONTH_OF_YEAR, 1).startOfMonth
+
 
 infix fun Instant?.min(that: Instant?): Instant? = when {
   this == null -> that
@@ -169,12 +172,13 @@ infix fun Instant?.max(that: Instant?): Instant? = when {
 operator fun Instant.rangeTo(endExlusive: Instant): Interval = Interval(this.toEpochMilli(), endExlusive.toEpochMilli())
 
 /**
- * Year Interval at specified instatnt included
+ * Year [Interval] at specified instatnt included
  */
 val Instant.yearInterval: Interval
   get() {
     val start = this.startOfYear
-    return start .. (start + 1.years)
+    val endExclusive = start + 1.years
+    return start .. endExclusive
   }
 
 /**
@@ -183,13 +187,28 @@ val Instant.yearInterval: Interval
 val Instant.monthInterval: Interval
   get() {
     val start = this.startOfMonth
-    return start .. (start + 1.months)
+    val endExclusive = start + 1.months
+    return start .. endExclusive
   }
 
+/**
+ * Week [Interval] at specified instant included
+ */
+val Instant.weekInterval: Interval
+  get() {
+    val start = this.startOfWeek
+    val endExclusive = start + 7.days
+    return start .. endExclusive
+  }
+
+/**
+ * Day [Interval] at specified instance included
+ */
 val Instant.dayInterval: Interval
   get() {
-    val start = this.startOfDay
-    return start .. (start + 1.days)
+    val start: Instant = this.startOfDay
+    val endExclusive = start + 1.days
+    return start .. endExclusive
   }
 
 operator fun Period.unaryMinus(): Period = this.negated()
