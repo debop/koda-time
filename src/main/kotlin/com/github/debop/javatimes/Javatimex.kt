@@ -88,7 +88,7 @@ val Int.instant: Instant
 fun Int.toInstant(): Instant = Instant.ofEpochMilli(this.toLong())
 
 @JvmOverloads
-fun Int.toLocalDateTime(zoneId: ZoneId = UTC): LocalDateTime = LocalDateTime.ofInstant(instant, zoneId)
+fun Int.toLocalDateTime(zoneId: ZoneId = UTC): LocalDateTime = LocalDateTime.ofInstant(toInstant(), zoneId)
 
 
 val Long.nanoseconds: Duration get() = Duration.ofNanos(this)
@@ -116,7 +116,7 @@ val Long.instant: Instant
 fun Long.toInstant(): Instant = Instant.ofEpochMilli(this)
 
 @JvmOverloads
-fun Long.toLocalDateTime(zoneId: ZoneId = UTC): LocalDateTime = LocalDateTime.ofInstant(instant, zoneId)
+fun Long.toLocalDateTime(zoneId: ZoneId = UTC): LocalDateTime = LocalDateTime.ofInstant(toInstant(), zoneId)
 
 @JvmOverloads
 fun localDateOf(year: Int, monthOfYear: Int = 1, dayOfMonth: Int = 1): LocalDate = LocalDate.of(year, monthOfYear, dayOfMonth)

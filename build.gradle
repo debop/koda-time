@@ -1,7 +1,7 @@
 buildscript {
 
     project.ext {
-        kotlin_version = '1.1.50'
+        kotlin_version = '1.1.51'
     }
 
     repositories {
@@ -16,21 +16,6 @@ buildscript {
         classpath "io.spring.gradle:propdeps-plugin:0.0.9.RELEASE"
     }
 }
-
-/*
- * Copyright (c) 2016. Sunghyouk Bae <sunghyouk.bae@gmail.com>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 // nebula.kotlin plugin 을 지정하면, kotlin 관련 설정을 기본적으로 설정해준다. 특히 jvm-target 1.8 을 지정해 준다.
 apply plugin: 'nebula.kotlin'
