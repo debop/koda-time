@@ -31,7 +31,7 @@ apply plugin: 'propdeps-maven'
 apply plugin: 'idea'
 
 group = 'com.github.debop'
-version = '1.2.0'
+version = '1.2.1-SNAPSHOT'
 
 repositories {
     jcenter()

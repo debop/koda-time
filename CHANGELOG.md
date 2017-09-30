@@ -1,6 +1,10 @@
 # koda-times change Logs
 
 
+#1.2.1
+
+* 
+
 # 1.2
 
 * add ReadableInterval.chunk(), windowed(), zipWithNext() methods
