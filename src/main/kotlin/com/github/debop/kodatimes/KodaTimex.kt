@@ -19,9 +19,7 @@ package com.github.debop.kodatimes
 
 import org.joda.time.*
 import org.joda.time.base.AbstractInstant
-import org.joda.time.format.DateTimeFormat
-import org.joda.time.format.DateTimeFormatter
-import org.joda.time.format.ISODateTimeFormat
+import org.joda.time.format.*
 import java.sql.Timestamp
 import java.util.*
 
@@ -191,11 +189,11 @@ operator fun DateTime.minus(period: ReadablePeriod): DateTime = this.minus(perio
 
 
 /** DateTime `+` operator */
-operator fun DateTime.plus(millis: Long): DateTime = this.plus(millis)
-
-operator fun DateTime.plus(duration: ReadableDuration): DateTime = this.plus(duration)
-operator fun DateTime.plus(period: ReadablePeriod): DateTime = this.plus(period)
-//operator fun DateTime.plus(builder: DurationBuilder): DateTime = this.plus(builder.period)
+// No need 
+// operator fun DateTime.plus(millis: Long): DateTime = this.plus(millis)
+// operator fun DateTime.plus(duration: ReadableDuration): DateTime = this.plus(duration)
+// operator fun DateTime.plus(period: ReadablePeriod): DateTime = this.plus(period)
+// operator fun DateTime.plus(builder: DurationBuilder): DateTime = this.plus(builder.period)
 
 /** next day */
 fun DateTime.tomorrow(): DateTime = this.nextDay()
@@ -245,6 +243,14 @@ fun DateTime.toIsoFormatHMSString(): String = ISODateTimeFormat.dateHourMinuteSe
 
 fun DateTime.toTimestampZoneText(): TimestampZoneText = TimestampZoneText(this)
 
+infix fun <T : ReadableInstant> T.min(that: T): T {
+  return if (this < that) this else that
+}
+
+infix fun <T : ReadableInstant> T.max(that: T): T {
+  return if (this > that) this else that
+}
+
 /** get minimum [DateTime] */
 infix fun DateTime.min(that: DateTime): DateTime {
   return if (this < that) this else that
@@ -257,8 +263,13 @@ infix fun DateTime.max(that: DateTime): DateTime {
 
 /** Get month interval in specified [DateTime] */
 fun DateTime.monthInterval(): Interval {
-  val start = this.withDayOfMonth(1).withTimeAtStartOfDay()
+  val start = this.startOfMonth()
   return Interval(start, start + 1.months())
+}
+
+fun DateTime.weekInterval(): Interval {
+  val start = this.startOfWeek()
+  return Interval(start, start + 1.weeks())
 }
 
 /** Get day interval in specified [DateTime] */

@@ -16,6 +16,7 @@
 package com.github.debop.kodatimes
 
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.joda.time.Interval
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -47,16 +48,6 @@ class TimeIntervalxTest : AbstractKodaTimesTest() {
     assertTrue((start .. end).hours().all { it in start .. end })
   }
 
-  @Test fun `chunk years by zero or negative number`() {
-    val start = now().startOfYear()
-    val endExclusive = start + 5.years()
-    val interval = start .. endExclusive
-
-    assertThat(interval.chunkYear(0).toList()).hasSize(0)
-    assertThat(interval.chunkYear(-1).toList()).hasSize(0)
-    assertThat(interval.chunkYear(1).toList().size).isGreaterThan(0)
-  }
-
   @Test fun `chunk years`() {
     val start = now().startOfYear()
     val endExclusive = start + 5.years()
@@ -74,6 +65,15 @@ class TimeIntervalxTest : AbstractKodaTimesTest() {
       assertThat(chunk.first() in interval).isTrue()
       assertThat(chunk.last() in interval).isTrue()
     }
+
+    assertThatThrownBy {
+      interval.chunkYear(0)
+    }.isInstanceOf(IllegalArgumentException::class.java)
+
+    assertThatThrownBy {
+      interval.chunkYear(-1)
+    }.isInstanceOf(IllegalArgumentException::class.java)
+
   }
 
   @Test fun `chunk months`() {
@@ -81,9 +81,6 @@ class TimeIntervalxTest : AbstractKodaTimesTest() {
     val endExclusive = start + 13.months()
     log.debug("start=$start, end=$endExclusive")
     val interval = start .. endExclusive
-
-    assertThat(interval.chunkMonth(0).toList()).hasSize(0)
-    assertThat(interval.chunkMonth(-1).toList()).hasSize(0)
 
     val chunks = interval.chunkMonth(5).toList()
 
@@ -96,6 +93,15 @@ class TimeIntervalxTest : AbstractKodaTimesTest() {
       assertTrue { it.first() in interval }
       assertTrue { it.last() in interval }
     }
+
+    assertThatThrownBy {
+      interval.chunkMonth(0)
+    }.isInstanceOf(IllegalArgumentException::class.java)
+
+    assertThatThrownBy {
+      interval.chunkMonth(-1)
+    }.isInstanceOf(IllegalArgumentException::class.java)
+
   }
 
   @Test fun `chunk month and aggregate`() {
@@ -119,9 +125,6 @@ class TimeIntervalxTest : AbstractKodaTimesTest() {
     log.debug("start=$start, end=$endExclusive")
     val interval = start .. endExclusive
 
-    assertThat(interval.chunkDay(0).toList()).hasSize(0)
-    assertThat(interval.chunkDay(-1).toList()).hasSize(0)
-
     val chunks = interval.chunkDay(30).toList()
 
     chunks.forEach(::println)
@@ -133,6 +136,15 @@ class TimeIntervalxTest : AbstractKodaTimesTest() {
       assertTrue { it.first() in interval }
       assertTrue { it.last() in interval }
     }
+
+    assertThatThrownBy {
+      interval.chunkDay(0)
+    }.isInstanceOf(IllegalArgumentException::class.java)
+
+    assertThatThrownBy {
+      interval.chunkDay(-1)
+    }.isInstanceOf(IllegalArgumentException::class.java)
+
   }
 
   @Test fun `chunk day and aggregate`() {
