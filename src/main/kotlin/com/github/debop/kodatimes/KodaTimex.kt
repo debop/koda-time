@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017. Sunghyouk Bae <sunghyouk.bae@gmail.com>
+ * Copyright (c) 2016. Sunghyouk Bae <sunghyouk.bae@gmail.com>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -11,7 +11,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 @file:JvmName("KodaTimex")
 @file:Suppress("EXTENSION_SHADOWED_BY_MEMBER")
@@ -119,14 +118,14 @@ fun dateTimeFormat(pattern: String): DateTimeFormatter = DateTimeFormat.forPatte
 fun String.toDateTime(pattern: String? = null): DateTime? = try {
   if (pattern.isNullOrBlank()) DateTime(this)
   else DateTime.parse(this, dateTimeFormat(pattern!!))
-} catch(ignored: Throwable) {
+} catch (ignored: Throwable) {
   null
 }
 
 /** Parse string to [Interval] */
 fun String.toInterval(): Interval? = try {
   Interval.parse(this)
-} catch(ignored: Throwable) {
+} catch (ignored: Throwable) {
   null
 }
 
@@ -134,7 +133,7 @@ fun String.toInterval(): Interval? = try {
 fun String.toLocalDate(pattern: String? = null): LocalDate? = try {
   if (pattern.isNullOrBlank()) LocalDate(this)
   else LocalDate.parse(this, dateTimeFormat(pattern!!))
-} catch(ignored: Throwable) {
+} catch (ignored: Throwable) {
   null
 }
 
@@ -143,7 +142,7 @@ fun String.toLocalTime(pattern: String? = null): LocalTime? = try {
   if (pattern.isNullOrBlank())
     LocalTime(this)
   else LocalTime.parse(this, dateTimeFormat(pattern!!))
-} catch(ignored: Throwable) {
+} catch (ignored: Throwable) {
   null
 }
 
@@ -171,18 +170,30 @@ fun DateTime.startOfMonth(): DateTime = dateTimeOf(this.year, this.monthOfYear)
 /** Start time of Year from this datetime */
 fun DateTime.startOfYear(): DateTime = dateTimeOf(this.year)
 
+@JvmOverloads
+fun DateTime.trimToHour(hour: Int = this.hourOfDay): DateTime = startOfDay().withHourOfDay(hour)
+
+@JvmOverloads
+fun DateTime.trimToMinute(minute: Int = this.minuteOfHour): DateTime = trimToHour().withMinuteOfHour(minute)
+
+@JvmOverloads
+fun DateTime.trimToSecond(second: Int = this.secondOfMinute): DateTime = trimToMinute().withSecondOfMinute(second)
+
+
 /** DateTime `-` operator */
 operator fun DateTime.minus(millis: Long): DateTime = this.minus(millis)
+
 operator fun DateTime.minus(duration: ReadableDuration): DateTime = this.minus(duration)
 operator fun DateTime.minus(period: ReadablePeriod): DateTime = this.minus(period)
 //operator fun DateTime.minus(builder: DurationBuilder): DateTime = this.minus(builder.period)
 
 
 /** DateTime `+` operator */
-operator fun DateTime.plus(millis: Long): DateTime = this.plus(millis)
-operator fun DateTime.plus(duration: ReadableDuration): DateTime = this.plus(duration)
-operator fun DateTime.plus(period: ReadablePeriod): DateTime = this.plus(period)
-//operator fun DateTime.plus(builder: DurationBuilder): DateTime = this.plus(builder.period)
+// No need 
+// operator fun DateTime.plus(millis: Long): DateTime = this.plus(millis)
+// operator fun DateTime.plus(duration: ReadableDuration): DateTime = this.plus(duration)
+// operator fun DateTime.plus(period: ReadablePeriod): DateTime = this.plus(period)
+// operator fun DateTime.plus(builder: DurationBuilder): DateTime = this.plus(builder.period)
 
 /** next day */
 fun DateTime.tomorrow(): DateTime = this.nextDay()
@@ -232,6 +243,14 @@ fun DateTime.toIsoFormatHMSString(): String = ISODateTimeFormat.dateHourMinuteSe
 
 fun DateTime.toTimestampZoneText(): TimestampZoneText = TimestampZoneText(this)
 
+infix fun <T : ReadableInstant> T.min(that: T): T {
+  return if (this < that) this else that
+}
+
+infix fun <T : ReadableInstant> T.max(that: T): T {
+  return if (this > that) this else that
+}
+
 /** get minimum [DateTime] */
 infix fun DateTime.min(that: DateTime): DateTime {
   return if (this < that) this else that
@@ -244,8 +263,13 @@ infix fun DateTime.max(that: DateTime): DateTime {
 
 /** Get month interval in specified [DateTime] */
 fun DateTime.monthInterval(): Interval {
-  val start = this.withDayOfMonth(1).withTimeAtStartOfDay()
+  val start = this.startOfMonth()
   return Interval(start, start + 1.months())
+}
+
+fun DateTime.weekInterval(): Interval {
+  val start = this.startOfWeek()
+  return Interval(start, start + 1.weeks())
 }
 
 /** Get day interval in specified [DateTime] */
@@ -256,6 +280,9 @@ fun DateTime.dayInterval(): Interval {
 
 /** current [DateTime] */
 fun now(): DateTime = DateTime.now()
+
+/** Today (only date part without time part) */
+fun today(): DateTime = now().withTimeAtStartOfDay()
 
 /** next day of current [DateTime] */
 fun tomorrow(): DateTime = now().tomorrow()
@@ -404,7 +431,7 @@ operator fun Instant.plus(duration: ReadableDuration): Instant = this.plus(durat
 operator fun Instant.plus(period: Period): Instant = this.plus(period.toStandardDuration())
 //operator fun Instant.plus(builder: DurationBuilder): Instant = this.plus(builder.period.toStandardDuration())
 
-operator fun ReadableInstant.rangeTo(end: ReadableInstant): Interval = Interval(this, end)
+operator fun ReadableInstant.rangeTo(endExclusive: ReadableInstant): Interval = Interval(this, endExclusive)
 operator fun ReadableInstant.rangeTo(duration: ReadableDuration): Interval = Interval(this, duration)
 operator fun ReadableInstant.rangeTo(period: ReadablePeriod): Interval = Interval(this, period)
 

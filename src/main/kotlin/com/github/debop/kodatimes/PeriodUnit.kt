@@ -11,21 +11,23 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package com.github.debop.kodatimes
 
-import org.junit.Test
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
+/**
+ * PeriodUnit
+ * @author debop
+ * @since 2017. 8. 16.
+ */
+enum class PeriodUnit {
 
-// kobalt test 에서 abstract class에 대해서도 test 를 만들려고 한다  
-open class AbstractKodaTimesTest {
-
-  protected val log: Logger by lazy { LoggerFactory.getLogger(javaClass) }
-
-  @Test fun dummy() {
-    println("Dummy test function")
-  }
+  MILLISECOND,
+  SECOND,
+  MINUTE,
+  HOUR,
+  DAY,
+  WEEK,
+  MONTH,
+  YEAR
 }

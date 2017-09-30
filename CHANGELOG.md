@@ -1,5 +1,12 @@
 # koda-times change Logs
 
+
+# 1.2
+
+* add ReadableInterval.chunk(), windowed(), zipWithNext() methods
+* Upgrade kotlin standard library 1.1.51
+* Improve ReadableInterval.buildSequence
+
 # 1.1.3
 
 * Upgrade kotlin standard library 1.1.3
