@@ -11,12 +11,13 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package com.github.debop.kodatimes
 
-import org.joda.time.*
+import org.joda.time.DateTime
+import org.joda.time.Interval
+import org.joda.time.LocalDate
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue

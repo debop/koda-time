@@ -11,7 +11,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package com.github.debop.kodatimes
@@ -21,7 +20,7 @@ import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class IntervalTest : AbstractKodaTimesTest() {
+class TimeIntervalxTest : AbstractKodaTimesTest() {
 
   @Test fun rangeTest() {
     val start = now()
@@ -46,4 +45,5 @@ class IntervalTest : AbstractKodaTimesTest() {
 
     assertTrue((start .. end).hours().all { it in start .. end })
   }
+
 }
