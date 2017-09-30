@@ -1,6 +1,7 @@
 package com.github.debop.kodatimes
 
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -16,20 +17,20 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
     val chunks = interval.chunkYear(4).toList()
     chunks.forEach(::println)
 
-    Assertions.assertThat(chunks.size).isEqualTo(2)
+    assertThat(chunks.size).isEqualTo(2)
 
     chunks.forEach { chunk ->
       log.debug("chunk=$chunk")
-      Assertions.assertThat(chunk.size).isLessThanOrEqualTo(4)
-      Assertions.assertThat(chunk.first() in interval).isTrue()
-      Assertions.assertThat(chunk.last() in interval).isTrue()
+      assertThat(chunk.size).isLessThanOrEqualTo(4)
+      assertThat(chunk.first() in interval).isTrue()
+      assertThat(chunk.last() in interval).isTrue()
     }
 
-    Assertions.assertThatThrownBy {
+    assertThatThrownBy {
       interval.chunkYear(0)
     }.isInstanceOf(IllegalArgumentException::class.java)
 
-    Assertions.assertThatThrownBy {
+    assertThatThrownBy {
       interval.chunkYear(-1)
     }.isInstanceOf(IllegalArgumentException::class.java)
   }
@@ -58,7 +59,7 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
     val chunks = interval.chunkMonth(5).toList()
 
     chunks.forEach(::println)
-    Assertions.assertThat(chunks.size).isEqualTo(3)
+    assertThat(chunks.size).isEqualTo(3)
 
     chunks.forEach {
       log.debug("chunk=$it")
@@ -67,11 +68,11 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
       assertTrue { it.last() in interval }
     }
 
-    Assertions.assertThatThrownBy {
+    assertThatThrownBy {
       interval.chunkMonth(0)
     }.isInstanceOf(IllegalArgumentException::class.java)
 
-    Assertions.assertThatThrownBy {
+    assertThatThrownBy {
       interval.chunkMonth(-1)
     }.isInstanceOf(IllegalArgumentException::class.java)
 
@@ -101,7 +102,7 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
     val chunks = interval.chunkWeek(2).toList()
 
     chunks.forEach(::println)
-    Assertions.assertThat(chunks.size).isEqualTo(3)
+    assertThat(chunks.size).isEqualTo(3)
 
     chunks.forEach {
       log.debug("chunk=$it")
@@ -110,11 +111,11 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
       assertTrue { it.last() in interval }
     }
 
-    Assertions.assertThatThrownBy {
+    assertThatThrownBy {
       interval.chunkWeek(0)
     }.isInstanceOf(IllegalArgumentException::class.java)
 
-    Assertions.assertThatThrownBy {
+    assertThatThrownBy {
       interval.chunkWeek(-1)
     }.isInstanceOf(IllegalArgumentException::class.java)
 
@@ -145,7 +146,7 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
     val chunks = interval.chunkDay(30).toList()
 
     chunks.forEach(::println)
-    Assertions.assertThat(chunks.size).isEqualTo(3)
+    assertThat(chunks.size).isEqualTo(3)
 
     chunks.forEach {
       log.debug("chunk=$it")
@@ -154,11 +155,11 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
       assertTrue { it.last() in interval }
     }
 
-    Assertions.assertThatThrownBy {
+    assertThatThrownBy {
       interval.chunkDay(0)
     }.isInstanceOf(IllegalArgumentException::class.java)
 
-    Assertions.assertThatThrownBy {
+    assertThatThrownBy {
       interval.chunkDay(-1)
     }.isInstanceOf(IllegalArgumentException::class.java)
 
@@ -189,7 +190,7 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
     val chunks = interval.chunkHour(20).toList()
 
     chunks.forEach(::println)
-    Assertions.assertThat(chunks.size).isEqualTo(4)
+    assertThat(chunks.size).isEqualTo(4)
 
     chunks.forEach {
       log.debug("chunk=$it")
@@ -198,11 +199,11 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
       assertTrue { it.last() in interval }
     }
 
-    Assertions.assertThatThrownBy {
+    assertThatThrownBy {
       interval.chunkHour(0)
     }.isInstanceOf(IllegalArgumentException::class.java)
 
-    Assertions.assertThatThrownBy {
+    assertThatThrownBy {
       interval.chunkHour(-1)
     }.isInstanceOf(IllegalArgumentException::class.java)
 
@@ -233,7 +234,7 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
     val chunks = interval.chunkMinute(10).toList()
 
     chunks.forEach(::println)
-    Assertions.assertThat(chunks.size).isEqualTo(4)
+    assertThat(chunks.size).isEqualTo(4)
 
     chunks.forEach {
       log.debug("chunk=$it")
@@ -242,11 +243,11 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
       assertTrue { it.last() in interval }
     }
 
-    Assertions.assertThatThrownBy {
+    assertThatThrownBy {
       interval.chunkMinute(0)
     }.isInstanceOf(IllegalArgumentException::class.java)
 
-    Assertions.assertThatThrownBy {
+    assertThatThrownBy {
       interval.chunkMinute(-1)
     }.isInstanceOf(IllegalArgumentException::class.java)
 
@@ -277,7 +278,7 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
     val chunks = interval.chunkSecond(10).toList()
 
     chunks.forEach(::println)
-    Assertions.assertThat(chunks.size).isEqualTo(4)
+    assertThat(chunks.size).isEqualTo(4)
 
     chunks.forEach {
       log.debug("chunk=$it")
@@ -286,11 +287,11 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
       assertTrue { it.last() in interval }
     }
 
-    Assertions.assertThatThrownBy {
+    assertThatThrownBy {
       interval.chunkSecond(0)
     }.isInstanceOf(IllegalArgumentException::class.java)
 
-    Assertions.assertThatThrownBy {
+    assertThatThrownBy {
       interval.chunkSecond(-1)
     }.isInstanceOf(IllegalArgumentException::class.java)
 

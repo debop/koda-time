@@ -39,7 +39,7 @@ repositories {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
 
     compile "joda-time:joda-time:2.9.9"
     provided "org.joda:joda-convert:1.8.1"

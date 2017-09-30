@@ -314,7 +314,7 @@ fun ReadableInterval.chunkSecond(size: Int): Sequence<List<DateTime>> {
  */
 @JvmOverloads
 fun ReadableInterval.windowedPeriod(size: Int, step: Int = 1, periodUnit: PeriodUnit = PeriodUnit.YEAR): Sequence<List<DateTime>> {
-  check(step > 0) { "step must positive number. [$step] " }
+  require(step > 0) { "step must positive number. [$step] " }
   if (size <= 0) {
     return emptySequence()
   }
@@ -332,114 +332,116 @@ fun ReadableInterval.windowedPeriod(size: Int, step: Int = 1, periodUnit: Period
 }
 
 @JvmOverloads
-fun ReadableInterval.windowedYear(size: Int, step: Int = 1): Sequence<List<DateTime>> = buildSequence {
-  check(step > 0) { "step must positive number. [$step] " }
-  if (size <= 0) {
-    return@buildSequence
-  }
+fun ReadableInterval.windowedYear(size: Int, step: Int = 1): Sequence<List<DateTime>> {
+  require(size > 0) { "size must positive number. [$size]" }
+  require(step > 0) { "step must positive number. [$step] " }
 
-  var current = start.startOfYear()
-  val increment = step.years()
+  return buildSequence {
+    var current = start.startOfYear()
+    val increment = step.years()
 
-  // end is exclusive
-  while (current < end) {
-    yield(List(size) { current + it.years() }.takeWhile { it < end })
-    current += increment
-  }
-}
-
-@JvmOverloads
-fun ReadableInterval.windowedMonth(size: Int, step: Int = 1): Sequence<List<DateTime>> = buildSequence {
-  check(step > 0) { "step must positive number. [$step] " }
-  if (size <= 0) {
-    return@buildSequence
-  }
-
-  var current = start.startOfMonth()
-  val increment = step.months()
-
-  // end is exclusive
-  while (current < end) {
-    yield(List(size) { current + it.months() }.takeWhile { it < end })
-    current += increment
+    // end is exclusive
+    while (current < end) {
+      yield(List(size) { current + it.years() }.takeWhile { it < end })
+      current += increment
+    }
   }
 }
 
 @JvmOverloads
-fun ReadableInterval.windowedWeek(size: Int, step: Int = 1): Sequence<List<DateTime>> = buildSequence {
-  check(step > 0) { "step must positive number. [$step] " }
-  if (size <= 0) {
-    return@buildSequence
-  }
+fun ReadableInterval.windowedMonth(size: Int, step: Int = 1): Sequence<List<DateTime>> {
+  require(size > 0) { "size must positive number. [$size]" }
+  require(step > 0) { "step must positive number. [$step] " }
 
-  var current = start.startOfWeek()
-  val increment = step.weeks()
+  return buildSequence {
+    var current = start.startOfMonth()
+    val increment = step.months()
 
-  // end is exclusive
-  while (current < end) {
-    yield(List(size) { current + it.weeks() }.takeWhile { it < end })
-    current += increment
-  }
-}
-
-@JvmOverloads
-fun ReadableInterval.windowedDay(size: Int, step: Int = 1): Sequence<List<DateTime>> = buildSequence {
-  check(step > 0) { "step must positive number. [$step] " }
-  if (size <= 0) {
-    return@buildSequence
-  }
-  var current = start.startOfDay()
-  val increment = step.days()
-
-  while (current < end) {
-    yield(List(size) { current + it.days() }.takeWhile { it < end })
-    current += increment
+    // end is exclusive
+    while (current < end) {
+      yield(List(size) { current + it.months() }.takeWhile { it < end })
+      current += increment
+    }
   }
 }
 
 @JvmOverloads
-fun ReadableInterval.windowedHour(size: Int, step: Int = 1): Sequence<List<DateTime>> = buildSequence {
-  check(step > 0) { "step must positive number. [$step] " }
-  if (size <= 0) {
-    return@buildSequence
-  }
-  var current = start.trimToHour()
-  val increment = step.hours()
+fun ReadableInterval.windowedWeek(size: Int, step: Int = 1): Sequence<List<DateTime>> {
+  require(size > 0) { "size must positive number. [$size]" }
+  require(step > 0) { "step must positive number. [$step] " }
 
-  while (current < end) {
-    yield(List(size) { current + it.hours() }.takeWhile { it < end })
-    current += increment
-  }
-}
+  return buildSequence {
+    var current = start.startOfWeek()
+    val increment = step.weeks()
 
-@JvmOverloads
-fun ReadableInterval.windowedMinute(size: Int, step: Int = 1): Sequence<List<DateTime>> = buildSequence {
-  check(step > 0) { "step must positive number. [$step] " }
-  if (size <= 0) {
-    return@buildSequence
-  }
-
-  var current = start.trimToMinute()
-  val increment = step.minutes()
-
-  while (current < end) {
-    yield(List(size) { current + it.minutes() }.takeWhile { it < end })
-    current += increment
+    // end is exclusive
+    while (current < end) {
+      yield(List(size) { current + it.weeks() }.takeWhile { it < end })
+      current += increment
+    }
   }
 }
 
 @JvmOverloads
-fun ReadableInterval.windowedSecond(size: Int, step: Int = 1): Sequence<List<DateTime>> = buildSequence {
-  check(step > 0) { "step must positive number. [$step] " }
-  if (size <= 0) {
-    return@buildSequence
-  }
+fun ReadableInterval.windowedDay(size: Int, step: Int = 1): Sequence<List<DateTime>> {
+  require(size > 0) { "size must positive number. [$size]" }
+  require(step > 0) { "step must positive number. [$step] " }
 
-  var current = start.trimToSecond()
-  val increment = step.seconds()
-  while (current < end) {
-    yield(List(size) { current + it.seconds() }.takeWhile { it < end })
-    current += increment
+  return buildSequence {
+    var current = start.startOfDay()
+    val increment = step.days()
+
+    while (current < end) {
+      yield(List(size) { current + it.days() }.takeWhile { it < end })
+      current += increment
+    }
+  }
+}
+
+@JvmOverloads
+fun ReadableInterval.windowedHour(size: Int, step: Int = 1): Sequence<List<DateTime>> {
+  require(size > 0) { "size must positive number. [$size]" }
+  require(step > 0) { "step must positive number. [$step] " }
+
+  return buildSequence {
+    var current = start.trimToHour()
+    val increment = step.hours()
+
+    while (current < end) {
+      yield(List(size) { current + it.hours() }.takeWhile { it < end })
+      current += increment
+    }
+  }
+}
+
+@JvmOverloads
+fun ReadableInterval.windowedMinute(size: Int, step: Int = 1): Sequence<List<DateTime>> {
+  require(size > 0) { "size must positive number. [$size]" }
+  require(step > 0) { "step must positive number. [$step] " }
+
+  return buildSequence {
+    var current = start.trimToMinute()
+    val increment = step.minutes()
+
+    while (current < end) {
+      yield(List(size) { current + it.minutes() }.takeWhile { it < end })
+      current += increment
+    }
+  }
+}
+
+@JvmOverloads
+fun ReadableInterval.windowedSecond(size: Int, step: Int = 1): Sequence<List<DateTime>> {
+  require(size > 0) { "size must positive number. [$size]" }
+  require(step > 0) { "step must positive number. [$step] " }
+
+  return buildSequence {
+    var current = start.trimToSecond()
+    val increment = step.seconds()
+    while (current < end) {
+      yield(List(size) { current + it.seconds() }.takeWhile { it < end })
+      current += increment
+    }
   }
 }
 
@@ -503,7 +505,6 @@ fun ReadableInterval.zipWithNextDay(): Sequence<Pair<DateTime, DateTime>> = buil
     current += increment
   }
 }
-
 
 fun ReadableInterval.zipWithNextHour(): Sequence<Pair<DateTime, DateTime>> = buildSequence {
   var current = start.trimToHour()
