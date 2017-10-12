@@ -40,8 +40,14 @@ dependencies {
     testCompile "org.slf4j:slf4j-api:1.7.25"
     testCompile "ch.qos.logback:logback-classic:1.2.3"
 
-    testCompile "org.junit.platform:junit-platform-runner:$junit_platform_version"
-    testCompile "org.junit.jupiter:junit-jupiter-engine:$junit_jupiter_version"
+    testCompile "org.junit.jupiter:junit-jupiter-api:$junit_jupiter_version"
+    testRuntime "org.junit.jupiter:junit-jupiter-engine:$junit_jupiter_version"
+
+    // Only needed to run tests in an (IntelliJ) IDE(A) that bundles an older version
+    testRuntime "org.junit.platform:junit-platform-launcher:$junit_platform_version"
+
+    // To avoid compiler warnings about @API annotations in JUnit code
+    testCompileOnly "org.apiguardian:apiguardian-api:1.0.0"
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -112,6 +118,5 @@ clean {
 
 wrapper {
     gradleVersion = '4.2.1'
-    distributionType = 'BIN'
 }
 
