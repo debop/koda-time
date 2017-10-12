@@ -16,9 +16,13 @@
 
 package com.github.debop.kodatimes
 
-import org.joda.time.*
-import org.junit.Test
-import kotlin.test.*
+import org.joda.time.DateTime
+import org.joda.time.LocalDate
+import org.joda.time.LocalTime
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Test
 
 class ParsingTest : AbstractKodaTimesTest() {
 

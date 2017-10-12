@@ -1,8 +1,9 @@
 package com.github.debop.kodatimes
 
-import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Assertions.assertThatThrownBy
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
 
 class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
 
@@ -16,17 +17,17 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     val windowed = interval.windowedYear(3, 2)
     windowed.forEach { items ->
       log.debug("items = $items")
-      assertThat(items.first() in interval).isTrue()
-      assertThat(items.last() in interval).isTrue()
+      assertTrue(items.first() in interval)
+      assertTrue(items.last() in interval)
     }
-    assertThat(windowed.count()).isEqualTo(3)
+    assertEquals(3, windowed.count())
 
-    assertThatThrownBy {
+    assertThrows(IllegalArgumentException::class.java) {
       interval.windowedYear(-1, 2)
-    }.isInstanceOf(IllegalArgumentException::class.java)
-    assertThatThrownBy {
+    }
+    assertThrows(IllegalArgumentException::class.java) {
       interval.windowedYear(2, -2)
-    }.isInstanceOf(IllegalArgumentException::class.java)
+    }
   }
 
   @Test
@@ -39,16 +40,16 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     val windowed = interval.windowedMonth(3, 2)
     windowed.forEach { items ->
       log.debug("items = $items")
-      assertThat(items.all { it in interval }).isTrue()
+      assertTrue { items.all { it in interval } }
     }
-    assertThat(windowed.count()).isEqualTo(3)
+    assertEquals(3, windowed.count())
 
-    assertThatThrownBy {
+    assertThrows(IllegalArgumentException::class.java) {
       interval.windowedMonth(-1, 2)
-    }.isInstanceOf(IllegalArgumentException::class.java)
-    assertThatThrownBy {
+    }
+    assertThrows(IllegalArgumentException::class.java) {
       interval.windowedMonth(2, -2)
-    }.isInstanceOf(IllegalArgumentException::class.java)
+    }
   }
 
   @Test
@@ -61,16 +62,16 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     val windowed = interval.windowedWeek(3, 2)
     windowed.forEach { items ->
       log.debug("items = $items")
-      assertThat(items.all { it in interval }).isTrue()
+      assertTrue(items.all { it in interval })
     }
-    assertThat(windowed.count()).isEqualTo(3)
+    assertEquals(3, windowed.count())
 
-    assertThatThrownBy {
+    assertThrows(IllegalArgumentException::class.java) {
       interval.windowedWeek(-1, 2)
-    }.isInstanceOf(IllegalArgumentException::class.java)
-    assertThatThrownBy {
+    }
+    assertThrows(IllegalArgumentException::class.java) {
       interval.windowedWeek(2, -2)
-    }.isInstanceOf(IllegalArgumentException::class.java)
+    }
   }
 
   @Test
@@ -83,16 +84,16 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     val windowed = interval.windowedDay(3, 2)
     windowed.forEach { items ->
       log.debug("items = $items")
-      assertThat(items.all { it in interval }).isTrue()
+      assertTrue(items.all { it in interval })
     }
-    assertThat(windowed.count()).isEqualTo(3)
+    assertEquals(3, windowed.count())
 
-    assertThatThrownBy {
+    assertThrows(IllegalArgumentException::class.java) {
       interval.windowedDay(-1, 2)
-    }.isInstanceOf(IllegalArgumentException::class.java)
-    assertThatThrownBy {
+    }
+    assertThrows(IllegalArgumentException::class.java) {
       interval.windowedDay(2, -2)
-    }.isInstanceOf(IllegalArgumentException::class.java)
+    }
   }
 
   @Test
@@ -105,16 +106,16 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     val windowed = interval.windowedHour(3, 2)
     windowed.forEach { items ->
       log.debug("items = $items")
-      assertThat(items.all { it in interval }).isTrue()
+      assertTrue(items.all { it in interval })
     }
-    assertThat(windowed.count()).isEqualTo(3)
+    assertEquals(3, windowed.count())
 
-    assertThatThrownBy {
+    assertThrows(IllegalArgumentException::class.java) {
       interval.windowedHour(-1, 2)
-    }.isInstanceOf(IllegalArgumentException::class.java)
-    assertThatThrownBy {
+    }
+    assertThrows(IllegalArgumentException::class.java) {
       interval.windowedHour(2, -2)
-    }.isInstanceOf(IllegalArgumentException::class.java)
+    }
   }
 
   @Test
@@ -127,16 +128,16 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     val windowed = interval.windowedMinute(3, 2)
     windowed.forEach { items ->
       log.debug("items = $items")
-      assertThat(items.all { it in interval }).isTrue()
+      assertTrue(items.all { it in interval })
     }
-    assertThat(windowed.count()).isEqualTo(3)
+    assertEquals(3, windowed.count())
 
-    assertThatThrownBy {
+    assertThrows(IllegalArgumentException::class.java) {
       interval.windowedMinute(-1, 2)
-    }.isInstanceOf(IllegalArgumentException::class.java)
-    assertThatThrownBy {
+    }
+    assertThrows(IllegalArgumentException::class.java) {
       interval.windowedMinute(2, -2)
-    }.isInstanceOf(IllegalArgumentException::class.java)
+    }
   }
 
   @Test
@@ -149,16 +150,16 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     val windowed = interval.windowedSecond(3, 2)
     windowed.forEach { items ->
       log.debug("items = $items")
-      assertThat(items.all { it in interval }).isTrue()
+      assertTrue(items.all { it in interval })
     }
-    assertThat(windowed.count()).isEqualTo(3)
+    assertEquals(3, windowed.count())
 
-    assertThatThrownBy {
+    assertThrows(IllegalArgumentException::class.java) {
       interval.windowedSecond(-1, 2)
-    }.isInstanceOf(IllegalArgumentException::class.java)
-    assertThatThrownBy {
+    }
+    assertThrows(IllegalArgumentException::class.java) {
       interval.windowedSecond(2, -2)
-    }.isInstanceOf(IllegalArgumentException::class.java)
+    }
   }
 
   @Test
@@ -169,12 +170,12 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     log.debug("interval=$interval")
 
     val pairs = interval.zipWithNextYear().toList()
-    assertThat(pairs.size).isEqualTo(4)
+    assertEquals(4, pairs.size)
 
     pairs.forEach { (current, next) ->
       log.debug("current=$current, next=$next")
-      assertThat(current in interval).isTrue()
-      assertThat(next in interval).isTrue()
+      assertTrue { current in interval }
+      assertTrue { next in interval }
     }
   }
 
@@ -186,12 +187,12 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     log.debug("interval=$interval")
 
     val pairs = interval.zipWithNextMonth().toList()
-    assertThat(pairs.size).isEqualTo(4)
+    assertEquals(4, pairs.size)
 
     pairs.forEach { (current, next) ->
       log.debug("current=$current, next=$next")
-      assertThat(current in interval).isTrue()
-      assertThat(next in interval).isTrue()
+      assertTrue { current in interval }
+      assertTrue { next in interval }
     }
   }
 
@@ -203,12 +204,12 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     log.debug("interval=$interval")
 
     val pairs = interval.zipWithNextWeek().toList()
-    assertThat(pairs.size).isEqualTo(4)
+    assertEquals(4, pairs.size)
 
     pairs.forEach { (current, next) ->
       log.debug("current=$current, next=$next")
-      assertThat(current in interval).isTrue()
-      assertThat(next in interval).isTrue()
+      assertTrue { current in interval }
+      assertTrue { next in interval }
     }
   }
 
@@ -220,12 +221,12 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     log.debug("interval=$interval")
 
     val pairs = interval.zipWithNextDay().toList()
-    assertThat(pairs.size).isEqualTo(4)
+    assertEquals(4, pairs.size)
 
     pairs.forEach { (current, next) ->
       log.debug("current=$current, next=$next")
-      assertThat(current in interval).isTrue()
-      assertThat(next in interval).isTrue()
+      assertTrue { current in interval }
+      assertTrue { next in interval }
     }
   }
 
@@ -237,12 +238,12 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     log.debug("interval=$interval")
 
     val pairs = interval.zipWithNextHour().toList()
-    assertThat(pairs.size).isEqualTo(4)
+    assertEquals(4, pairs.size)
 
     pairs.forEach { (current, next) ->
       log.debug("current=$current, next=$next")
-      assertThat(current in interval).isTrue()
-      assertThat(next in interval).isTrue()
+      assertTrue { current in interval }
+      assertTrue { next in interval }
     }
   }
 
@@ -254,12 +255,12 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     log.debug("interval=$interval")
 
     val pairs = interval.zipWithNextMinute().toList()
-    assertThat(pairs.size).isEqualTo(4)
+    assertEquals(4, pairs.size)
 
     pairs.forEach { (current, next) ->
       log.debug("current=$current, next=$next")
-      assertThat(current in interval).isTrue()
-      assertThat(next in interval).isTrue()
+      assertTrue { current in interval }
+      assertTrue { next in interval }
     }
   }
 
@@ -271,12 +272,12 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     log.debug("interval=$interval")
 
     val pairs = interval.zipWithNextSecond().toList()
-    assertThat(pairs.size).isEqualTo(4)
+    assertEquals(4, pairs.size)
 
     pairs.forEach { (current, next) ->
       log.debug("current=$current, next=$next")
-      assertThat(current in interval).isTrue()
-      assertThat(next in interval).isTrue()
+      assertTrue { current in interval }
+      assertTrue { next in interval }
     }
   }
 }

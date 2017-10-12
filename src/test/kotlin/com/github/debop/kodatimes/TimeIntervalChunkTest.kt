@@ -1,10 +1,9 @@
 package com.github.debop.kodatimes
 
-import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Assertions.assertThatThrownBy
-import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
 
 class TimeIntervalChunkTest : AbstractKodaTimesTest() {
 
@@ -17,22 +16,22 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
     val chunks = interval.chunkYear(4).toList()
     chunks.forEach(::println)
 
-    assertThat(chunks.size).isEqualTo(2)
+    assertEquals(2, chunks.size)
 
     chunks.forEach { chunk ->
       log.debug("chunk=$chunk")
-      assertThat(chunk.size).isLessThanOrEqualTo(4)
-      assertThat(chunk.first() in interval).isTrue()
-      assertThat(chunk.last() in interval).isTrue()
+      assertTrue { chunk.size <= 4 }
+      assertTrue { chunk.first() in interval }
+      assertTrue { chunk.last() in interval }
     }
 
-    assertThatThrownBy {
+    assertThrows(IllegalArgumentException::class.java) {
       interval.chunkYear(0)
-    }.isInstanceOf(IllegalArgumentException::class.java)
+    }
 
-    assertThatThrownBy {
+    assertThrows(IllegalArgumentException::class.java) {
       interval.chunkYear(-1)
-    }.isInstanceOf(IllegalArgumentException::class.java)
+    }
   }
 
   @Test fun `chunk year and aggregate`() {
@@ -59,7 +58,7 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
     val chunks = interval.chunkMonth(5).toList()
 
     chunks.forEach(::println)
-    assertThat(chunks.size).isEqualTo(3)
+    assertEquals(3, chunks.size)
 
     chunks.forEach {
       log.debug("chunk=$it")
@@ -68,14 +67,13 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
       assertTrue { it.last() in interval }
     }
 
-    assertThatThrownBy {
+    assertThrows(IllegalArgumentException::class.java) {
       interval.chunkMonth(0)
-    }.isInstanceOf(IllegalArgumentException::class.java)
+    }
 
-    assertThatThrownBy {
+    assertThrows(IllegalArgumentException::class.java) {
       interval.chunkMonth(-1)
-    }.isInstanceOf(IllegalArgumentException::class.java)
-
+    }
   }
 
   @Test fun `chunk month and aggregate`() {
@@ -102,7 +100,7 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
     val chunks = interval.chunkWeek(2).toList()
 
     chunks.forEach(::println)
-    assertThat(chunks.size).isEqualTo(3)
+    assertEquals(3, chunks.size)
 
     chunks.forEach {
       log.debug("chunk=$it")
@@ -111,13 +109,13 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
       assertTrue { it.last() in interval }
     }
 
-    assertThatThrownBy {
+    assertThrows(IllegalArgumentException::class.java) {
       interval.chunkWeek(0)
-    }.isInstanceOf(IllegalArgumentException::class.java)
+    }
 
-    assertThatThrownBy {
+    assertThrows(IllegalArgumentException::class.java) {
       interval.chunkWeek(-1)
-    }.isInstanceOf(IllegalArgumentException::class.java)
+    }
 
   }
 
@@ -146,7 +144,7 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
     val chunks = interval.chunkDay(30).toList()
 
     chunks.forEach(::println)
-    assertThat(chunks.size).isEqualTo(3)
+    assertEquals(3, chunks.size)
 
     chunks.forEach {
       log.debug("chunk=$it")
@@ -155,13 +153,13 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
       assertTrue { it.last() in interval }
     }
 
-    assertThatThrownBy {
+    assertThrows(IllegalArgumentException::class.java) {
       interval.chunkDay(0)
-    }.isInstanceOf(IllegalArgumentException::class.java)
+    }
 
-    assertThatThrownBy {
+    assertThrows(IllegalArgumentException::class.java) {
       interval.chunkDay(-1)
-    }.isInstanceOf(IllegalArgumentException::class.java)
+    }
 
   }
 
@@ -190,7 +188,7 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
     val chunks = interval.chunkHour(20).toList()
 
     chunks.forEach(::println)
-    assertThat(chunks.size).isEqualTo(4)
+    assertEquals(4, chunks.size)
 
     chunks.forEach {
       log.debug("chunk=$it")
@@ -199,13 +197,13 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
       assertTrue { it.last() in interval }
     }
 
-    assertThatThrownBy {
+    assertThrows(IllegalArgumentException::class.java) {
       interval.chunkHour(0)
-    }.isInstanceOf(IllegalArgumentException::class.java)
+    }
 
-    assertThatThrownBy {
+    assertThrows(IllegalArgumentException::class.java) {
       interval.chunkHour(-1)
-    }.isInstanceOf(IllegalArgumentException::class.java)
+    }
 
   }
 
@@ -234,7 +232,7 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
     val chunks = interval.chunkMinute(10).toList()
 
     chunks.forEach(::println)
-    assertThat(chunks.size).isEqualTo(4)
+    assertEquals(4, chunks.size)
 
     chunks.forEach {
       log.debug("chunk=$it")
@@ -243,13 +241,13 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
       assertTrue { it.last() in interval }
     }
 
-    assertThatThrownBy {
+    assertThrows(IllegalArgumentException::class.java) {
       interval.chunkMinute(0)
-    }.isInstanceOf(IllegalArgumentException::class.java)
+    }
 
-    assertThatThrownBy {
+    assertThrows(IllegalArgumentException::class.java) {
       interval.chunkMinute(-1)
-    }.isInstanceOf(IllegalArgumentException::class.java)
+    }
 
   }
 
@@ -278,7 +276,7 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
     val chunks = interval.chunkSecond(10).toList()
 
     chunks.forEach(::println)
-    assertThat(chunks.size).isEqualTo(4)
+    assertEquals(4, chunks.size)
 
     chunks.forEach {
       log.debug("chunk=$it")
@@ -287,14 +285,13 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
       assertTrue { it.last() in interval }
     }
 
-    assertThatThrownBy {
+    assertThrows(IllegalArgumentException::class.java) {
       interval.chunkSecond(0)
-    }.isInstanceOf(IllegalArgumentException::class.java)
+    }
 
-    assertThatThrownBy {
+    assertThrows(IllegalArgumentException::class.java) {
       interval.chunkSecond(-1)
-    }.isInstanceOf(IllegalArgumentException::class.java)
-
+    }
   }
 
   @Test fun `chunk second and aggregate`() {
