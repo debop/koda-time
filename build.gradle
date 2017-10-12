@@ -35,15 +35,13 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
-
-    compile "joda-time:joda-time:2.9.9"
+    compile "joda-time:joda-time:$joda_time_version"
 
     testCompile "org.slf4j:slf4j-api:1.7.25"
     testCompile "ch.qos.logback:logback-classic:1.2.3"
 
     testCompile "org.junit.platform:junit-platform-runner:$junit_platform_version"
     testCompile "org.junit.jupiter:junit-jupiter-engine:$junit_jupiter_version"
-    testCompile "org.junit.vintage:junit-vintage-engine:4.12.1"
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
