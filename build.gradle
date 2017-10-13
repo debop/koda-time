@@ -1,9 +1,10 @@
 buildscript {
 
     repositories {
-        mavenCentral()
+        jcenter()
         maven { url "https://plugins.gradle.org/m2/" }
         maven { url "https://repo.spring.io/plugins-release" }
+        maven { url "https://dl.bintray.com/kotlin/dokka/" }
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
@@ -30,18 +31,18 @@ group = 'com.github.debop'
 version = '1.2.1-SNAPSHOT'
 
 repositories {
-    mavenCentral()
+    jcenter()
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
-    compile "joda-time:joda-time:$joda_time_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    implementation "joda-time:joda-time:$joda_time_version"
 
-    testCompile "org.slf4j:slf4j-api:1.7.25"
-    testCompile "ch.qos.logback:logback-classic:1.2.3"
+    testImplementation "org.slf4j:slf4j-api:1.7.25"
+    testImplementation "ch.qos.logback:logback-classic:1.2.3"
 
-    testCompile "org.junit.jupiter:junit-jupiter-api:$junit_jupiter_version"
-    testRuntime "org.junit.jupiter:junit-jupiter-engine:$junit_jupiter_version"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_jupiter_version"
+    testImplementation "org.junit.jupiter:junit-jupiter-engine:$junit_jupiter_version"
 
     // Only needed to run tests in an (IntelliJ) IDE(A) that bundles an older version
     testRuntime "org.junit.platform:junit-platform-launcher:$junit_platform_version"
@@ -97,15 +98,16 @@ task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask, dependsOn: dokka) 
     outputDirectory = "$buildDir/javadoc"
 }
 
+task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
+    classifier = 'javadoc'
+    from dokka.outputDirectory
+}
+
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
     from sourceSets.main.allSource
 }
 
-task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
-    classifier = 'javadoc'
-    from dokka.outputDirectory
-}
 
 artifacts {
     archives sourcesJar
