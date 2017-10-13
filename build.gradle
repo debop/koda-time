@@ -9,23 +9,30 @@ buildscript {
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
-        classpath "io.spring.gradle:propdeps-plugin:0.0.9.RELEASE"
+//        classpath "io.spring.gradle:propdeps-plugin:0.0.9.RELEASE"
         classpath "org.junit.platform:junit-platform-gradle-plugin:$junit_platform_version"
     }
 }
 
+plugins {
+    id "com.jfrog.bintray" version "1.7.3"
+}
+
 // nebula.kotlin plugin 을 지정하면, kotlin 관련 설정을 기본적으로 설정해준다. 특히 jvm-target 1.8 을 지정해 준다.
 // apply plugin: 'nebula.kotlin'
+apply plugin: 'java'
 apply plugin: 'kotlin'
 apply plugin: 'org.jetbrains.dokka'
 apply plugin: 'idea'
 
 apply plugin: 'maven'
-apply plugin: 'propdeps'
-apply plugin: 'propdeps-maven'
-apply plugin: 'propdeps-idea'
+apply plugin: 'maven-publish'
+//apply plugin: 'propdeps'
+//apply plugin: 'propdeps-maven'
+//apply plugin: 'propdeps-idea'
 
 apply plugin: 'org.junit.platform.gradle.plugin'
+
 
 group = 'com.github.debop'
 version = '1.2.1-SNAPSHOT'
@@ -93,12 +100,7 @@ dokka {
     outputDirectory = "$buildDir/dokka"
 }
 
-task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask, dependsOn: dokka) {
-    outputFormat = 'javadoc'
-    outputDirectory = "$buildDir/javadoc"
-}
-
-task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
+task dokkaJar(type: Jar, dependsOn: dokka) {
     classifier = 'javadoc'
     from dokka.outputDirectory
 }
@@ -108,10 +110,81 @@ task sourcesJar(type: Jar, dependsOn: classes) {
     from sourceSets.main.allSource
 }
 
-
 artifacts {
     archives sourcesJar
-    archives javadocJar
+    archives dokkaJar
+}
+
+configurations {
+    published
+}
+
+def pomConfig = {
+    licenses {
+        license {
+            name "The Apache Software License, Version 2.0"
+            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id "debop"
+            name "Sunghyouk Bae"
+            email "sunghyouk.bae@gmail.com"
+        }
+    }
+
+    scm {
+        url "https://github.com/debop/koda-time"
+    }
+}
+
+publishing {
+    publications {
+        bintrayJava(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact dokkaJar
+
+            groupId "${project.group}"
+            artifactId "${project.name}"
+            version "${project.version}"
+
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('description', "Kotlin extension functions for Java 8 Time and joda-time")
+                root.appendNode('name', "${project.name}")
+                root.appendNode("url", "https://github.com/debop/koda-time")
+                root.children().last() + pomConfig
+            }
+        }
+    }
+}
+
+bintray {
+    user = System.getenv("BINTRAY_USER")
+    key = System.getenv("BINTRY_KEY")
+    publications = ['bintrayJava']
+
+    dryRun = false
+    publish = true
+
+    pkg {
+        repo = 'generic'
+        name = "${project.name}"
+        userOrg = 'debop'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/debop/kodatime.git'
+        labels = ['kotlin', 'koda-time', 'joda-time']
+
+        version {
+            name = "${project.version}"
+            desc = "Kotlin extensions for joda-time"
+            released = new Date()
+            vcsTag = "${project.version}"
+        }
+    }
 }
 
 clean {
