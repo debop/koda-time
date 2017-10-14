@@ -172,7 +172,7 @@ infix fun Instant?.max(that: Instant?): Instant? = when {
 operator fun Instant.rangeTo(endExlusive: Instant): Interval = Interval(this.toEpochMilli(), endExlusive.toEpochMilli())
 
 /**
- * Year [Interval] at specified instatnt included
+ * Year `Interval` at specified instatnt included
  */
 val Instant.yearInterval: Interval
   get() {
@@ -182,7 +182,7 @@ val Instant.yearInterval: Interval
   }
 
 /**
- * Month [Interval] at specified instant included
+ * Month `Interval` at specified instant included
  */
 val Instant.monthInterval: Interval
   get() {
@@ -192,7 +192,7 @@ val Instant.monthInterval: Interval
   }
 
 /**
- * Week [Interval] at specified instant included
+ * Week `Interval` at specified instant included
  */
 val Instant.weekInterval: Interval
   get() {
@@ -202,7 +202,7 @@ val Instant.weekInterval: Interval
   }
 
 /**
- * Day [Interval] at specified instance included
+ * Day `Interval` at specified instance included
  */
 val Instant.dayInterval: Interval
   get() {
@@ -213,6 +213,9 @@ val Instant.dayInterval: Interval
 
 operator fun Period.unaryMinus(): Period = this.negated()
 
+/**
+ * year sequence of `Period`
+ */
 suspend fun Period.yearSequence(): Sequence<Int> = buildSequence<Int> {
   var year = 0
   val years = this@yearSequence.years
@@ -227,6 +230,9 @@ suspend fun Period.yearSequence(): Sequence<Int> = buildSequence<Int> {
   }
 }
 
+/**
+ * month sequence of `java.time.Period`
+ */
 suspend fun Period.monthSequence(): Sequence<Int> = buildSequence<Int> {
   var month = 0
   val months = this@monthSequence.months
@@ -241,6 +247,9 @@ suspend fun Period.monthSequence(): Sequence<Int> = buildSequence<Int> {
   }
 }
 
+/**
+ * day sequence of `java.time.Period`
+ */
 suspend fun Period.daySequence(): Sequence<Int> = buildSequence<Int> {
   var day = 0
   val days = this@daySequence.days

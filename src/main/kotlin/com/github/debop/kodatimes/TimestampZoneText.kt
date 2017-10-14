@@ -20,7 +20,7 @@ import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 
 /**
- * [DateTime] 의 TimeZone 정보를 제공합니다
+ * `DateTime` 의 TimeZone 정보를 제공합니다
  *
  * @author sunghyouk.bae@gmail.com
  */
