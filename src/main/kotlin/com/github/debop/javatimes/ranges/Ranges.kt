@@ -27,6 +27,8 @@ class DateRange(start: Date, endInclusive: Date)
 
   override fun isEmpty(): Boolean = first > last
 
+  override fun toString(): String = "$first..$last"
+
   companion object {
     @JvmField val EMPTY: DateRange = DateRange(dateOf(1L), dateOf(0L))
   }
@@ -48,6 +50,8 @@ class JavaInstantRange(start: Instant, endInclusive: Instant)
   override fun contains(value: Instant): Boolean = first <= value && value <= last
 
   override fun isEmpty(): Boolean = first > last
+
+  override fun toString(): String = "$first..$last"
 
   companion object {
     @JvmField val EMPTY: JavaInstantRange = JavaInstantRange(Instant.ofEpochMilli(1L), Instant.ofEpochMilli(0))
