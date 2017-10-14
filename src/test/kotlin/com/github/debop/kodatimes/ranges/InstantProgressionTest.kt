@@ -1,18 +1,19 @@
-package com.github.debop.kodatimes
+package com.github.debop.kodatimes.ranges
 
+import com.github.debop.kodatimes.*
 import org.joda.time.Duration
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 
-class DateTimeProgressTest : AbstractKodaTimesTest() {
+class InstantProgressionTest : AbstractKodaTimesTest() {
 
   @Test fun `create simple`() {
-    val start = today()
+    val start = today().toInstant()
     val endInclusive = start + 1.days()
 
-    val progression = DateTimeProgression.fromClosedRange(start, endInclusive, standardHours(1))
+    val progression = InstantProgression.fromClosedRange(start, endInclusive, standardHours(1))
 
     assertEquals(start, progression.first)
     assertEquals(endInclusive, progression.last)
@@ -23,18 +24,18 @@ class DateTimeProgressTest : AbstractKodaTimesTest() {
   }
 
   @Test fun `zero step`() {
-    val instant = now()
+    val instant = now().toInstant()
 
     assertThrows(IllegalArgumentException::class.java) {
-      DateTimeProgression.fromClosedRange(instant, instant, Duration(0))
+      InstantProgression.fromClosedRange(instant, instant, Duration(0))
     }
   }
 
   @Test fun `step greater than range`() {
-    val start = today()
+    val start = today().toInstant()
     val endInclusive = start + 1.days()
 
-    val progression = DateTimeProgression.fromClosedRange(start, endInclusive, standardDays(7))
+    val progression = InstantProgression.fromClosedRange(start, endInclusive, standardDays(7))
 
     assertEquals(start, progression.first)
     // last is not endInclusive, step over endInclusive, so last is equal to start
@@ -46,26 +47,30 @@ class DateTimeProgressTest : AbstractKodaTimesTest() {
   }
 
   @Test fun `stepping not exact endInclusive`() {
-    val start = today()
+    val start = today().toInstant()
     val endInclusive = start + 1.days()
 
-    val progression = DateTimeProgression.fromClosedRange(start, endInclusive, 5.hourDuration())
+    val progression = InstantProgression.fromClosedRange(start, endInclusive, 5.hourDuration())
 
     assertEquals(start, progression.first)
     assertEquals(start + 20.hours(), progression.last)
     assertNotEquals(endInclusive, progression.last)
 
+    println("progression=$progression")
+
     val list = progression.toList()
     assertEquals(5, list.count())
-    assertEquals(listOf(0, 5, 10, 15, 20), list.map { it.hourOfDay })
+
+    // Instant 는 GMT 기준이라 Local time과는 시간차가 있습니다. 그래서 해당 Timezone 으로 변경해야 합니다.
+    assertEquals(listOf(0, 5, 10, 15, 20), list.map { it.toDateTime().hourOfDay })
   }
 
   @Test fun `downTo progression`() {
-    val start = today()
+    val start = today().toInstant()
     val endInclusive = start - 5.days()
     val step = dayDurationOf(-1)
 
-    val progression = DateTimeProgression.fromClosedRange(start, endInclusive, step)
+    val progression = InstantProgression.fromClosedRange(start, endInclusive, step)
 
     assertEquals(start, progression.first)
     assertEquals(endInclusive, progression.last)

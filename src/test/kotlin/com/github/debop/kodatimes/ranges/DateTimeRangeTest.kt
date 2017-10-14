@@ -1,5 +1,8 @@
-package com.github.debop.kodatimes
+package com.github.debop.kodatimes.ranges
 
+import com.github.debop.kodatimes.AbstractKodaTimesTest
+import com.github.debop.kodatimes.days
+import com.github.debop.kodatimes.today
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -17,6 +20,8 @@ class DateTimeRangeTest : AbstractKodaTimesTest() {
 
     assertEquals(start, range.first)
     assertEquals(endInclusive, range.last)
+
+    assertEquals("$start..$endInclusive", range.toString())
   }
 
   @Test fun `empty range`() {

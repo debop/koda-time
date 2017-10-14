@@ -1,5 +1,6 @@
-package com.github.debop.kodatimes
+package com.github.debop.kodatimes.ranges
 
+import com.github.debop.kodatimes.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test

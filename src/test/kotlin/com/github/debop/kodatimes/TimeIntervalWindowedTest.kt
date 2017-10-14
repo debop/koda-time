@@ -12,11 +12,11 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     val start = now().startOfYear()
     val endExclusive = start + 5.years()
     val interval = start .. endExclusive
-    log.debug("interval=$interval")
+    logger.debug("interval=$interval")
 
     val windowed = interval.windowedYear(3, 2)
     windowed.forEach { items ->
-      log.debug("items = $items")
+      logger.debug("items = $items")
       assertTrue(items.first() in interval)
       assertTrue(items.last() in interval)
     }
@@ -35,11 +35,11 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     val start = now().startOfMonth()
     val endExclusive = start + 5.months()
     val interval = start .. endExclusive
-    log.debug("interval=$interval")
+    logger.debug("interval=$interval")
 
     val windowed = interval.windowedMonth(3, 2)
     windowed.forEach { items ->
-      log.debug("items = $items")
+      logger.debug("items = $items")
       assertTrue { items.all { it in interval } }
     }
     assertEquals(3, windowed.count())
@@ -57,11 +57,11 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     val start = now().startOfWeek()
     val endExclusive = start + 5.weeks()
     val interval = start .. endExclusive
-    log.debug("interval=$interval")
+    logger.debug("interval=$interval")
 
     val windowed = interval.windowedWeek(3, 2)
     windowed.forEach { items ->
-      log.debug("items = $items")
+      logger.debug("items = $items")
       assertTrue(items.all { it in interval })
     }
     assertEquals(3, windowed.count())
@@ -79,11 +79,11 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     val start = now().startOfDay()
     val endExclusive = start + 5.days()
     val interval = start .. endExclusive
-    log.debug("interval=$interval")
+    logger.debug("interval=$interval")
 
     val windowed = interval.windowedDay(3, 2)
     windowed.forEach { items ->
-      log.debug("items = $items")
+      logger.debug("items = $items")
       assertTrue(items.all { it in interval })
     }
     assertEquals(3, windowed.count())
@@ -101,11 +101,11 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     val start = now().trimToHour()
     val endExclusive = start + 5.hours()
     val interval = start .. endExclusive
-    log.debug("interval=$interval")
+    logger.debug("interval=$interval")
 
     val windowed = interval.windowedHour(3, 2)
     windowed.forEach { items ->
-      log.debug("items = $items")
+      logger.debug("items = $items")
       assertTrue(items.all { it in interval })
     }
     assertEquals(3, windowed.count())
@@ -123,11 +123,11 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     val start = now().trimToMinute()
     val endExclusive = start + 5.minutes()
     val interval = start .. endExclusive
-    log.debug("interval=$interval")
+    logger.debug("interval=$interval")
 
     val windowed = interval.windowedMinute(3, 2)
     windowed.forEach { items ->
-      log.debug("items = $items")
+      logger.debug("items = $items")
       assertTrue(items.all { it in interval })
     }
     assertEquals(3, windowed.count())
@@ -145,11 +145,11 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     val start = now().trimToSecond()
     val endExclusive = start + 5.seconds()
     val interval = start .. endExclusive
-    log.debug("interval=$interval")
+    logger.debug("interval=$interval")
 
     val windowed = interval.windowedSecond(3, 2)
     windowed.forEach { items ->
-      log.debug("items = $items")
+      logger.debug("items = $items")
       assertTrue(items.all { it in interval })
     }
     assertEquals(3, windowed.count())
@@ -167,13 +167,13 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     val start = now().startOfYear()
     val endExclusive = start + 5.years()
     val interval = start .. endExclusive
-    log.debug("interval=$interval")
+    logger.debug("interval=$interval")
 
     val pairs = interval.zipWithNextYear().toList()
     assertEquals(4, pairs.size)
 
     pairs.forEach { (current, next) ->
-      log.debug("current=$current, next=$next")
+      logger.debug("current=$current, next=$next")
       assertTrue { current in interval }
       assertTrue { next in interval }
     }
@@ -184,13 +184,13 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     val start = now().startOfMonth()
     val endExclusive = start + 5.months()
     val interval = start .. endExclusive
-    log.debug("interval=$interval")
+    logger.debug("interval=$interval")
 
     val pairs = interval.zipWithNextMonth().toList()
     assertEquals(4, pairs.size)
 
     pairs.forEach { (current, next) ->
-      log.debug("current=$current, next=$next")
+      logger.debug("current=$current, next=$next")
       assertTrue { current in interval }
       assertTrue { next in interval }
     }
@@ -201,13 +201,13 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     val start = now().startOfWeek()
     val endExclusive = start + 5.weeks()
     val interval = start .. endExclusive
-    log.debug("interval=$interval")
+    logger.debug("interval=$interval")
 
     val pairs = interval.zipWithNextWeek().toList()
     assertEquals(4, pairs.size)
 
     pairs.forEach { (current, next) ->
-      log.debug("current=$current, next=$next")
+      logger.debug("current=$current, next=$next")
       assertTrue { current in interval }
       assertTrue { next in interval }
     }
@@ -218,13 +218,13 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     val start = now().startOfDay()
     val endExclusive = start + 5.days()
     val interval = start .. endExclusive
-    log.debug("interval=$interval")
+    logger.debug("interval=$interval")
 
     val pairs = interval.zipWithNextDay().toList()
     assertEquals(4, pairs.size)
 
     pairs.forEach { (current, next) ->
-      log.debug("current=$current, next=$next")
+      logger.debug("current=$current, next=$next")
       assertTrue { current in interval }
       assertTrue { next in interval }
     }
@@ -235,13 +235,13 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     val start = now().trimToHour()
     val endExclusive = start + 5.hours()
     val interval = start .. endExclusive
-    log.debug("interval=$interval")
+    logger.debug("interval=$interval")
 
     val pairs = interval.zipWithNextHour().toList()
     assertEquals(4, pairs.size)
 
     pairs.forEach { (current, next) ->
-      log.debug("current=$current, next=$next")
+      logger.debug("current=$current, next=$next")
       assertTrue { current in interval }
       assertTrue { next in interval }
     }
@@ -252,13 +252,13 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     val start = now().trimToMinute()
     val endExclusive = start + 5.minutes()
     val interval = start .. endExclusive
-    log.debug("interval=$interval")
+    logger.debug("interval=$interval")
 
     val pairs = interval.zipWithNextMinute().toList()
     assertEquals(4, pairs.size)
 
     pairs.forEach { (current, next) ->
-      log.debug("current=$current, next=$next")
+      logger.debug("current=$current, next=$next")
       assertTrue { current in interval }
       assertTrue { next in interval }
     }
@@ -269,13 +269,13 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     val start = now().trimToSecond()
     val endExclusive = start + 5.seconds()
     val interval = start .. endExclusive
-    log.debug("interval=$interval")
+    logger.debug("interval=$interval")
 
     val pairs = interval.zipWithNextSecond().toList()
     assertEquals(4, pairs.size)
 
     pairs.forEach { (current, next) ->
-      log.debug("current=$current, next=$next")
+      logger.debug("current=$current, next=$next")
       assertTrue { current in interval }
       assertTrue { next in interval }
     }

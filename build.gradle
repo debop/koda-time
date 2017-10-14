@@ -48,6 +48,8 @@ dependencies {
     testImplementation "org.slf4j:slf4j-api:1.7.25"
     testImplementation "ch.qos.logback:logback-classic:1.2.3"
 
+    testImplementation "io.github.microutils:kotlin-logging:1.4.6"
+
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_jupiter_version"
     testImplementation "org.junit.jupiter:junit-jupiter-engine:$junit_jupiter_version"
 

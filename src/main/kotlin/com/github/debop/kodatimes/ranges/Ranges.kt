@@ -1,8 +1,17 @@
-package com.github.debop.kodatimes
+@file:Suppress("ConvertTwoComparisonsToRangeCheck")
 
+package com.github.debop.kodatimes.ranges
+
+import com.github.debop.kodatimes.dateTimeOf
+import com.github.debop.kodatimes.milliDurationOf
 import org.joda.time.DateTime
 import org.joda.time.Instant
 import java.util.*
+
+
+operator fun DateTime.rangeTo(endInclusive: DateTime): DateTimeRange = DateTimeRange(this, endInclusive)
+
+operator fun Instant.rangeTo(endInclusive: Instant): InstantRange = InstantRange(this, endInclusive)
 
 /**
  *  `org.joda.time.DateTime` range

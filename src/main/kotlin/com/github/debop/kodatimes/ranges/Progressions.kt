@@ -1,5 +1,6 @@
-package com.github.debop.kodatimes
+package com.github.debop.kodatimes.ranges
 
+import com.github.debop.kodatimes.JodaTimeIterator
 import org.joda.time.*
 import java.util.*
 import kotlin.NoSuchElementException
@@ -127,9 +128,9 @@ open class InstantProgression internal constructor(start: Instant, endInclusive:
  */
 internal class DateTimeProgressionIterator(first: DateTime, last: DateTime, val step: ReadableDuration) : JodaTimeIterator<DateTime>() {
 
-  private val finalElement = last
+  private val finalElement: DateTime = last
   private var hasNext: Boolean = if (step.millis > 0) first <= last else first >= last
-  private var next = if (hasNext) first else finalElement
+  private var next: DateTime = if (hasNext) first else finalElement
 
   override fun hasNext(): Boolean = hasNext
 
@@ -152,9 +153,9 @@ internal class DateTimeProgressionIterator(first: DateTime, last: DateTime, val 
  */
 internal class InstantProgressionIterator(first: Instant, last: Instant, val step: ReadableDuration) : JodaTimeIterator<Instant>() {
 
-  private val finalElement = last
+  private val finalElement: Instant = last
   private var hasNext: Boolean = if (step.millis > 0) first <= last else first >= last
-  private var next = if (hasNext) first else finalElement
+  private var next: Instant = if (hasNext) first else finalElement
 
   override fun hasNext(): Boolean = hasNext
 
@@ -164,7 +165,7 @@ internal class InstantProgressionIterator(first: Instant, last: Instant, val ste
       if (!hasNext) throw NoSuchElementException()
       hasNext = false
     } else {
-      next = next.plus(step)
+      next += step
     }
     return value
   }
