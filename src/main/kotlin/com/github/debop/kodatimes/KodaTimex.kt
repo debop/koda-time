@@ -18,9 +18,10 @@
 package com.github.debop.kodatimes
 
 import org.joda.time.*
-import org.joda.time.base.AbstractDateTime
 import org.joda.time.base.AbstractInstant
-import org.joda.time.format.*
+import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.DateTimeFormatter
+import org.joda.time.format.ISODateTimeFormat
 import java.sql.Timestamp
 import java.util.*
 
@@ -363,6 +364,34 @@ fun standardMinutes(minutes: Long): Duration = Duration.standardMinutes(minutes)
 
 /** specified seconds duration */
 fun standardSeconds(seconds: Long): Duration = Duration.standardSeconds(seconds)
+
+/** duration of days */
+fun dayDurationOf(days: Long): Duration = Duration.standardDays(days)
+
+/** duration of hours */
+fun hourDurationOf(hours: Long): Duration = Duration.standardHours(hours)
+
+/** duration of minutes */
+fun minuteDurationOf(minutes: Long): Duration = Duration.standardMinutes(minutes)
+
+/** duration of seconds */
+fun secondDurationOf(seconds: Long): Duration = Duration.standardSeconds(seconds)
+
+/** duration with millis */
+fun milliDurationOf(millis: Long): Duration = Duration.millis(millis)
+
+
+fun Int.dayDuration(): Duration = Duration.standardDays(this.toLong())
+fun Int.hourDuration(): Duration = Duration.standardHours(this.toLong())
+fun Int.minuteDuration(): Duration = Duration.standardMinutes(this.toLong())
+fun Int.secondDuration(): Duration = Duration.standardSeconds(this.toLong())
+fun Int.milliDuration(): Duration = Duration.millis(this.toLong())
+
+fun Long.dayDuration(): Duration = Duration.standardDays(this)
+fun Long.hourDuration(): Duration = Duration.standardHours(this)
+fun Long.minuteDuration(): Duration = Duration.standardMinutes(this)
+fun Long.secondDuration(): Duration = Duration.standardSeconds(this)
+fun Long.milliDuration(): Duration = Duration.millis(this)
 
 fun Duration.days(): Long = this.standardDays
 fun Duration.hours(): Long = this.standardHours

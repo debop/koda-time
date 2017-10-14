@@ -1,11 +1,7 @@
 package com.github.debop.kodatimes
 
-import com.github.debop.javatimes.instantOf
-import com.github.debop.javatimes.toLocalDateTime
 import org.joda.time.DateTime
-import org.joda.time.Duration
 import org.joda.time.Instant
-import org.joda.time.ReadableInstant
 import java.util.*
 
 /**
@@ -15,7 +11,7 @@ import java.util.*
  *  @property endInclusive end of range
  */
 class DateTimeRange(start: DateTime, endInclusive: DateTime)
-  : DateTimeProgression(start, endInclusive, 1.seconds()), ClosedRange<DateTime> {
+  : DateTimeProgression(start, endInclusive, milliDurationOf(1L)), ClosedRange<DateTime> {
 
   override val start: DateTime get() = first
   override val endInclusive: DateTime get() = last
@@ -47,7 +43,7 @@ class DateTimeRange(start: DateTime, endInclusive: DateTime)
  *  @property endInclusive end of range
  */
 class InstantRange(start: Instant, endInclusive: Instant)
-  : InstantProgression(start, endInclusive, 1.seconds()), ClosedRange<Instant> {
+  : InstantProgression(start, endInclusive, milliDurationOf(1L)), ClosedRange<Instant> {
 
   override val start: Instant get() = first
   override val endInclusive: Instant get() = last

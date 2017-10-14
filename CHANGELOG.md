@@ -3,7 +3,10 @@
 
 #1.2.1
 
-* 
+* add DateTimeRange, InstantRange for joda-time
+* add DateTimeProgression, InstantProgression for joda-time
+* add DateRange, InstantRange for java 8 time
+* add DateProgression, InstantProgression for java 8 time 
 
 # 1.2
 
