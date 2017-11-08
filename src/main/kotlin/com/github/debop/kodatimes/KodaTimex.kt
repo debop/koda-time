@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016. Sunghyouk Bae <sunghyouk.bae@gmail.com>
+ * Copyright (c) 2017. Sunghyouk Bae <sunghyouk.bae@gmail.com>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -427,6 +427,24 @@ infix fun Duration.max(that: Duration): Duration {
   return if (this > that) this else that
 }
 
+fun minOf(a: Duration, b: Duration, vararg args: Duration): Duration {
+  var min = if (a < b) a else b
+  args.forEach {
+    if (it < min)
+      min = it
+  }
+  return min
+}
+
+fun maxOf(a: Duration, b: Duration, vararg args: Duration): Duration {
+  var max = if (a > b) a else b
+  args.forEach {
+    if (it > max)
+      max = it
+  }
+  return max
+}
+
 
 /** current time - specified period */
 fun Period.ago(): DateTime = DateTime.now() - this
@@ -455,7 +473,7 @@ operator fun Period.unaryMinus(): Period = this.negated()
 
 operator fun Period.rangeTo(end: ReadableInstant): Interval = Interval(this, end)
 
-/** create new `Instant` instance */
+/** create new `Instant` instance with milliseconds */
 fun instantOf(millis: Long): Instant = Instant(millis)
 
 operator fun Instant.minus(millis: Long): Instant = this.minus(millis)
@@ -475,5 +493,23 @@ operator fun ReadableInstant.rangeTo(period: ReadablePeriod): Interval = Interva
 fun thisSecond(): Interval = now().secondOfMinute().toInterval()
 fun thisMinute(): Interval = now().minuteOfHour().toInterval()
 fun thisHour(): Interval = now().hourOfDay().toInterval()
+
+fun minOf(a: Instant, b: Instant, vararg args: Instant): Instant {
+  var min = if (a < b) a else b
+  args.forEach {
+    if (it < min)
+      min = it
+  }
+  return min
+}
+
+fun maxOf(a: Instant, b: Instant, vararg args: Instant): Instant {
+  var max = if (a > b) a else b
+  args.forEach {
+    if (it > max)
+      max = it
+  }
+  return max
+}
 
 
