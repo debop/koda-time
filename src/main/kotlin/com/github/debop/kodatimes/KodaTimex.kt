@@ -27,7 +27,7 @@ import java.util.*
 
 @JvmField val EPOCH = DateTime(0)
 
-/** Convert `Date` to `DateTime` */
+/** Convert `Date` to [DateTime] */
 fun Date.toDateTime(): DateTime = DateTime(this.time)
 
 /** Convert `Date` to `LocalDateTime` */
@@ -39,7 +39,7 @@ fun Date.toLocalDate(): LocalDate = LocalDate.fromDateFields(this)
 /** Convert `Date` to `LocalTime` */
 fun Date.toLocalTime(): LocalTime = LocalTime.fromDateFields(this)
 
-/** Convert `Instant` to `DateTime` with TimeZone UTC */
+/** Convert `Instant` to [DateTime] with TimeZone UTC */
 fun AbstractInstant.dateTimeUTC(): DateTime = this.toDateTime(DateTimeZone.UTC)
 
 /** Convert `Instant` to `MutableDateTime` with TimeZone UTC */
@@ -116,7 +116,7 @@ operator fun Long.times(period: Period): Period = period.multipliedBy(this.toInt
  */
 fun dateTimeFormat(pattern: String): DateTimeFormatter = DateTimeFormat.forPattern(pattern)
 
-/** Parse string to `DateTime` */
+/** Parse string to [DateTime] */
 fun String.toDateTime(pattern: String? = null): DateTime? = try {
   if (pattern.isNullOrBlank()) DateTime(this)
   else DateTime.parse(this, dateTimeFormat(pattern!!))
@@ -148,10 +148,10 @@ fun String.toLocalTime(pattern: String? = null): LocalTime? = try {
   null
 }
 
-/** Convert json text to `DateTime` */
+/** Convert json text to [DateTime] */
 fun dateTimeFromJson(json: String): DateTime = DateTime(json)
 
-/** Build `DateTime` */
+/** Build [DateTime] */
 @JvmOverloads fun dateTimeOf(year: Int,
                              month: Int = 1,
                              day: Int = 1,
@@ -223,28 +223,28 @@ fun DateTime.lastWeek(): DateTime = this.minusWeeks(1)
 fun DateTime.lastMonth(): DateTime = this.minusMonths(1)
 fun DateTime.lastYear(): DateTime = this.minusYears(1)
 
-/** Convert `DateTime` to [Timestamp] */
+/** Convert [DateTime] to [Timestamp] */
 fun DateTime.toTimestamp(): Timestamp = Timestamp(this.millis)
 
-/** Convert `DateTime` timezone to UTC */
+/** Convert [DateTime] timezone to UTC */
 fun DateTime.asUtc(): DateTime = this.toDateTime(DateTimeZone.UTC)
 
-/** Convert `DateTime` timezone to specified time zone. not specified to system default time zone */
+/** Convert [DateTime] timezone to specified time zone. not specified to system default time zone */
 @JvmOverloads fun DateTime.asLocal(tz: DateTimeZone = DateTimeZone.getDefault()): DateTime = this.toDateTime(tz)
 
-/** Convert `DateTime` to ISO DateTime Format String (YYYY-MM-DD hh:nn:ss.zzz) */
+/** Convert [DateTime] to ISO DateTime Format String (YYYY-MM-DD hh:nn:ss.zzz) */
 fun DateTime.toIsoFormatString(): String = ISODateTimeFormat.dateTime().print(this)
 
-/** Convert `DateTime` to ISO Date Format String (YYYY-MM-DD) */
+/** Convert [DateTime] to ISO Date Format String (YYYY-MM-DD) */
 fun DateTime.toIsoFormatDateString(): String = ISODateTimeFormat.date().print(this)
 
-/** Convert `DateTime` to ISO Time Format String (hh:nn:ss.zzz) */
+/** Convert [DateTime] to ISO Time Format String (hh:nn:ss.zzz) */
 fun DateTime.toIsoFormatTimeString(): String = ISODateTimeFormat.time().print(this)
 
-/** Convert `DateTime` to ISO Time Format String without millis (hh:nn:ss) */
+/** Convert [DateTime] to ISO Time Format String without millis (hh:nn:ss) */
 fun DateTime.toIsoFormatTimeNoMillisString(): String = ISODateTimeFormat.timeNoMillis().print(this)
 
-/** Convert `DateTime` to ISO DateTime Format String without millis (YYYY-MM-DD hh:nn:ss) */
+/** Convert [DateTime] to ISO DateTime Format String without millis (YYYY-MM-DD hh:nn:ss) */
 fun DateTime.toIsoFormatHMSString(): String = ISODateTimeFormat.dateHourMinuteSecond().print(this)
 
 fun DateTime.toTimestampZoneText(): TimestampZoneText = TimestampZoneText(this)
@@ -257,44 +257,74 @@ infix fun <T : ReadableInstant> T.max(that: T): T {
   return if (this > that) this else that
 }
 
-/** get minimum `DateTime` */
+/** get minimum [DateTime] */
 infix fun DateTime.min(that: DateTime): DateTime {
   return if (this < that) this else that
 }
 
-/** get maximum `DateTime` */
+/** get maximum [DateTime] */
 infix fun DateTime.max(that: DateTime): DateTime {
   return if (this > that) this else that
 }
 
-/** Get month interval in specified `DateTime` */
-fun DateTime.monthInterval(): Interval {
+fun minOf(a: DateTime, b: DateTime, vararg args: DateTime): DateTime {
+  var min = if (a < b) a else b
+  args.forEach {
+    if (it < min) {
+      min = it
+    }
+  }
+  return min
+}
+
+fun maxOf(a: DateTime, b: DateTime, vararg args: DateTime): DateTime {
+  var max = if (a < b) b else a
+  args.forEach {
+    if (it > max) {
+      max = it
+    }
+  }
+  return max
+}
+
+/** Get month interval in specified [DateTime] */
+fun DateTime.monthInterval(months: Int = 1): Interval {
   val start = this.startOfMonth()
-  return Interval(start, start + 1.months())
+  return Interval(start, start + months.months())
 }
 
-fun DateTime.weekInterval(): Interval {
+fun DateTime.weekInterval(weeks: Int = 1): Interval {
   val start = this.startOfWeek()
-  return Interval(start, start + 1.weeks())
+  return Interval(start, start + weeks.weeks())
 }
 
-/** Get day interval in specified `DateTime` */
-fun DateTime.dayInterval(): Interval {
+/** Get day interval in specified [DateTime] */
+fun DateTime.dayInterval(days: Int = 1): Interval {
   val start = this.startOfDay()
-  return Interval(start, start + 1.days())
+  return Interval(start, start + days.days())
 }
 
-/** current `DateTime` */
+fun DateTime.hourInterval(hours: Int = 1): Interval {
+  val start = this.trimToMinute(0)
+  return Interval(start, start + hours.hours())
+}
+
+fun DateTime.minuteInterval(minutes: Int = 1): Interval {
+  val start = this.trimToSecond(0)
+  return Interval(start, start + minutes.minutes())
+}
+
+/** current [DateTime] */
 fun now(): DateTime = DateTime.now()
 
 /** Today (only date part without time part) */
 fun today(): DateTime = now().withTimeAtStartOfDay()
 
-/** next day of current `DateTime` */
-fun tomorrow(): DateTime = now().tomorrow()
+/** next day of current [DateTime] */
+fun tomorrow(): DateTime = today().nextDay()
 
-/** last day of current `DateTime` */
-fun yesterday(): DateTime = now().yesterday()
+/** last day of current [DateTime] */
+fun yesterday(): DateTime = today().lastDay()
 
 fun nextSecond(): DateTime = now().plusSeconds(1)
 fun nextMinute(): DateTime = now().plusMinutes(1)
@@ -401,13 +431,13 @@ fun Duration.seconds(): Long = this.standardSeconds
 /** absolute duration */
 fun Duration.abs(): Duration = if (this < emptyDuration) -this else this
 
-/** get `DateTime` from current time + duration */
+/** get [DateTime] from current time + duration */
 fun Duration.fromNow(): DateTime = now() + this
 
-/** get `DateTime` from current time - duration */
+/** get [DateTime] from current time - duration */
 fun Duration.agoNow(): DateTime = now() - this
 
-/** get `DateTime` from EPOCH + duration */
+/** get [DateTime] from EPOCH + duration */
 fun Duration.afterEpoch(): DateTime = EPOCH + this
 
 /** difference duration with other duration  */

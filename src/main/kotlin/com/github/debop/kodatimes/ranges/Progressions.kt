@@ -1,3 +1,18 @@
+/*
+ * Copyright (c) 2017. Sunghyouk Bae <sunghyouk.bae@gmail.com>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.github.debop.kodatimes.ranges
 
 import com.github.debop.kodatimes.JodaTimeIterator
@@ -46,6 +61,19 @@ internal fun getProgressionLastElement(start: DateTime, end: DateTime, step: Rea
   }
 }
 
+/**
+ * Calculates the final element of a bounded arithmetic progression, i.e. the last element of the progression which is in the range
+ * from [start] to [end] in case of a positive [step], or from [end] to [start] in case of a negative
+ * [step].
+ *
+ * No validation on passed parameters is performed. The given parameters should satisfy the condition: either
+ * `step > 0` and `start >= end`, or `step < 0` and`start >= end`.
+ * @param start first element of the progression
+ * @param end ending bound for the progression
+ * @param step increment, or difference of successive elements in the progression
+ * @return the final element of the progression
+ * @suppress
+ */
 internal fun getProgressionLastElement(start: Instant, end: Instant, step: ReadableDuration): Instant {
   return when {
     step.millis > 0 -> end - differenceModulo(end.millis, start.millis, step.millis)
@@ -87,7 +115,7 @@ abstract class JodaTimeProgression<T : ReadableInstant>(start: T, endInclusive: 
 
 
 /**
- * A progression of value of `DateTime` type
+ * A progression of value of [DateTime] type
  */
 open class DateTimeProgression internal constructor(start: DateTime, endInclusive: DateTime, step: Duration)
   : JodaTimeProgression<DateTime>(start, endInclusive, step), Iterable<DateTime> {
@@ -104,7 +132,7 @@ open class DateTimeProgression internal constructor(start: DateTime, endInclusiv
 }
 
 /**
- * A progression of value of `Instant` type
+ * A progression of value of [Instant] type
  */
 open class InstantProgression internal constructor(start: Instant, endInclusive: Instant, step: Duration)
   : JodaTimeProgression<Instant>(start, endInclusive, step), Iterable<Instant> {
@@ -122,7 +150,7 @@ open class InstantProgression internal constructor(start: Instant, endInclusive:
 
 
 /**
- * An iterator over a progression of values of type `DateTime`.
+ * An iterator over a progression of values of type [DateTime]
  *
  * @property step the number by which the value is incremented on each step.
  */
@@ -147,7 +175,7 @@ internal class DateTimeProgressionIterator(first: DateTime, last: DateTime, val 
 }
 
 /**
- * An iterator over a progression of values of type `Instant`.
+ * An iterator over a progression of values of type [Instant]
  *
  * @property step the number by which the value is incremented on each step.
  */

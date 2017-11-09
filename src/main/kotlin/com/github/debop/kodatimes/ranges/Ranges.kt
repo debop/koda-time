@@ -1,3 +1,18 @@
+/*
+ * Copyright (c) 2017. Sunghyouk Bae <sunghyouk.bae@gmail.com>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 @file:Suppress("ConvertTwoComparisonsToRangeCheck")
 
 package com.github.debop.kodatimes.ranges
@@ -9,12 +24,18 @@ import org.joda.time.Instant
 import java.util.*
 
 
+/**
+ * Build [[this], [endInclusive]] range
+ */
 operator fun DateTime.rangeTo(endInclusive: DateTime): DateTimeRange = DateTimeRange(this, endInclusive)
 
+/**
+ * Build [[this], [endInclusive]] range
+ */
 operator fun Instant.rangeTo(endInclusive: Instant): InstantRange = InstantRange(this, endInclusive)
 
 /**
- *  `org.joda.time.DateTime` range
+ *  [DateTime] range
  *
  *  @property start Start of range
  *  @property endInclusive end of range
@@ -40,13 +61,15 @@ class DateTimeRange(start: DateTime, endInclusive: DateTime)
   override fun toString(): String = "$first..$last"
 
   companion object {
+
+    /** Empty [DateTimeRange] */
     @JvmField val EMPTY: DateTimeRange = DateTimeRange(dateTimeOf(1, 1, 1), dateTimeOf(0, 1, 1))
   }
 }
 
 
 /**
- * `org.joda.time.Instant` range
+ * [org.joda.time.Instant] range
  *
  *  @property start Start of range
  *  @property endInclusive end of range
@@ -72,6 +95,7 @@ class InstantRange(start: Instant, endInclusive: Instant)
   override fun toString(): String = "$first..$last"
 
   companion object {
+    /** Empty [Instant] */
     @JvmField val EMPTY: InstantRange = InstantRange(Instant(1), Instant(0))
   }
 }
