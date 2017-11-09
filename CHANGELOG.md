@@ -3,6 +3,8 @@
 
 #1.2.1
 
+> Not published
+
 * add DateTimeRange, InstantRange for joda-time
 * add DateTimeProgression, InstantProgression for joda-time
 * add DateRange, InstantRange for java 8 time
@@ -39,6 +41,6 @@
 
 # 1.0.0
 
-### First release
+> First release
 
 *   Supply joda-time DateTime extension functions
