@@ -1,5 +1,10 @@
 # koda-times change Logs
 
+#1.2.2
+
+> not released
+
+* add java 8 LocalDateTime (not yet)
 
 #1.2.1
 
