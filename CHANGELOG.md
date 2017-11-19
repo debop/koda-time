@@ -3,9 +3,8 @@
 
 #1.2.1
 
-> Not published
+> release 2017-11-19
 
-* Bump up kotlin-stdlib (1.1.60)
 * add DateTimeRange, InstantRange for joda-time
 * add DateTimeProgression, InstantProgression for joda-time
 * add DateRange, InstantRange for java 8 time
