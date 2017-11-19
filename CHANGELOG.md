@@ -1,6 +1,15 @@
 # koda-times change Logs
 
 
+#1.2.1
+
+> release 2017-11-19
+
+* add DateTimeRange, InstantRange for joda-time
+* add DateTimeProgression, InstantProgression for joda-time
+* add DateRange, InstantRange for java 8 time
+* add DateProgression, InstantProgression for java 8 time 
+
 # 1.2
 
 * add ReadableInterval.chunk(), windowed(), zipWithNext() methods
@@ -32,6 +41,6 @@
 
 # 1.0.0
 
-### First release
+> First release
 
 *   Supply joda-time DateTime extension functions

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016. Sunghyouk Bae <sunghyouk.bae@gmail.com>
+ * Copyright (c) 2017. Sunghyouk Bae <sunghyouk.bae@gmail.com>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,7 +16,8 @@
 package com.github.debop.kodatimes
 
 /**
- * PeriodUnit
+ * Period Unit
+ *
  * @author debop
  * @since 2017. 8. 16.
  */
@@ -29,5 +30,7 @@ enum class PeriodUnit {
   DAY,
   WEEK,
   MONTH,
+  QUARTER,
   YEAR
+
 }

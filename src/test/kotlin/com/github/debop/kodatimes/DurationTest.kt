@@ -19,8 +19,8 @@ package com.github.debop.kodatimes
 
 import org.joda.time.DateTime
 import org.joda.time.Duration
-import org.junit.Test
-import kotlin.test.assertEquals
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 
 class DurationTest : AbstractKodaTimesTest() {
 

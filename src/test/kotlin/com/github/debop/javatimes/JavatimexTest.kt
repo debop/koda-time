@@ -15,8 +15,8 @@
 
 package com.github.debop.javatimes
 
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.time.LocalDate
@@ -24,32 +24,32 @@ import java.time.LocalDate
 
 class JavatimexTest {
 
-    companion object {
-        private val log: Logger = LoggerFactory.getLogger(this::class.java)
-    }
+  companion object {
+    private val log: Logger = LoggerFactory.getLogger(JavatimexTest::class.java)
+  }
 
-    @Test fun `constant variables`() {
-        assertThat(NowLocalDate).isEqualTo(LocalDate.now())
-    }
+  @Test fun `constant variables`() {
+    assertEquals(LocalDate.now(), NowLocalDate)
+  }
 
-    @Test fun `time units`() {
-        assertThat(1000.nanoseconds).isEqualTo(1.microseconds)
-        assertThat(1000.microseconds).isEqualTo(1.millis)
-        assertThat(1000.millis).isEqualTo(1.seconds)
-        assertThat(60.seconds).isEqualTo(1.minutes)
-        assertThat(60.minutes).isEqualTo(1.hours)
+  @Test fun `time units`() {
+    assertEquals(1.microseconds, 1000.nanoseconds)
+    assertEquals(1.millis, 1000.microseconds)
+    assertEquals(1.seconds, 1000.millis)
+    assertEquals(1.minutes, 60.seconds)
+    assertEquals(1.hours, 60.minutes)
 
-        assertThat(7.days).isEqualTo(1.weeks)
-    }
+    assertEquals(1.weeks, 7.days)
+  }
 
-    @Test fun `time operator`() {
-        assertThat(1000 * 1.nanoseconds).isEqualTo(1.microseconds)
-    }
+  @Test fun `time operator`() {
+    assertEquals(1.microseconds, 1000 * 1.nanoseconds)
+  }
 
-    @Test fun `Number to LocalDateTime`() {
-        val now = nowInstant()
-        val ms = now.toEpochMilli()
-        assertThat(ms.toInstant()).isEqualTo(now)
-        assertThat(ms.toLocalDateTime()).isEqualTo(now.toLocalDateTime())
-    }
+  @Test fun `Number to LocalDateTime`() {
+    val now = nowInstant()
+    val ms = now.toEpochMilli()
+    assertEquals(now, ms.toInstant())
+    assertEquals(now.toLocalDateTime(), ms.toLocalDateTime())
+  }
 }

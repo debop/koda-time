@@ -186,6 +186,9 @@ suspend fun ReadableInterval.buildYears(step: Int = 1): Sequence<DateTime> = bui
 // https://github.com/Kotlin/KEEP/blob/master/proposals/stdlib/window-sliding.md
 //
 
+/**
+ *
+ */
 fun ReadableInterval.chunk(size: Int, periodUnit: PeriodUnit): Sequence<List<DateTime>> {
   require(size > 0) { "chunk size must postive value [$size]" }
 
@@ -445,7 +448,19 @@ fun ReadableInterval.windowedSecond(size: Int, step: Int = 1): Sequence<List<Dat
   }
 }
 
+/**
+ * pairwise operation for `ReadableInterval` and transform to `R` type.
+ * @receiver Interval
+ * @param periodUnit value of [PeriodUnit]
+ * @param transform transform DateTime pair to `R`
+ */
+fun <R> ReadableInterval.zipWithNext(periodUnit: PeriodUnit, transform: (a: DateTime, b: DateTime) -> R): Sequence<R> {
+  return zipWithNext(periodUnit).map { transform(it.first, it.second) }
+}
 
+/**
+ * pairwise operation which applies the immediate transform on an each pair
+ */
 fun ReadableInterval.zipWithNext(periodUnit: PeriodUnit): Sequence<Pair<DateTime, DateTime>> {
   return when (periodUnit) {
     PeriodUnit.YEAR   -> zipWithNextYear()
