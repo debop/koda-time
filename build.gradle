@@ -101,6 +101,13 @@ compileTestKotlin {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
+}
+
 kotlin {
     experimental {
         coroutines "enable"
