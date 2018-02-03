@@ -10,14 +10,14 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 
 
-class JavaInstantRangeTest : AbstractJavaTimesTest() {
+class InstantRangeTest : AbstractJavaTimesTest() {
 
   @Test fun `simple creation`() {
 
     val start = Instant.ofEpochSecond(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC))
 
     val endInclusive = start + Duration.ofDays(5)
-    val range = JavaInstantRange(start, endInclusive)
+    val range = InstantRange(start, endInclusive)
 
     assertEquals(start, range.start)
     assertEquals(endInclusive, range.endInclusive)
@@ -33,10 +33,10 @@ class JavaInstantRangeTest : AbstractJavaTimesTest() {
     val start = Instant.ofEpochSecond(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC))
     val endInclusive = start - Duration.ofDays(1)
 
-    val range = JavaInstantRange(start, endInclusive)
+    val range = InstantRange(start, endInclusive)
     assertTrue { range.isEmpty() }
 
-    assertEquals(JavaInstantRange.EMPTY, range)
+    assertEquals(InstantRange.EMPTY, range)
   }
 
 }

@@ -23,9 +23,15 @@ import java.sql.Timestamp
 import java.time.*
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoField
+import java.time.temporal.Temporal
 import java.time.temporal.TemporalAccessor
 import java.util.*
 import kotlin.coroutines.experimental.buildSequence
+
+val MILLIS_IN_DAY = Duration.ofDays(1L).toMillis()
+val MILLIS_IN_HOUR = Duration.ofHours(1L).toMillis()
+val MILLIS_IN_MINUTE = Duration.ofMinutes(1L).toMillis()
+
 
 /** Default DateTime format (ex: '2011-12-03T10:15:30+01:00') */
 @JvmField val DefaultDateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ISO_INSTANT
@@ -44,10 +50,20 @@ fun TemporalAccessor.toIsoTimeString(): String = DateTimeFormatter.ISO_TIME.form
 
 fun TemporalAccessor.toLocalIsoString(): String = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(this)
 
+fun Temporal.toEhpochMillis(): Long {
+  val days = try {
+    getLong(ChronoField.EPOCH_DAY)
+  } catch (e: Exception) {
+    0L
+  }
+  val millis = getLong(ChronoField.MILLI_OF_DAY)
+  return days * MILLIS_IN_DAY + millis
+}
+
 @JvmOverloads
 fun Instant.toLocalDateTime(zoneId: ZoneId = UTC): LocalDateTime = LocalDateTime.ofInstant(this, zoneId)
 
-fun Instant.toDateTime(): DateTime = DateTime(toEpochMilli())
+fun Instant.toDateTime(): org.joda.time.DateTime = org.joda.time.DateTime(toEpochMilli())
 fun Instant.toDate(): Date = Date.from(this)
 
 fun dateOf(epochMilis: Long): Date = Date(epochMilis)

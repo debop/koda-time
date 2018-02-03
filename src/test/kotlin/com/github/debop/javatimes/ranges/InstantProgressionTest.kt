@@ -8,13 +8,13 @@ import org.junit.jupiter.api.Test
 import java.time.Duration
 import java.time.Instant
 
-class JavaInstantProgressionTest : AbstractJavaTimesTest() {
+class InstantProgressionTest : AbstractJavaTimesTest() {   
 
   @Test fun `create simple`() {
     val start = Instant.now()
     val endInclusive = start + Duration.ofDays(1).toMillis()
 
-    val progression = JavaInstantProgression.fromClosedRange(start, endInclusive, 1.hours)
+    val progression = InstantProgression.fromClosedRange(start, endInclusive, 1.hours)
 
     assertEquals(start, progression.first)
     assertEquals(endInclusive, progression.last)
@@ -28,7 +28,7 @@ class JavaInstantProgressionTest : AbstractJavaTimesTest() {
     val instant = Instant.now()
 
     assertThrows(IllegalArgumentException::class.java) {
-      JavaInstantProgression.fromClosedRange(instant, instant, Duration.ZERO)
+      InstantProgression.fromClosedRange(instant, instant, Duration.ZERO)
     }
   }
 
@@ -36,7 +36,7 @@ class JavaInstantProgressionTest : AbstractJavaTimesTest() {
     val start = Instant.now()
     val endInclusive = start + Duration.ofDays(1).toMillis()
 
-    val progression = JavaInstantProgression.fromClosedRange(start, endInclusive, Duration.ofDays(7))
+    val progression = InstantProgression.fromClosedRange(start, endInclusive, Duration.ofDays(7))
 
     assertEquals(start, progression.first)
     // last is not endInclusive, step over endInclusive, so last is equal to start
@@ -51,7 +51,7 @@ class JavaInstantProgressionTest : AbstractJavaTimesTest() {
     val start = Instant.now().with(2017, 10, 14)
     val endInclusive = start + Duration.ofDays(1).toMillis()
 
-    val progression = JavaInstantProgression.fromClosedRange(start, endInclusive, Duration.ofHours(5))
+    val progression = InstantProgression.fromClosedRange(start, endInclusive, Duration.ofHours(5))
 
     assertEquals(start, progression.first)
     assertEquals(start + Duration.ofHours(20).toMillis(), progression.last)
@@ -69,7 +69,7 @@ class JavaInstantProgressionTest : AbstractJavaTimesTest() {
     val endInclusive = start - Duration.ofDays(5).toMillis()
     val step = Duration.ofDays(-1L)
 
-    val progression = JavaInstantProgression.fromClosedRange(start, endInclusive, step)
+    val progression = InstantProgression.fromClosedRange(start, endInclusive, step)
 
     assertEquals(start, progression.first)
     assertEquals(endInclusive, progression.last)
