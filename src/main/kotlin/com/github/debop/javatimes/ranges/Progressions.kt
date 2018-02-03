@@ -29,7 +29,7 @@ open class DateProgression<T : Date> internal constructor(start: T, endInclusive
 
   open fun isEmpty(): Boolean = if (step > Duration.ZERO) first > last else first < last
 
-  override fun iterator(): Iterator<T> = DateProgressionIterator<T>(first, last, step)
+  override fun iterator(): Iterator<T> = DateProgressionIterator(first, last, step)
 
   override fun equals(other: Any?): Boolean =
       other is DateProgression<*> &&
@@ -47,9 +47,8 @@ open class DateProgression<T : Date> internal constructor(start: T, endInclusive
   companion object {
     @JvmStatic
     @JvmOverloads
-    fun <T : Date> fromClosedRange(start: T, endInclusive: T, step: Duration = Duration.ofMillis(1L))
-        : DateProgression<T> {
-      return DateProgression<T>(start, endInclusive, step)
+    fun <T : Date> fromClosedRange(start: T, endInclusive: T, step: Duration = Duration.ofMillis(1L)): DateProgression<T> {
+      return DateProgression(start, endInclusive, step)
     }
   }
 }
@@ -62,7 +61,8 @@ open class TimeProgression(start: Time, endInclusive: Time, step: Duration) : Da
   }
 }
 
-open class TimestampProgression(start: Timestamp, endInclusive: Timestamp, step: Duration) : DateProgression<Timestamp>(start, endInclusive, step) {
+open class TimestampProgression(start: Timestamp, endInclusive: Timestamp, step: Duration)
+  : DateProgression<Timestamp>(start, endInclusive, step) {
   companion object {
     @JvmStatic
     fun fromClosed(start: Timestamp, endInclusive: Timestamp, step: Duration): TimestampProgression =
@@ -103,6 +103,10 @@ internal class DateProgressionIterator<T : Date>(first: T, last: T, val step: Du
 open class InstantProgression internal constructor(start: Instant,
                                                    endInclusive: Instant,
                                                    val step: Duration = Duration.ofMillis(1L)) : Iterable<Instant> {
+
+  init {
+    require(step != Duration.ZERO) { "step should not be ZERO" }
+  }
 
   val first = start
   val last = getProgressionLastElement(start, endInclusive, step)
@@ -165,6 +169,10 @@ internal class InstantProgressionIterator(first: Instant, last: Instant, val ste
 open class TemporalProgression<T> internal constructor(start: T, endInclusive: T, val step: Duration = Duration.ofMillis(1L))
   : Iterable<T> where T : Temporal, T : Comparable<T> {
 
+  init {
+    require(step != Duration.ZERO) { "step should not be ZERO" }
+  }
+
   val first = start
   val last = getProgressionLastElement(start, endInclusive, step)
 
@@ -190,7 +198,7 @@ open class TemporalProgression<T> internal constructor(start: T, endInclusive: T
     @JvmOverloads
     fun <T> fromClosedRange(start: T, endInclusive: T, step: Duration = Duration.ofMillis(1L))
         : TemporalProgression<T> where T : Temporal, T : Comparable<T> {
-      return TemporalProgression<T>(start, endInclusive, step)
+      return TemporalProgression(start, endInclusive, step)
     }
   }
 }

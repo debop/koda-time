@@ -12,7 +12,7 @@ class InstantProgressionTest : AbstractJavaTimesTest() {
 
   @Test fun `create simple`() {
     val start = Instant.now()
-    val endInclusive = start + Duration.ofDays(1).toMillis()
+    val endInclusive = start + Duration.ofDays(1)
 
     val progression = InstantProgression.fromClosedRange(start, endInclusive, 1.hours)
 

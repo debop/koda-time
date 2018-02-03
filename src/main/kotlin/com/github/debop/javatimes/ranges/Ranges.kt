@@ -19,6 +19,9 @@ operator fun OffsetDateTime.rangeTo(endInclusive: OffsetDateTime): OffsetDateTim
 
 operator fun ZonedDateTime.rangeTo(endInclusive: ZonedDateTime): ZonedDateTimeRange = ZonedDateTimeRange(this, endInclusive)
 
+operator fun LocalDate.rangeTo(endInclusive: LocalDate): LocalDateRange = TemporalRange.of(this, endInclusive)
+operator fun LocalTime.rangeTo(endInclusive: LocalTime): LocalTimeRange = TemporalRange.of(this, endInclusive)
+
 
 /**
  * A range of `java.util.Date`
@@ -90,50 +93,20 @@ open class TemporalRange<T>(start: T, end: T)
   override fun isEmpty(): Boolean = first > last
 
   override fun toString(): String = "$first..$last"
-}
 
-
-/**
- * A range of  [java.time.LocalDate]
- */
-class LocalDateRange(start: LocalDate, endInclusive: LocalDate) : TemporalRange<LocalDate>(start, endInclusive) {
   companion object {
-    @JvmField val EMPTY = LocalDateRange(LocalDate.MAX, LocalDate.MIN)
+
+    @JvmField val EMPTY = of<LocalDateTime>(LocalDateTime.MAX, LocalDateTime.MIN)
+
+    @JvmStatic
+    fun <T> of(start: T, end: T): TemporalRange<T> where T : Temporal, T : Comparable<T> =
+        TemporalRange<T>(start, end)
   }
 }
 
-/**
- * A range of  [java.time.LocalTime]
- */
-class LocalTimeRange(start: LocalTime, endInclusive: LocalTime) : TemporalRange<LocalTime>(start, endInclusive) {
-  companion object {
-    @JvmField val EMPTY = LocalTimeRange(LocalTime.MAX, LocalTime.MIN)
-  }
-}
+typealias LocalDateRange = TemporalRange<LocalDate>
+typealias LocalTimeRange = TemporalRange<LocalTime>
+typealias LocalDateTimeRange = TemporalRange<LocalDateTime>
+typealias OffsetDateTimeRange = TemporalRange<OffsetDateTime>
+typealias ZonedDateTimeRange = TemporalRange<ZonedDateTime>
 
-/**
- * A range of  [java.time.LocalDateTime]
- */
-class LocalDateTimeRange(start: LocalDateTime, endInclusive: LocalDateTime) : TemporalRange<LocalDateTime>(start, endInclusive) {
-  companion object {
-    @JvmField val EMPTY = LocalDateTimeRange(LocalDateTime.MAX, LocalDateTime.MIN)
-  }
-}
-
-/**
- * A range of  [java.time.OffsetDateTime]
- */
-class OffsetDateTimeRange(start: OffsetDateTime, endInclusive: OffsetDateTime) : TemporalRange<OffsetDateTime>(start, endInclusive) {
-  companion object {
-    @JvmField val EMPTY = OffsetDateTimeRange(OffsetDateTime.MAX, OffsetDateTime.MIN)
-  }
-}
-
-/**
- * A range of  [java.time.ZonedDateTime]
- */
-class ZonedDateTimeRange(start: ZonedDateTime, endInclusive: ZonedDateTime) : TemporalRange<ZonedDateTime>(start, endInclusive) {
-  companion object {
-    @JvmField val EMPTY = OffsetDateTimeRange(OffsetDateTime.MAX, OffsetDateTime.MIN)
-  }
-}
