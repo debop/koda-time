@@ -9,6 +9,13 @@ import java.time.*
 import java.time.temporal.Temporal
 import java.util.*
 
+typealias LocalDateRange = TemporalRange<LocalDate>
+typealias LocalTimeRange = TemporalRange<LocalTime>
+typealias LocalDateTimeRange = TemporalRange<LocalDateTime>
+typealias OffsetDateTimeRange = TemporalRange<OffsetDateTime>
+typealias ZonedDateTimeRange = TemporalRange<ZonedDateTime>
+
+
 operator fun Date.rangeTo(endInclusive: Date): DateRange = DateRange(this, endInclusive)
 
 operator fun Instant.rangeTo(endInclusive: Instant): InstantRange = InstantRange(this, endInclusive)
@@ -104,9 +111,5 @@ open class TemporalRange<T>(start: T, end: T)
   }
 }
 
-typealias LocalDateRange = TemporalRange<LocalDate>
-typealias LocalTimeRange = TemporalRange<LocalTime>
-typealias LocalDateTimeRange = TemporalRange<LocalDateTime>
-typealias OffsetDateTimeRange = TemporalRange<OffsetDateTime>
-typealias ZonedDateTimeRange = TemporalRange<ZonedDateTime>
+
 

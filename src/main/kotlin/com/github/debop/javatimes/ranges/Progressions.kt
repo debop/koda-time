@@ -3,12 +3,17 @@ package com.github.debop.javatimes.ranges
 import com.github.debop.javatimes.*
 import java.sql.Time
 import java.sql.Timestamp
-import java.time.Duration
-import java.time.Instant
+import java.time.*
 import java.time.temporal.ChronoUnit
 import java.time.temporal.Temporal
 import java.util.*
 import kotlin.NoSuchElementException
+
+typealias LocalDateProgression = TemporalProgression<LocalDate>
+typealias LocalTimeProgression = TemporalProgression<LocalTime>
+typealias LocalDateTimeProgression = TemporalProgression<LocalDateTime>
+typealias OffsetDateTimeProgression = TemporalProgression<OffsetDateTime>
+typealias ZonedDateTimeProgression = TemporalProgression<ZonedDateTime>
 
 /**
  * A progression of value of `java.util.Date` subclass
