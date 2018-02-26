@@ -19,7 +19,7 @@ plugins {
 }
 
 /*
- * Copyright (c) 2017. Sunghyouk Bae <sunghyouk.bae@gmail.com>
+ * Copyright (c) 2016. Sunghyouk Bae <sunghyouk.bae@gmail.com>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -57,7 +57,7 @@ repositories {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "joda-time:joda-time:$joda_time_version"
 
     implementation "io.reactivex.rxjava2:rxjava:$rxjava2_version"
@@ -93,8 +93,8 @@ compileKotlin {
     kotlinOptions {
         jvmTarget = "1.8"
         javaParameters = true
-        apiVersion = "1.1"
-        languageVersion = "1.1"
+        apiVersion = "1.2"
+        languageVersion = "1.2"
         suppressWarnings = false
     }
 }
