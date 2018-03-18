@@ -11,7 +11,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package com.github.debop.kodatimes
@@ -24,21 +23,21 @@ import org.junit.jupiter.api.Test
 
 class DurationTest : AbstractKodaTimesTest() {
 
-  @Test fun makeDuration() {
-    val now = DateTime.now()
-    val duration: Duration = (now .. now + 1.days()).toDuration()
-    assertEquals(1L, duration.standardDays)
+    @Test fun makeDuration() {
+        val now = DateTime.now()
+        val duration: Duration = (now .. now + 1.days()).toDuration()
+        assertEquals(1L, duration.standardDays)
 
-    assertEquals(7L, (now .. now + 7.days()).toDuration().standardDays)
-    assertEquals(40L, (now .. now + 40.days()).toDuration().standardDays)
-    assertEquals(500L, (now .. now + 500.days()).toDuration().standardDays)
-  }
+        assertEquals(7L, (now .. now + 7.days()).toDuration().standardDays)
+        assertEquals(40L, (now .. now + 40.days()).toDuration().standardDays)
+        assertEquals(500L, (now .. now + 500.days()).toDuration().standardDays)
+    }
 
-  @Test fun sortDuration() {
-    val list = listOf(1.seconds(), 5.seconds(), 2.seconds(), 4.seconds()).map { it.duration }
-    val expected = listOf(1.seconds(), 2.seconds(), 4.seconds(), 5.seconds()).map { it.duration }
+    @Test fun sortDuration() {
+        val list = listOf(1.seconds(), 5.seconds(), 2.seconds(), 4.seconds()).map { it.duration }
+        val expected = listOf(1.seconds(), 2.seconds(), 4.seconds(), 5.seconds()).map { it.duration }
 
-    assertEquals(expected, list.sorted())
-    assertEquals(5.seconds().duration, list.max())
-  }
+        assertEquals(expected, list.sorted())
+        assertEquals(5.seconds().duration, list.max())
+    }
 }

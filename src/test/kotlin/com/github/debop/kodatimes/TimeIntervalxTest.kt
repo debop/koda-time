@@ -22,28 +22,28 @@ import org.junit.jupiter.api.Test
 
 class TimeIntervalxTest : AbstractKodaTimesTest() {
 
-  @Test fun rangeTest() {
-    val start = now()
-    val end = start + 1.days()
+    @Test fun rangeTest() {
+        val start = now()
+        val end = start + 1.days()
 
-    val range: Interval = start .. end
+        val range: Interval = start .. end
 
-    assertTrue {
-      range.days().all { it in start.startOfDay() .. end }
-    }
-    assertEquals(range.days().last(), end.startOfDay())
-  }
-
-  @Test fun rangeStepTest() {
-    val start = now()
-    val end = start + 1.days() + 1.millis()
-
-    // range contains is start <= x && x < end
-    (start .. end step 1.hours().toPeriod()).forEach {
-      assertTrue { it in start .. end }
+        assertTrue {
+            range.days().all { it in start.startOfDay() .. end }
+        }
+        assertEquals(range.days().last(), end.startOfDay())
     }
 
-    assertTrue((start .. end).hours().all { it in start .. end })
-  }
+    @Test fun rangeStepTest() {
+        val start = now()
+        val end = start + 1.days() + 1.millis()
+
+        // range contains is start <= x && x < end
+        (start .. end step 1.hours().toPeriod()).forEach {
+            assertTrue { it in start .. end }
+        }
+
+        assertTrue((start .. end).hours().all { it in start .. end })
+    }
 
 }

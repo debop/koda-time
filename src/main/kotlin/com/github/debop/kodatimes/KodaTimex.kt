@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017. Sunghyouk Bae <sunghyouk.bae@gmail.com>
+ * Copyright (c) 2016. Sunghyouk Bae <sunghyouk.bae@gmail.com>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -19,9 +19,7 @@ package com.github.debop.kodatimes
 
 import org.joda.time.*
 import org.joda.time.base.AbstractInstant
-import org.joda.time.format.DateTimeFormat
-import org.joda.time.format.DateTimeFormatter
-import org.joda.time.format.ISODateTimeFormat
+import org.joda.time.format.*
 import java.sql.Timestamp
 import java.util.*
 
@@ -118,34 +116,34 @@ fun dateTimeFormat(pattern: String): DateTimeFormatter = DateTimeFormat.forPatte
 
 /** Parse string to [DateTime] */
 fun String.toDateTime(pattern: String? = null): DateTime? = try {
-  if (pattern.isNullOrBlank()) DateTime(this)
-  else DateTime.parse(this, dateTimeFormat(pattern!!))
+    if (pattern.isNullOrBlank()) DateTime(this)
+    else DateTime.parse(this, dateTimeFormat(pattern!!))
 } catch (ignored: Throwable) {
-  null
+    null
 }
 
 /** Parse string to `Interval` */
 fun String.toInterval(): Interval? = try {
-  Interval.parse(this)
+    Interval.parse(this)
 } catch (ignored: Throwable) {
-  null
+    null
 }
 
 /** Parse string to `LocalDate` */
 fun String.toLocalDate(pattern: String? = null): LocalDate? = try {
-  if (pattern.isNullOrBlank()) LocalDate(this)
-  else LocalDate.parse(this, dateTimeFormat(pattern!!))
+    if (pattern.isNullOrBlank()) LocalDate(this)
+    else LocalDate.parse(this, dateTimeFormat(pattern!!))
 } catch (ignored: Throwable) {
-  null
+    null
 }
 
 /** Parse string to `LocalTime` */
 fun String.toLocalTime(pattern: String? = null): LocalTime? = try {
-  if (pattern.isNullOrBlank())
-    LocalTime(this)
-  else LocalTime.parse(this, dateTimeFormat(pattern!!))
+    if (pattern.isNullOrBlank())
+        LocalTime(this)
+    else LocalTime.parse(this, dateTimeFormat(pattern!!))
 } catch (ignored: Throwable) {
-  null
+    null
 }
 
 /** Convert json text to [DateTime] */
@@ -250,68 +248,68 @@ fun DateTime.toIsoFormatHMSString(): String = ISODateTimeFormat.dateHourMinuteSe
 fun DateTime.toTimestampZoneText(): TimestampZoneText = TimestampZoneText(this)
 
 infix fun <T : ReadableInstant> T.min(that: T): T {
-  return if (this < that) this else that
+    return if (this < that) this else that
 }
 
 infix fun <T : ReadableInstant> T.max(that: T): T {
-  return if (this > that) this else that
+    return if (this > that) this else that
 }
 
 /** get minimum [DateTime] */
 infix fun DateTime.min(that: DateTime): DateTime {
-  return if (this < that) this else that
+    return if (this < that) this else that
 }
 
 /** get maximum [DateTime] */
 infix fun DateTime.max(that: DateTime): DateTime {
-  return if (this > that) this else that
+    return if (this > that) this else that
 }
 
 fun minOf(a: DateTime, b: DateTime, vararg args: DateTime): DateTime {
-  var min = if (a < b) a else b
-  args.forEach {
-    if (it < min) {
-      min = it
+    var min = if (a < b) a else b
+    args.forEach {
+        if (it < min) {
+            min = it
+        }
     }
-  }
-  return min
+    return min
 }
 
 fun maxOf(a: DateTime, b: DateTime, vararg args: DateTime): DateTime {
-  var max = if (a < b) b else a
-  args.forEach {
-    if (it > max) {
-      max = it
+    var max = if (a < b) b else a
+    args.forEach {
+        if (it > max) {
+            max = it
+        }
     }
-  }
-  return max
+    return max
 }
 
 /** Get month interval in specified [DateTime] */
 fun DateTime.monthInterval(months: Int = 1): Interval {
-  val start = this.startOfMonth()
-  return Interval(start, start + months.months())
+    val start = this.startOfMonth()
+    return Interval(start, start + months.months())
 }
 
 fun DateTime.weekInterval(weeks: Int = 1): Interval {
-  val start = this.startOfWeek()
-  return Interval(start, start + weeks.weeks())
+    val start = this.startOfWeek()
+    return Interval(start, start + weeks.weeks())
 }
 
 /** Get day interval in specified [DateTime] */
 fun DateTime.dayInterval(days: Int = 1): Interval {
-  val start = this.startOfDay()
-  return Interval(start, start + days.days())
+    val start = this.startOfDay()
+    return Interval(start, start + days.days())
 }
 
 fun DateTime.hourInterval(hours: Int = 1): Interval {
-  val start = this.trimToMinute(0)
-  return Interval(start, start + hours.hours())
+    val start = this.trimToMinute(0)
+    return Interval(start, start + hours.hours())
 }
 
 fun DateTime.minuteInterval(minutes: Int = 1): Interval {
-  val start = this.trimToSecond(0)
-  return Interval(start, start + minutes.minutes())
+    val start = this.trimToSecond(0)
+    return Interval(start, start + minutes.minutes())
 }
 
 /** current [DateTime] */
@@ -450,29 +448,29 @@ operator fun Duration.times(multiplicand: Long): Duration = this.multipliedBy(mu
 fun Duration.isZero(): Boolean = this.millis == 0L
 
 infix fun Duration.min(that: Duration): Duration {
-  return if (this < that) this else that
+    return if (this < that) this else that
 }
 
 infix fun Duration.max(that: Duration): Duration {
-  return if (this > that) this else that
+    return if (this > that) this else that
 }
 
 fun minOf(a: Duration, b: Duration, vararg args: Duration): Duration {
-  var min = if (a < b) a else b
-  args.forEach {
-    if (it < min)
-      min = it
-  }
-  return min
+    var min = if (a < b) a else b
+    args.forEach {
+        if (it < min)
+            min = it
+    }
+    return min
 }
 
 fun maxOf(a: Duration, b: Duration, vararg args: Duration): Duration {
-  var max = if (a > b) a else b
-  args.forEach {
-    if (it > max)
-      max = it
-  }
-  return max
+    var max = if (a > b) a else b
+    args.forEach {
+        if (it > max)
+            max = it
+    }
+    return max
 }
 
 
@@ -525,21 +523,21 @@ fun thisMinute(): Interval = now().minuteOfHour().toInterval()
 fun thisHour(): Interval = now().hourOfDay().toInterval()
 
 fun minOf(a: Instant, b: Instant, vararg args: Instant): Instant {
-  var min = if (a < b) a else b
-  args.forEach {
-    if (it < min)
-      min = it
-  }
-  return min
+    var min = if (a < b) a else b
+    args.forEach {
+        if (it < min)
+            min = it
+    }
+    return min
 }
 
 fun maxOf(a: Instant, b: Instant, vararg args: Instant): Instant {
-  var max = if (a > b) a else b
-  args.forEach {
-    if (it > max)
-      max = it
-  }
-  return max
+    var max = if (a > b) a else b
+    args.forEach {
+        if (it > max)
+            max = it
+    }
+    return max
 }
 
 

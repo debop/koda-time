@@ -7,4 +7,4 @@ sudo: false
 
 install: true
 
-script: ./gradlew build
+script: ./gradlew clean build

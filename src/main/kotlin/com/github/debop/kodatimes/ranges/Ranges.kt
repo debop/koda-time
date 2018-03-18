@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017. Sunghyouk Bae <sunghyouk.bae@gmail.com>
+ * Copyright (c) 2016. Sunghyouk Bae <sunghyouk.bae@gmail.com>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -41,30 +41,30 @@ operator fun Instant.rangeTo(endInclusive: Instant): InstantRange = InstantRange
  *  @property endInclusive end of range
  */
 class DateTimeRange(start: DateTime, endInclusive: DateTime)
-  : DateTimeProgression(start, endInclusive, milliDurationOf(1L)), ClosedRange<DateTime> {
+    : DateTimeProgression(start, endInclusive, milliDurationOf(1L)), ClosedRange<DateTime> {
 
-  override val start: DateTime get() = first
-  override val endInclusive: DateTime get() = last
+    override val start: DateTime get() = first
+    override val endInclusive: DateTime get() = last
 
-  override fun contains(value: DateTime): Boolean = first <= value && value <= last
+    override fun contains(value: DateTime): Boolean = first <= value && value <= last
 
-  override fun isEmpty(): Boolean = first > last
+    override fun isEmpty(): Boolean = first > last
 
-  override fun equals(other: Any?): Boolean =
-      when (other) {
-        is DateTimeRange -> isEmpty() && other.isEmpty() || (first == other.first && last == other.last)
-        else             -> false
-      }
+    override fun equals(other: Any?): Boolean =
+        when (other) {
+            is DateTimeRange -> isEmpty() && other.isEmpty() || (first == other.first && last == other.last)
+            else -> false
+        }
 
-  override fun hashCode(): Int = Objects.hash(first, last)
+    override fun hashCode(): Int = Objects.hash(first, last)
 
-  override fun toString(): String = "$first..$last"
+    override fun toString(): String = "$first..$last"
 
-  companion object {
+    companion object {
 
-    /** Empty [DateTimeRange] */
-    @JvmField val EMPTY: DateTimeRange = DateTimeRange(dateTimeOf(1, 1, 1), dateTimeOf(0, 1, 1))
-  }
+        /** Empty [DateTimeRange] */
+        @JvmField val EMPTY: DateTimeRange = DateTimeRange(dateTimeOf(1, 1, 1), dateTimeOf(0, 1, 1))
+    }
 }
 
 
@@ -75,27 +75,27 @@ class DateTimeRange(start: DateTime, endInclusive: DateTime)
  *  @property endInclusive end of range
  */
 class InstantRange(start: Instant, endInclusive: Instant)
-  : InstantProgression(start, endInclusive, milliDurationOf(1L)), ClosedRange<Instant> {
+    : InstantProgression(start, endInclusive, milliDurationOf(1L)), ClosedRange<Instant> {
 
-  override val start: Instant get() = first
-  override val endInclusive: Instant get() = last
+    override val start: Instant get() = first
+    override val endInclusive: Instant get() = last
 
-  override fun contains(value: Instant): Boolean = first <= value && value <= last
+    override fun contains(value: Instant): Boolean = first <= value && value <= last
 
-  override fun isEmpty(): Boolean = first > last
+    override fun isEmpty(): Boolean = first > last
 
-  override fun equals(other: Any?): Boolean =
-      when (other) {
-        is InstantRange -> isEmpty() && other.isEmpty() || (first == other.first && last == other.last)
-        else            -> false
-      }
+    override fun equals(other: Any?): Boolean =
+        when (other) {
+            is InstantRange -> isEmpty() && other.isEmpty() || (first == other.first && last == other.last)
+            else -> false
+        }
 
-  override fun hashCode(): Int = Objects.hash(first, last)
+    override fun hashCode(): Int = Objects.hash(first, last)
 
-  override fun toString(): String = "$first..$last"
+    override fun toString(): String = "$first..$last"
 
-  companion object {
-    /** Empty [Instant] */
-    @JvmField val EMPTY: InstantRange = InstantRange(Instant(1), Instant(0))
-  }
+    companion object {
+        /** Empty [Instant] */
+        @JvmField val EMPTY: InstantRange = InstantRange(Instant(1), Instant(0))
+    }
 }

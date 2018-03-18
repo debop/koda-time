@@ -106,8 +106,8 @@ compileTestKotlin {
 
 idea {
     module {
-        downloadSources = true
-        downloadJavadoc = true
+        downloadSources = false
+        downloadJavadoc = false
     }
 }
 
@@ -126,7 +126,7 @@ dokka {
     outputFormat = 'html'
     outputDirectory = "$buildDir/dokka"
     jdkVersion = 8
-    reportNotDocumented = false
+    //reportNotDocumented = false
 }
 
 task dokkaJar(type: Jar, dependsOn: dokka) {

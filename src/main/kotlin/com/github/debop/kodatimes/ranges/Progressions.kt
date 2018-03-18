@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017. Sunghyouk Bae <sunghyouk.bae@gmail.com>
+ * Copyright (c) 2016. Sunghyouk Bae <sunghyouk.bae@gmail.com>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -22,22 +22,22 @@ import kotlin.NoSuchElementException
 
 // a mod b (in arithmetical sense)
 private fun mod(a: Int, b: Int): Int {
-  val mod = a % b
-  return if (mod >= 0) mod else mod + b
+    val mod = a % b
+    return if (mod >= 0) mod else mod + b
 }
 
 private fun mod(a: Long, b: Long): Long {
-  val mod = a % b
-  return if (mod >= 0) mod else mod + b
+    val mod = a % b
+    return if (mod >= 0) mod else mod + b
 }
 
 // (a - b) mod c
 private fun differenceModulo(a: Int, b: Int, c: Int): Int {
-  return mod(mod(a, c) - mod(b, c), c)
+    return mod(mod(a, c) - mod(b, c), c)
 }
 
 private fun differenceModulo(a: Long, b: Long, c: Long): Long {
-  return mod(mod(a, c) - mod(b, c), c)
+    return mod(mod(a, c) - mod(b, c), c)
 }
 
 /**
@@ -54,11 +54,11 @@ private fun differenceModulo(a: Long, b: Long, c: Long): Long {
  * @suppress
  */
 internal fun getProgressionLastElement(start: DateTime, end: DateTime, step: ReadableDuration): DateTime {
-  return when {
-    step.millis > 0 -> end - differenceModulo(end.millis, start.millis, step.millis)
-    step.millis < 0 -> end + differenceModulo(start.millis, end.millis, -step.millis)
-    else            -> throw IllegalArgumentException("Step is zero.")
-  }
+    return when {
+        step.millis > 0 -> end - differenceModulo(end.millis, start.millis, step.millis)
+        step.millis < 0 -> end + differenceModulo(start.millis, end.millis, -step.millis)
+        else -> throw IllegalArgumentException("Step is zero.")
+    }
 }
 
 /**
@@ -75,11 +75,11 @@ internal fun getProgressionLastElement(start: DateTime, end: DateTime, step: Rea
  * @suppress
  */
 internal fun getProgressionLastElement(start: Instant, end: Instant, step: ReadableDuration): Instant {
-  return when {
-    step.millis > 0 -> end - differenceModulo(end.millis, start.millis, step.millis)
-    step.millis < 0 -> end + differenceModulo(start.millis, end.millis, -step.millis)
-    else            -> throw IllegalArgumentException("Step is zero.")
-  }
+    return when {
+        step.millis > 0 -> end - differenceModulo(end.millis, start.millis, step.millis)
+        step.millis < 0 -> end + differenceModulo(start.millis, end.millis, -step.millis)
+        else -> throw IllegalArgumentException("Step is zero.")
+    }
 }
 
 /**
@@ -89,28 +89,28 @@ internal fun getProgressionLastElement(start: Instant, end: Instant, step: Reada
  * @property last  last value of progression
  * @property step  progression step
  */
-abstract class JodaTimeProgression<T : ReadableInstant>(start: T, endInclusive: T, val step: ReadableDuration) : Iterable<T> {
-  init {
-    require(step.millis != 0L) { "step must be non-zero" }
-  }
+abstract class JodaTimeProgression<out T : ReadableInstant>(start: T, endInclusive: T, val step: ReadableDuration) : Iterable<T> {
+    init {
+        require(step.millis != 0L) { "step must be non-zero" }
+    }
 
-  val first: T = start
-  abstract val last: T
+    val first: T = start
+    abstract val last: T
 
-  open fun isEmpty(): Boolean = if (step.millis > 0) first > last else first < last
+    open fun isEmpty(): Boolean = if (step.millis > 0) first > last else first < last
 
-  override fun equals(other: Any?): Boolean =
-      other is JodaTimeProgression<*> &&
-      ((isEmpty() && other.isEmpty()) ||
-       (first == other.first && last == other.last && step == other.step))
+    override fun equals(other: Any?): Boolean =
+        other is JodaTimeProgression<*> &&
+        ((isEmpty() && other.isEmpty()) ||
+         (first == other.first && last == other.last && step == other.step))
 
-  override fun hashCode(): Int =
-      if (isEmpty()) -1
-      else Objects.hash(first, last, step)
+    override fun hashCode(): Int =
+        if (isEmpty()) -1
+        else Objects.hash(first, last, step)
 
-  override fun toString(): String =
-      if (step.millis > 0) "$first..$last step $step"
-      else "$first downTo $last step ${step.toDuration().negated()}"
+    override fun toString(): String =
+        if (step.millis > 0) "$first..$last step $step"
+        else "$first downTo $last step ${step.toDuration().negated()}"
 }
 
 
@@ -118,34 +118,34 @@ abstract class JodaTimeProgression<T : ReadableInstant>(start: T, endInclusive: 
  * A progression of value of [DateTime] type
  */
 open class DateTimeProgression internal constructor(start: DateTime, endInclusive: DateTime, step: Duration)
-  : JodaTimeProgression<DateTime>(start, endInclusive, step), Iterable<DateTime> {
+    : JodaTimeProgression<DateTime>(start, endInclusive, step), Iterable<DateTime> {
 
-  override val last: DateTime = getProgressionLastElement(start, endInclusive, step)
+    override val last: DateTime = getProgressionLastElement(start, endInclusive, step)
 
-  override fun iterator(): Iterator<DateTime> = DateTimeProgressionIterator(first, last, step)
+    override fun iterator(): Iterator<DateTime> = DateTimeProgressionIterator(first, last, step)
 
-  companion object {
-    @JvmStatic
-    fun fromClosedRange(rangeStart: DateTime, rangeEnd: DateTime, step: Duration): DateTimeProgression =
-        DateTimeProgression(rangeStart, rangeEnd, step)
-  }
+    companion object {
+        @JvmStatic
+        fun fromClosedRange(rangeStart: DateTime, rangeEnd: DateTime, step: Duration): DateTimeProgression =
+            DateTimeProgression(rangeStart, rangeEnd, step)
+    }
 }
 
 /**
  * A progression of value of [Instant] type
  */
 open class InstantProgression internal constructor(start: Instant, endInclusive: Instant, step: Duration)
-  : JodaTimeProgression<Instant>(start, endInclusive, step), Iterable<Instant> {
+    : JodaTimeProgression<Instant>(start, endInclusive, step), Iterable<Instant> {
 
-  override val last: Instant = getProgressionLastElement(start, endInclusive, step)
+    override val last: Instant = getProgressionLastElement(start, endInclusive, step)
 
-  override fun iterator(): Iterator<Instant> = InstantProgressionIterator(first, last, step)
+    override fun iterator(): Iterator<Instant> = InstantProgressionIterator(first, last, step)
 
-  companion object {
-    @JvmStatic
-    fun fromClosedRange(rangeStart: Instant, rangeEnd: Instant, step: Duration): InstantProgression =
-        InstantProgression(rangeStart, rangeEnd, step)
-  }
+    companion object {
+        @JvmStatic
+        fun fromClosedRange(rangeStart: Instant, rangeEnd: Instant, step: Duration): InstantProgression =
+            InstantProgression(rangeStart, rangeEnd, step)
+    }
 }
 
 
@@ -156,22 +156,22 @@ open class InstantProgression internal constructor(start: Instant, endInclusive:
  */
 internal class DateTimeProgressionIterator(first: DateTime, last: DateTime, val step: ReadableDuration) : JodaTimeIterator<DateTime>() {
 
-  private val finalElement: DateTime = last
-  private var hasNext: Boolean = if (step.millis > 0) first <= last else first >= last
-  private var next: DateTime = if (hasNext) first else finalElement
+    private val finalElement: DateTime = last
+    private var hasNext: Boolean = if (step.millis > 0) first <= last else first >= last
+    private var next: DateTime = if (hasNext) first else finalElement
 
-  override fun hasNext(): Boolean = hasNext
+    override fun hasNext(): Boolean = hasNext
 
-  override fun nextJodaTime(): DateTime {
-    val value = next
-    if (value == finalElement) {
-      if (!hasNext) throw NoSuchElementException()
-      hasNext = false
-    } else {
-      next += step
+    override fun nextJodaTime(): DateTime {
+        val value = next
+        if (value == finalElement) {
+            if (!hasNext) throw NoSuchElementException()
+            hasNext = false
+        } else {
+            next += step
+        }
+        return value
     }
-    return value
-  }
 }
 
 /**
@@ -181,22 +181,22 @@ internal class DateTimeProgressionIterator(first: DateTime, last: DateTime, val 
  */
 internal class InstantProgressionIterator(first: Instant, last: Instant, val step: ReadableDuration) : JodaTimeIterator<Instant>() {
 
-  private val finalElement: Instant = last
-  private var hasNext: Boolean = if (step.millis > 0) first <= last else first >= last
-  private var next: Instant = if (hasNext) first else finalElement
+    private val finalElement: Instant = last
+    private var hasNext: Boolean = if (step.millis > 0) first <= last else first >= last
+    private var next: Instant = if (hasNext) first else finalElement
 
-  override fun hasNext(): Boolean = hasNext
+    override fun hasNext(): Boolean = hasNext
 
-  override fun nextJodaTime(): Instant {
-    val value = next
-    if (value == finalElement) {
-      if (!hasNext) throw NoSuchElementException()
-      hasNext = false
-    } else {
-      next += step
+    override fun nextJodaTime(): Instant {
+        val value = next
+        if (value == finalElement) {
+            if (!hasNext) throw NoSuchElementException()
+            hasNext = false
+        } else {
+            next += step
+        }
+        return value
     }
-    return value
-  }
 }
 
 

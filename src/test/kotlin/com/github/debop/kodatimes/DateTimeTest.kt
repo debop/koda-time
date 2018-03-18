@@ -15,87 +15,85 @@
 
 package com.github.debop.kodatimes
 
-import org.joda.time.DateTime
-import org.joda.time.Interval
-import org.joda.time.LocalDate
+import org.joda.time.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 class DateTimeTest : AbstractKodaTimesTest() {
 
-  private val EXPECTED_DATETIME_STR = "2013-03-02T07:08:09.123+0900"
+    private val EXPECTED_DATETIME_STR = "2013-03-02T07:08:09.123+0900"
 
-  @Test fun dateTimeManupulation() {
-    val now = DateTime.now()
+    @Test fun dateTimeManupulation() {
+        val now = DateTime.now()
 
-    assertEquals(now, now)
-    assertTrue { (now + 1.hours()).isAfter(now) }
-    assertTrue { (now + 1.hours()).isAfterNow }
-  }
+        assertEquals(now, now)
+        assertTrue { (now + 1.hours()).isAfter(now) }
+        assertTrue { (now + 1.hours()).isAfterNow }
+    }
 
-  @Test fun builderPattern() {
+    @Test fun builderPattern() {
 
-    val actual =
-        DateTime.parse("2014-01-01T01:01:01.123+0900")
-            .withYear(2013)
-            .withMonthOfYear(3)
-            .withDayOfMonth(3)
-            .withDayOfMonth(2)
-            .withHourOfDay(7)
-            .withMinuteOfHour(8)
-            .withSecondOfMinute(9)
+        val actual =
+            DateTime.parse("2014-01-01T01:01:01.123+0900")
+                .withYear(2013)
+                .withMonthOfYear(3)
+                .withDayOfMonth(3)
+                .withDayOfMonth(2)
+                .withHourOfDay(7)
+                .withMinuteOfHour(8)
+                .withSecondOfMinute(9)
 
-    val expected = DateTime.parse(EXPECTED_DATETIME_STR)
-    assertEquals(expected, actual)
-  }
+        val expected = DateTime.parse(EXPECTED_DATETIME_STR)
+        assertEquals(expected, actual)
+    }
 
-  @Test fun builderPatternWithMillis() {
-    val actual =
-        DateTime.parse("2014-01-01T01:01:01.123+0900")
-            .withYear(2013)
-            .withMonthOfYear(3)
-            .withDayOfMonth(3)
-            .withDayOfMonth(2)
-            .withHourOfDay(7)
-            .withMinuteOfHour(8)
-            .withSecondOfMinute(9)
-            .withMillisOfSecond(500)
+    @Test fun builderPatternWithMillis() {
+        val actual =
+            DateTime.parse("2014-01-01T01:01:01.123+0900")
+                .withYear(2013)
+                .withMonthOfYear(3)
+                .withDayOfMonth(3)
+                .withDayOfMonth(2)
+                .withHourOfDay(7)
+                .withMinuteOfHour(8)
+                .withSecondOfMinute(9)
+                .withMillisOfSecond(500)
 
-    val expected = DateTime.parse(EXPECTED_DATETIME_STR)
+        val expected = DateTime.parse(EXPECTED_DATETIME_STR)
 
-    assertEquals(expected.withMillisOfSecond(500), actual)
-  }
+        assertEquals(expected.withMillisOfSecond(500), actual)
+    }
 
-  @Test fun operatorTest() {
-    assertTrue { DateTime.now().nextMonth() < DateTime.now() + 2.months() }
+    @Test fun operatorTest() {
+        assertTrue { DateTime.now().nextMonth() < DateTime.now() + 2.months() }
 
-    val now = DateTime.now()
-    val range: Interval = now .. now.tomorrow()
-    println("range=$range")
+        val now = DateTime.now()
+        val range: Interval = now .. now.tomorrow()
+        println("range=$range")
 
-    val sec: Interval = now .. now.nextSecond()
-    assertEquals(1000L, sec.millis())
-  }
+        val sec: Interval = now .. now.nextSecond()
+        assertEquals(1000L, sec.millis())
+    }
 
-  @Test fun sortDateTime() {
-    val now = DateTime.now()
-    val list = listOf(now, now + 3.seconds(), now + 10.seconds(), now + 1.seconds(), now - 2.seconds())
+    @Test fun sortDateTime() {
+        val now = DateTime.now()
+        val list = listOf(now, now + 3.seconds(), now + 10.seconds(), now + 1.seconds(), now - 2.seconds())
 
-    val expected = listOf(now - 2.seconds(), now, now + 1.seconds(), now + 3.seconds(), now + 10.seconds())
-    val sorted = list.sorted()
-    assertEquals(expected, sorted)
-    assertEquals(now + 10.seconds(), list.max())
-  }
+        val expected = listOf(now - 2.seconds(), now, now + 1.seconds(), now + 3.seconds(), now + 10.seconds())
+        val sorted = list.sorted()
+        assertEquals(expected, sorted)
+        assertEquals(now + 10.seconds(), list.max())
+    }
 
-  @Test fun sortLocalDate() {
-    val today = LocalDate.now()
+    @Test fun sortLocalDate() {
+        val today = LocalDate.now()
 
-    val list = listOf(today + 1.days(), today + 3.days(), today + 10.days(), today + 2.days())
+        val list = listOf(today + 1.days(), today + 3.days(), today + 10.days(), today + 2.days())
 
-    val expected = listOf(today + 1.days(), today + 2.days(), today + 3.days(), today + 10.days())
-    val sorted = list.sorted()
-    assertEquals(expected, sorted)
-    assertEquals(today + 10.days(), list.max())
-  }
+        val expected = listOf(today + 1.days(), today + 2.days(), today + 3.days(), today + 10.days())
+        val sorted = list.sorted()
+        assertEquals(expected, sorted)
+        assertEquals(today + 10.days(), list.max())
+    }
 }

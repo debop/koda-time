@@ -1,10 +1,23 @@
+/*
+ * Copyright (c) 2016. Sunghyouk Bae <sunghyouk.bae@gmail.com>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.github.debop.javatimes.ranges
 
 import com.github.debop.javatimes.AbstractJavaTimesTest
 import com.github.debop.javatimes.hours
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotEquals
-import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import java.time.*
@@ -12,85 +25,88 @@ import java.time.temporal.Temporal
 
 abstract class TemporalProgressionTest<T> : AbstractJavaTimesTest() where T : Temporal, T : Comparable<T> {
 
-  abstract val start: T
-  val endInclusive: T get() = (start + Duration.ofDays(1)) as T
+    abstract val start: T
 
-  @Test fun `construcot LocalDateTimeProgression`() {
+    @Suppress("UNCHECKED_CAST")
+    val endInclusive: T
+        get() = (start + Duration.ofDays(1)) as T
 
-    val progression = TemporalProgression.fromClosedRange(start, endInclusive, 1.hours)
+    @Test fun `construcot LocalDateTimeProgression`() {
 
-    assertEquals(start, progression.first)
-    assertEquals(endInclusive, progression.last)
-    assertEquals(1.hours, progression.step)
+        val progression = TemporalProgression.fromClosedRange(start, endInclusive, 1.hours)
 
-    val elements = progression.toList()
-    assertEquals(25, elements.count())
-  }
+        assertEquals(start, progression.first)
+        assertEquals(endInclusive, progression.last)
+        assertEquals(1.hours, progression.step)
 
-  @Test fun `zero step`() {
-    val temporal = start
-    assertThrows(IllegalArgumentException::class.java) {
-      TemporalProgression.fromClosedRange(temporal, temporal, Duration.ZERO)
+        val elements = progression.toList()
+        assertEquals(25, elements.count())
     }
-  }
 
-  @Test fun `step greater than range`() {
-    val progression = TemporalProgression.fromClosedRange(start, endInclusive, Duration.ofDays(7))
+    @Test fun `zero step`() {
+        val temporal = start
+        assertThrows(IllegalArgumentException::class.java) {
+            TemporalProgression.fromClosedRange(temporal, temporal, Duration.ZERO)
+        }
+    }
 
-    assertEquals(start, progression.first)
-    // last is not endInclusive, step over endInclusive, so last is equal to start
-    assertEquals(start, progression.last)
-    assertEquals(Duration.ofDays(7), progression.step)
+    @Test fun `step greater than range`() {
+        val progression = TemporalProgression.fromClosedRange(start, endInclusive, Duration.ofDays(7))
 
-    assertEquals(1, progression.toList().size)
-  }
+        assertEquals(start, progression.first)
+        // last is not endInclusive, step over endInclusive, so last is equal to start
+        assertEquals(start, progression.last)
+        assertEquals(Duration.ofDays(7), progression.step)
 
-  @Test fun `stepping not exact endInclusive`() {
-    val progression = TemporalProgression.fromClosedRange(start, endInclusive, Duration.ofHours(5))
+        assertEquals(1, progression.toList().size)
+    }
 
-    assertEquals(start, progression.first)
-    assertEquals(start + Duration.ofHours(20), progression.last)
-    assertNotEquals(endInclusive, progression.last)
+    @Test fun `stepping not exact endInclusive`() {
+        val progression = TemporalProgression.fromClosedRange(start, endInclusive, Duration.ofHours(5))
 
-    val elements = progression.toList()
-    assertEquals(5, elements.size)
-  }
+        assertEquals(start, progression.first)
+        assertEquals(start + Duration.ofHours(20), progression.last)
+        assertNotEquals(endInclusive, progression.last)
 
-  @Test fun `downTo progression`() {
+        val elements = progression.toList()
+        assertEquals(5, elements.size)
+    }
 
-    val step = Duration.ofHours(-1)
-    val progression = TemporalProgression.fromClosedRange(endInclusive, start, step)
+    @Test fun `downTo progression`() {
 
-    assertEquals(endInclusive, progression.first)
-    assertEquals(start, progression.last)
+        val step = Duration.ofHours(-1)
+        val progression = TemporalProgression.fromClosedRange(endInclusive, start, step)
 
-    assertEquals("$endInclusive downTo $start step ${step.negated()}", progression.toString())
+        assertEquals(endInclusive, progression.first)
+        assertEquals(start, progression.last)
 
-    val elements = progression.toList()
-    assertEquals(25, elements.size)
-    assertEquals(endInclusive, elements.first())
-    assertEquals(start, elements.last())
-  }
+        assertEquals("$endInclusive downTo $start step ${step.negated()}", progression.toString())
+
+        val elements = progression.toList()
+        assertEquals(25, elements.size)
+        assertEquals(endInclusive, elements.first())
+        assertEquals(start, elements.last())
+    }
 }
 
 class LocalDateTimeProgressionTest : TemporalProgressionTest<LocalDateTime>() {
-  override val start: LocalDateTime = LocalDateTime.now()
+    override val start: LocalDateTime = LocalDateTime.now()
 }
 
 @Disabled("Cannot support range")
 class LocalDateProgressionTest : TemporalProgressionTest<LocalDate>() {
-  override val start: LocalDate = LocalDate.now()
+    override val start: LocalDate = LocalDate.now()
 }
 
 @Disabled("Cannot support range")
 class LocalTimeProgressionTest : TemporalProgressionTest<LocalTime>() {
-  override val start: LocalTime = LocalTime.now()
+    override val start: LocalTime = LocalTime.now()
 }
 
 class OffsetDateTimeProgressionTest : TemporalProgressionTest<OffsetDateTime>() {
-  override val start: OffsetDateTime = OffsetDateTime.now()
+    override val start: OffsetDateTime = OffsetDateTime.now()
 }
 
 class ZonedDateTimeProgressionTest : TemporalProgressionTest<ZonedDateTime>() {
-  override val start: ZonedDateTime = ZonedDateTime.now()
+    override val start: ZonedDateTime = ZonedDateTime.now()
 }

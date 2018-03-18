@@ -22,9 +22,7 @@ import org.joda.time.Interval
 import java.sql.Timestamp
 import java.time.*
 import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoField
-import java.time.temporal.Temporal
-import java.time.temporal.TemporalAccessor
+import java.time.temporal.*
 import java.util.*
 import kotlin.coroutines.experimental.buildSequence
 
@@ -51,13 +49,13 @@ fun TemporalAccessor.toIsoTimeString(): String = DateTimeFormatter.ISO_TIME.form
 fun TemporalAccessor.toLocalIsoString(): String = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(this)
 
 fun Temporal.toEhpochMillis(): Long {
-  val days = try {
-    getLong(ChronoField.EPOCH_DAY)
-  } catch (e: Exception) {
-    0L
-  }
-  val millis = getLong(ChronoField.MILLI_OF_DAY)
-  return days * MILLIS_IN_DAY + millis
+    val days = try {
+        getLong(ChronoField.EPOCH_DAY)
+    } catch (e: Exception) {
+        0L
+    }
+    val millis = getLong(ChronoField.MILLI_OF_DAY)
+    return days * MILLIS_IN_DAY + millis
 }
 
 @JvmOverloads
@@ -113,7 +111,7 @@ operator fun Period.times(scalar: Int): Period = multipliedBy(scalar)
 
 @Deprecated(message = "Use #toInstant()", replaceWith = ReplaceWith("toInstant()"))
 val Int.instant: Instant
-  get() = Instant.ofEpochMilli(this.toLong())
+    get() = Instant.ofEpochMilli(this.toLong())
 
 fun Int.toInstant(): Instant = Instant.ofEpochMilli(this.toLong())
 
@@ -141,7 +139,7 @@ operator fun Long.times(period: Period): Period = period.multipliedBy(this.toInt
 
 @Deprecated(message = "Use #toInstant()", replaceWith = ReplaceWith("toInstant()"))
 val Long.instant: Instant
-  get() = Instant.ofEpochMilli(this)
+    get() = Instant.ofEpochMilli(this)
 
 fun Long.toInstant(): Instant = Instant.ofEpochMilli(this)
 
@@ -194,17 +192,17 @@ operator fun Instant.minus(millis: Long): Instant = this.minusMillis(millis)
 
 
 infix fun Instant?.min(that: Instant?): Instant? = when {
-  this == null -> that
-  that == null -> this
-  this > that  -> that
-  else         -> this
+    this == null -> that
+    that == null -> this
+    this > that -> that
+    else -> this
 }
 
 infix fun Instant?.max(that: Instant?): Instant? = when {
-  this == null -> that
-  that == null -> this
-  this < that  -> that
-  else         -> this
+    this == null -> that
+    that == null -> this
+    this < that -> that
+    else -> this
 }
 
 operator fun Instant.rangeTo(endExlusive: Instant): Interval = Interval(this.toEpochMilli(), endExlusive.toEpochMilli())
@@ -213,41 +211,41 @@ operator fun Instant.rangeTo(endExlusive: Instant): Interval = Interval(this.toE
  * Year `Interval` at specified instatnt included
  */
 val Instant.yearInterval: Interval
-  get() {
-    val start = this.startOfYear
-    val endExclusive = start + 1.years
-    return start .. endExclusive
-  }
+    get() {
+        val start = this.startOfYear
+        val endExclusive = start + 1.years
+        return start .. endExclusive
+    }
 
 /**
  * Month `Interval` at specified instant included
  */
 val Instant.monthInterval: Interval
-  get() {
-    val start = this.startOfMonth
-    val endExclusive = start + 1.months
-    return start .. endExclusive
-  }
+    get() {
+        val start = this.startOfMonth
+        val endExclusive = start + 1.months
+        return start .. endExclusive
+    }
 
 /**
  * Week `Interval` at specified instant included
  */
 val Instant.weekInterval: Interval
-  get() {
-    val start = this.startOfWeek
-    val endExclusive = start + 7.days
-    return start .. endExclusive
-  }
+    get() {
+        val start = this.startOfWeek
+        val endExclusive = start + 7.days
+        return start .. endExclusive
+    }
 
 /**
  * Day `Interval` at specified instance included
  */
 val Instant.dayInterval: Interval
-  get() {
-    val start: Instant = this.startOfDay
-    val endExclusive = start + 1.days
-    return start .. endExclusive
-  }
+    get() {
+        val start: Instant = this.startOfDay
+        val endExclusive = start + 1.days
+        return start .. endExclusive
+    }
 
 operator fun Period.unaryMinus(): Period = this.negated()
 
@@ -255,49 +253,49 @@ operator fun Period.unaryMinus(): Period = this.negated()
  * year sequence of `Period`
  */
 suspend fun Period.yearSequence(): Sequence<Int> = buildSequence<Int> {
-  var year = 0
-  val years = this@yearSequence.years
-  if (years > 0) {
-    while (year < years) {
-      yield(year++)
+    var year = 0
+    val years = this@yearSequence.years
+    if (years > 0) {
+        while (year < years) {
+            yield(year++)
+        }
+    } else {
+        while (year > years) {
+            yield(year--)
+        }
     }
-  } else {
-    while (year > years) {
-      yield(year--)
-    }
-  }
 }
 
 /**
  * month sequence of `java.time.Period`
  */
 suspend fun Period.monthSequence(): Sequence<Int> = buildSequence<Int> {
-  var month = 0
-  val months = this@monthSequence.months
-  if (months > 0) {
-    while (month < months) {
-      yield(month++)
+    var month = 0
+    val months = this@monthSequence.months
+    if (months > 0) {
+        while (month < months) {
+            yield(month++)
+        }
+    } else {
+        while (month > months) {
+            yield(month--)
+        }
     }
-  } else {
-    while (month > months) {
-      yield(month--)
-    }
-  }
 }
 
 /**
  * day sequence of `java.time.Period`
  */
 suspend fun Period.daySequence(): Sequence<Int> = buildSequence<Int> {
-  var day = 0
-  val days = this@daySequence.days
-  if (days > 0) {
-    while (day < days) {
-      yield(day++)
+    var day = 0
+    val days = this@daySequence.days
+    if (days > 0) {
+        while (day < days) {
+            yield(day++)
+        }
+    } else {
+        while (day > days) {
+            yield(day--)
+        }
     }
-  } else {
-    while (day > days) {
-      yield(day--)
-    }
-  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017. Sunghyouk Bae <sunghyouk.bae@gmail.com>
+ * Copyright (c) 2016. Sunghyouk Bae <sunghyouk.bae@gmail.com>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -25,20 +25,20 @@ import org.joda.time.DateTimeZone
  */
 open class TimestampZoneText(val datetime: DateTime?) {
 
-  constructor(timestamp: Long, zone: DateTimeZone) : this(DateTime(timestamp, zone))
+    constructor(timestamp: Long, zone: DateTimeZone) : this(DateTime(timestamp, zone))
 
-  constructor(timestamp: Long, zoneId: String) : this(DateTime(timestamp, DateTimeZone.forID(zoneId)))
+    constructor(timestamp: Long, zoneId: String) : this(DateTime(timestamp, DateTimeZone.forID(zoneId)))
 
-  val timestamp: Long?
-    get() = datetime?.millis
+    val timestamp: Long?
+        get() = datetime?.millis
 
-  val zoneId: String?
-    get() = datetime?.zone?.id
+    val zoneId: String?
+        get() = datetime?.zone?.id
 
-  val timetext: String?
-    get() = datetime?.toIsoFormatHMSString()
+    val timetext: String?
+        get() = datetime?.toIsoFormatHMSString()
 
-  override fun toString(): String {
-    return "TimestampZoneText(timestamp=$timestamp, zoneId=$zoneId, timetext=$timetext)"
-  }
+    override fun toString(): String {
+        return "TimestampZoneText(timestamp=$timestamp, zoneId=$zoneId, timetext=$timetext)"
+    }
 }

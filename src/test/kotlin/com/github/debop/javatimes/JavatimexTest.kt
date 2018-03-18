@@ -24,32 +24,32 @@ import java.time.LocalDate
 
 class JavatimexTest {
 
-  companion object {
-    private val log: Logger = LoggerFactory.getLogger(JavatimexTest::class.java)
-  }
+    companion object {
+        private val log: Logger = LoggerFactory.getLogger(JavatimexTest::class.java)
+    }
 
-  @Test fun `constant variables`() {
-    assertEquals(LocalDate.now(), NowLocalDate)
-  }
+    @Test fun `constant variables`() {
+        assertEquals(LocalDate.now(), NowLocalDate)
+    }
 
-  @Test fun `time units`() {
-    assertEquals(1.microseconds, 1000.nanoseconds)
-    assertEquals(1.millis, 1000.microseconds)
-    assertEquals(1.seconds, 1000.millis)
-    assertEquals(1.minutes, 60.seconds)
-    assertEquals(1.hours, 60.minutes)
+    @Test fun `time units`() {
+        assertEquals(1.microseconds, 1000.nanoseconds)
+        assertEquals(1.millis, 1000.microseconds)
+        assertEquals(1.seconds, 1000.millis)
+        assertEquals(1.minutes, 60.seconds)
+        assertEquals(1.hours, 60.minutes)
 
-    assertEquals(1.weeks, 7.days)
-  }
+        assertEquals(1.weeks, 7.days)
+    }
 
-  @Test fun `time operator`() {
-    assertEquals(1.microseconds, 1000 * 1.nanoseconds)
-  }
+    @Test fun `time operator`() {
+        assertEquals(1.microseconds, 1000 * 1.nanoseconds)
+    }
 
-  @Test fun `Number to LocalDateTime`() {
-    val now = nowInstant()
-    val ms = now.toEpochMilli()
-    assertEquals(now, ms.toInstant())
-    assertEquals(now.toLocalDateTime(), ms.toLocalDateTime())
-  }
+    @Test fun `Number to LocalDateTime`() {
+        val now = nowInstant()
+        val ms = now.toEpochMilli()
+        assertEquals(now, ms.toInstant())
+        assertEquals(now.toLocalDateTime(), ms.toLocalDateTime())
+    }
 }

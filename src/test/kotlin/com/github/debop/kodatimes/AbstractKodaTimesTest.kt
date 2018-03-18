@@ -11,7 +11,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package com.github.debop.kodatimes
@@ -22,9 +21,9 @@ import org.junit.jupiter.api.Test
 // kobalt test 에서 abstract class에 대해서도 test 를 만들려고 한다  
 open class AbstractKodaTimesTest {
 
-  companion object : KLogging()
+    companion object : KLogging()
 
-  @Test fun dummy() {
-    println("Dummy test function")
-  }
+    @Test fun dummy() {
+        println("Dummy test function")
+    }
 }
