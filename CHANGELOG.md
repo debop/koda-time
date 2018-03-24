@@ -1,10 +1,19 @@
 # koda-times change Logs
 
-#1.2.2
+# 1.2.3
 
-> not released
+> not specified
 
-* add java 8 LocalDateTime (not yet)
+
+# 1.2.2
+
+> release 2018-03-24
+
+* Bump up kotlin-stdlib 1.2.30
+* Bump up kotlinx-coroutines 0.22.5
+* add TemporalRange, TemporalProgression
+* add RxJava2 Flowable convert method for DateTimeRange, InstanceRange ...
+* add java 8 LocalDateTime
 
 #1.2.1
 
