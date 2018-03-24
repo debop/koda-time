@@ -15,15 +15,22 @@
 
 package com.github.debop.kodatimes
 
-import mu.KLogging
-import org.junit.jupiter.api.Test
+/**
+ * Period Unit
+ *
+ * @author debop
+ * @since 2017. 8. 16.
+ */
+enum class PeriodUnit {
 
-// kobalt test 에서 abstract class에 대해서도 test 를 만들려고 한다  
-open class AbstractKodaTimesTest {
+    MILLISECOND,
+    SECOND,
+    MINUTE,
+    HOUR,
+    DAY,
+    WEEK,
+    MONTH,
+    QUARTER,
+    YEAR
 
-    companion object : KLogging()
-
-    @Test fun dummy() {
-        println("Dummy test function")
-    }
 }

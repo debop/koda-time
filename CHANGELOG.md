@@ -1,5 +1,35 @@
 # koda-times change Logs
 
+# 1.2.3
+
+> not specified
+
+
+# 1.2.2
+
+> release 2018-03-24
+
+* Bump up kotlin-stdlib 1.2.30
+* Bump up kotlinx-coroutines 0.22.5
+* add TemporalRange, TemporalProgression
+* add RxJava2 Flowable convert method for DateTimeRange, InstanceRange ...
+* add java 8 LocalDateTime
+
+#1.2.1
+
+> release 2017-11-19
+
+* add DateTimeRange, InstantRange for joda-time
+* add DateTimeProgression, InstantProgression for joda-time
+* add DateRange, InstantRange for java 8 time
+* add DateProgression, InstantProgression for java 8 time 
+
+# 1.2
+
+* add ReadableInterval.chunk(), windowed(), zipWithNext() methods
+* Upgrade kotlin standard library 1.1.51
+* Improve ReadableInterval.buildSequence
+
 # 1.1.3
 
 * Upgrade kotlin standard library 1.1.3
@@ -25,6 +55,6 @@
 
 # 1.0.0
 
-### First release
+> First release
 
 *   Supply joda-time DateTime extension functions

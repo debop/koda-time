@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017. Sunghyouk Bae <sunghyouk.bae@gmail.com>
+ * Copyright (c) 2016. Sunghyouk Bae <sunghyouk.bae@gmail.com>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -11,7 +11,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 @file:JvmName("KodaTimex")
 @file:Suppress("EXTENSION_SHADOWED_BY_MEMBER")
@@ -26,22 +25,22 @@ import java.util.*
 
 @JvmField val EPOCH = DateTime(0)
 
-/** Convert [Date] to [DateTime] */
+/** Convert `Date` to [DateTime] */
 fun Date.toDateTime(): DateTime = DateTime(this.time)
 
-/** Convert [Date] to [LocalDateTime] */
+/** Convert `Date` to `LocalDateTime` */
 fun Date.toLocalDateTime(): LocalDateTime = LocalDateTime.fromDateFields(this)
 
-/** Convert [Date] to [LocalDate] */
+/** Convert `Date` to `LocalDate` */
 fun Date.toLocalDate(): LocalDate = LocalDate.fromDateFields(this)
 
-/** Convert [Date] to [LocalTime] */
+/** Convert `Date` to `LocalTime` */
 fun Date.toLocalTime(): LocalTime = LocalTime.fromDateFields(this)
 
-/** Convert [Instant] to [DateTime] with TimeZone UTC */
+/** Convert `Instant` to [DateTime] with TimeZone UTC */
 fun AbstractInstant.dateTimeUTC(): DateTime = this.toDateTime(DateTimeZone.UTC)
 
-/** Convert [Instant] to [MutableDateTime] with TimeZone UTC */
+/** Convert `Instant` to `MutableDateTime` with TimeZone UTC */
 fun AbstractInstant.mutableDateTimeUTC(): MutableDateTime = this.toMutableDateTime(DateTimeZone.UTC)
 
 /** Millsecond */
@@ -111,40 +110,40 @@ fun Long.years(): Period = Period.years(this.toInt())
 operator fun Long.times(period: Period): Period = period.multipliedBy(this.toInt())
 
 /**
- * get [DateTimeFormatter] with specified pattern
+ * get `DateTimeFormatter` with specified pattern
  */
 fun dateTimeFormat(pattern: String): DateTimeFormatter = DateTimeFormat.forPattern(pattern)
 
 /** Parse string to [DateTime] */
 fun String.toDateTime(pattern: String? = null): DateTime? = try {
-  if (pattern.isNullOrBlank()) DateTime(this)
-  else DateTime.parse(this, dateTimeFormat(pattern!!))
-} catch(ignored: Throwable) {
-  null
+    if (pattern.isNullOrBlank()) DateTime(this)
+    else DateTime.parse(this, dateTimeFormat(pattern!!))
+} catch (ignored: Throwable) {
+    null
 }
 
-/** Parse string to [Interval] */
+/** Parse string to `Interval` */
 fun String.toInterval(): Interval? = try {
-  Interval.parse(this)
-} catch(ignored: Throwable) {
-  null
+    Interval.parse(this)
+} catch (ignored: Throwable) {
+    null
 }
 
-/** Parse string to [LocalDate] */
+/** Parse string to `LocalDate` */
 fun String.toLocalDate(pattern: String? = null): LocalDate? = try {
-  if (pattern.isNullOrBlank()) LocalDate(this)
-  else LocalDate.parse(this, dateTimeFormat(pattern!!))
-} catch(ignored: Throwable) {
-  null
+    if (pattern.isNullOrBlank()) LocalDate(this)
+    else LocalDate.parse(this, dateTimeFormat(pattern!!))
+} catch (ignored: Throwable) {
+    null
 }
 
-/** Parse string to [LocalTime] */
+/** Parse string to `LocalTime` */
 fun String.toLocalTime(pattern: String? = null): LocalTime? = try {
-  if (pattern.isNullOrBlank())
-    LocalTime(this)
-  else LocalTime.parse(this, dateTimeFormat(pattern!!))
-} catch(ignored: Throwable) {
-  null
+    if (pattern.isNullOrBlank())
+        LocalTime(this)
+    else LocalTime.parse(this, dateTimeFormat(pattern!!))
+} catch (ignored: Throwable) {
+    null
 }
 
 /** Convert json text to [DateTime] */
@@ -171,8 +170,19 @@ fun DateTime.startOfMonth(): DateTime = dateTimeOf(this.year, this.monthOfYear)
 /** Start time of Year from this datetime */
 fun DateTime.startOfYear(): DateTime = dateTimeOf(this.year)
 
+@JvmOverloads
+fun DateTime.trimToHour(hour: Int = this.hourOfDay): DateTime = startOfDay().withHourOfDay(hour)
+
+@JvmOverloads
+fun DateTime.trimToMinute(minute: Int = this.minuteOfHour): DateTime = trimToHour().withMinuteOfHour(minute)
+
+@JvmOverloads
+fun DateTime.trimToSecond(second: Int = this.secondOfMinute): DateTime = trimToMinute().withSecondOfMinute(second)
+
+
 /** DateTime `-` operator */
 operator fun DateTime.minus(millis: Long): DateTime = this.minus(millis)
+
 operator fun DateTime.minus(duration: ReadableDuration): DateTime = this.minus(duration)
 operator fun DateTime.minus(period: ReadablePeriod): DateTime = this.minus(period)
 //operator fun DateTime.minus(builder: DurationBuilder): DateTime = this.minus(builder.period)
@@ -180,9 +190,14 @@ operator fun DateTime.minus(period: ReadablePeriod): DateTime = this.minus(perio
 
 /** DateTime `+` operator */
 operator fun DateTime.plus(millis: Long): DateTime = this.plus(millis)
+
+/** DateTime `+` operator */
 operator fun DateTime.plus(duration: ReadableDuration): DateTime = this.plus(duration)
+
+/** DateTime `+` operator */
 operator fun DateTime.plus(period: ReadablePeriod): DateTime = this.plus(period)
-//operator fun DateTime.plus(builder: DurationBuilder): DateTime = this.plus(builder.period)
+// operator fun DateTime.plus(builder: DurationBuilder): DateTime = this.plus(builder.period)
+
 
 /** next day */
 fun DateTime.tomorrow(): DateTime = this.nextDay()
@@ -232,36 +247,82 @@ fun DateTime.toIsoFormatHMSString(): String = ISODateTimeFormat.dateHourMinuteSe
 
 fun DateTime.toTimestampZoneText(): TimestampZoneText = TimestampZoneText(this)
 
+infix fun <T : ReadableInstant> T.min(that: T): T {
+    return if (this < that) this else that
+}
+
+infix fun <T : ReadableInstant> T.max(that: T): T {
+    return if (this > that) this else that
+}
+
 /** get minimum [DateTime] */
 infix fun DateTime.min(that: DateTime): DateTime {
-  return if (this < that) this else that
+    return if (this < that) this else that
 }
 
 /** get maximum [DateTime] */
 infix fun DateTime.max(that: DateTime): DateTime {
-  return if (this > that) this else that
+    return if (this > that) this else that
+}
+
+fun minOf(a: DateTime, b: DateTime, vararg args: DateTime): DateTime {
+    var min = if (a < b) a else b
+    args.forEach {
+        if (it < min) {
+            min = it
+        }
+    }
+    return min
+}
+
+fun maxOf(a: DateTime, b: DateTime, vararg args: DateTime): DateTime {
+    var max = if (a < b) b else a
+    args.forEach {
+        if (it > max) {
+            max = it
+        }
+    }
+    return max
 }
 
 /** Get month interval in specified [DateTime] */
-fun DateTime.monthInterval(): Interval {
-  val start = this.withDayOfMonth(1).withTimeAtStartOfDay()
-  return Interval(start, start + 1.months())
+fun DateTime.monthInterval(months: Int = 1): Interval {
+    val start = this.startOfMonth()
+    return Interval(start, start + months.months())
+}
+
+fun DateTime.weekInterval(weeks: Int = 1): Interval {
+    val start = this.startOfWeek()
+    return Interval(start, start + weeks.weeks())
 }
 
 /** Get day interval in specified [DateTime] */
-fun DateTime.dayInterval(): Interval {
-  val start = this.startOfDay()
-  return Interval(start, start + 1.days())
+fun DateTime.dayInterval(days: Int = 1): Interval {
+    val start = this.startOfDay()
+    return Interval(start, start + days.days())
+}
+
+fun DateTime.hourInterval(hours: Int = 1): Interval {
+    val start = this.trimToMinute(0)
+    return Interval(start, start + hours.hours())
+}
+
+fun DateTime.minuteInterval(minutes: Int = 1): Interval {
+    val start = this.trimToSecond(0)
+    return Interval(start, start + minutes.minutes())
 }
 
 /** current [DateTime] */
 fun now(): DateTime = DateTime.now()
 
+/** Today (only date part without time part) */
+fun today(): DateTime = now().withTimeAtStartOfDay()
+
 /** next day of current [DateTime] */
-fun tomorrow(): DateTime = now().tomorrow()
+fun tomorrow(): DateTime = today().nextDay()
 
 /** last day of current [DateTime] */
-fun yesterday(): DateTime = now().yesterday()
+fun yesterday(): DateTime = today().lastDay()
 
 fun nextSecond(): DateTime = now().plusSeconds(1)
 fun nextMinute(): DateTime = now().plusMinutes(1)
@@ -279,44 +340,44 @@ fun lastWeek(): DateTime = now().minusWeeks(1)
 fun lastMonth(): DateTime = now().minusMonths(1)
 fun lastYear(): DateTime = now().minusYears(1)
 
-/** `-` operator for [LocalDateTime] */
+/** `-` operator for `LocalDateTime` */
 operator fun LocalDateTime.minus(period: ReadablePeriod): LocalDateTime = this.minus(period)
 
-/** `-` operator for [LocalDateTime] */
+/** `-` operator for `LocalDateTime` */
 operator fun LocalDateTime.minus(duration: ReadableDuration): LocalDateTime = this.minus(duration)
 
-/** `+` operator for [LocalDateTime] */
+/** `+` operator for `LocalDateTime` */
 operator fun LocalDateTime.plus(period: ReadablePeriod): LocalDateTime = this.plus(period)
 
-/** `+` operator for [LocalDateTime] */
+/** `+` operator for `LocalDateTime` */
 operator fun LocalDateTime.plus(duration: ReadableDuration): LocalDateTime = this.plus(duration)
 
-/** `-` operator for [LocalDate] */
+/** `-` operator for `LocalDate` */
 operator fun LocalDate.minus(period: Period): LocalDate = this.minus(period)
 
-/** `-` operator for [LocalDate] */
+/** `-` operator for `LocalDate` */
 operator fun LocalDate.minus(duration: ReadableDuration): LocalDate = this.minus(duration.toPeriod())
 
-/** `+` operator for [LocalDate] */
+/** `+` operator for `LocalDate` */
 operator fun LocalDate.plus(period: Period): LocalDate = this.plus(period)
 
-/** `+` operator for [LocalDate] */
+/** `+` operator for `LocalDate` */
 operator fun LocalDate.plus(duration: ReadableDuration): LocalDate = this.plus(duration.toPeriod())
 
-/** `-` operator for [LocalTime] */
+/** `-` operator for `LocalTime` */
 operator fun LocalTime.minus(period: Period): LocalTime = this.minus(period)
 
-/** `-` operator for [LocalTime] */
+/** `-` operator for `LocalTime` */
 operator fun LocalTime.minus(duration: ReadableDuration): LocalTime = this.minus(duration.toPeriod())
 
-/** `+` operator for [LocalTime] */
+/** `+` operator for `LocalTime` */
 operator fun LocalTime.plus(period: Period): LocalTime = this.plus(period)
 
-/** `+` operator for [LocalTime] */
+/** `+` operator for `LocalTime` */
 operator fun LocalTime.plus(duration: ReadableDuration): LocalTime = this.plus(duration.toPeriod())
 
 /**
- * empty [Duration]
+ * empty `Duration`
  */
 val emptyDuration: Duration = Duration.ZERO
 
@@ -331,6 +392,34 @@ fun standardMinutes(minutes: Long): Duration = Duration.standardMinutes(minutes)
 
 /** specified seconds duration */
 fun standardSeconds(seconds: Long): Duration = Duration.standardSeconds(seconds)
+
+/** duration of days */
+fun dayDurationOf(days: Long): Duration = Duration.standardDays(days)
+
+/** duration of hours */
+fun hourDurationOf(hours: Long): Duration = Duration.standardHours(hours)
+
+/** duration of minutes */
+fun minuteDurationOf(minutes: Long): Duration = Duration.standardMinutes(minutes)
+
+/** duration of seconds */
+fun secondDurationOf(seconds: Long): Duration = Duration.standardSeconds(seconds)
+
+/** duration with millis */
+fun milliDurationOf(millis: Long): Duration = Duration.millis(millis)
+
+
+fun Int.dayDuration(): Duration = Duration.standardDays(this.toLong())
+fun Int.hourDuration(): Duration = Duration.standardHours(this.toLong())
+fun Int.minuteDuration(): Duration = Duration.standardMinutes(this.toLong())
+fun Int.secondDuration(): Duration = Duration.standardSeconds(this.toLong())
+fun Int.milliDuration(): Duration = Duration.millis(this.toLong())
+
+fun Long.dayDuration(): Duration = Duration.standardDays(this)
+fun Long.hourDuration(): Duration = Duration.standardHours(this)
+fun Long.minuteDuration(): Duration = Duration.standardMinutes(this)
+fun Long.secondDuration(): Duration = Duration.standardSeconds(this)
+fun Long.milliDuration(): Duration = Duration.millis(this)
 
 fun Duration.days(): Long = this.standardDays
 fun Duration.hours(): Long = this.standardHours
@@ -359,11 +448,29 @@ operator fun Duration.times(multiplicand: Long): Duration = this.multipliedBy(mu
 fun Duration.isZero(): Boolean = this.millis == 0L
 
 infix fun Duration.min(that: Duration): Duration {
-  return if (this < that) this else that
+    return if (this < that) this else that
 }
 
 infix fun Duration.max(that: Duration): Duration {
-  return if (this > that) this else that
+    return if (this > that) this else that
+}
+
+fun minOf(a: Duration, b: Duration, vararg args: Duration): Duration {
+    var min = if (a < b) a else b
+    args.forEach {
+        if (it < min)
+            min = it
+    }
+    return min
+}
+
+fun maxOf(a: Duration, b: Duration, vararg args: Duration): Duration {
+    var max = if (a > b) a else b
+    args.forEach {
+        if (it > max)
+            max = it
+    }
+    return max
 }
 
 
@@ -394,6 +501,9 @@ operator fun Period.unaryMinus(): Period = this.negated()
 
 operator fun Period.rangeTo(end: ReadableInstant): Interval = Interval(this, end)
 
+/** create new `Instant` instance with milliseconds */
+fun instantOf(millis: Long): Instant = Instant(millis)
+
 operator fun Instant.minus(millis: Long): Instant = this.minus(millis)
 operator fun Instant.minus(duration: ReadableDuration): Instant = this.minus(duration)
 operator fun Instant.minus(period: Period): Instant = this.minus(period.toStandardDuration())
@@ -404,12 +514,30 @@ operator fun Instant.plus(duration: ReadableDuration): Instant = this.plus(durat
 operator fun Instant.plus(period: Period): Instant = this.plus(period.toStandardDuration())
 //operator fun Instant.plus(builder: DurationBuilder): Instant = this.plus(builder.period.toStandardDuration())
 
-operator fun ReadableInstant.rangeTo(end: ReadableInstant): Interval = Interval(this, end)
+operator fun ReadableInstant.rangeTo(endExclusive: ReadableInstant): Interval = Interval(this, endExclusive)
 operator fun ReadableInstant.rangeTo(duration: ReadableDuration): Interval = Interval(this, duration)
 operator fun ReadableInstant.rangeTo(period: ReadablePeriod): Interval = Interval(this, period)
 
 fun thisSecond(): Interval = now().secondOfMinute().toInterval()
 fun thisMinute(): Interval = now().minuteOfHour().toInterval()
 fun thisHour(): Interval = now().hourOfDay().toInterval()
+
+fun minOf(a: Instant, b: Instant, vararg args: Instant): Instant {
+    var min = if (a < b) a else b
+    args.forEach {
+        if (it < min)
+            min = it
+    }
+    return min
+}
+
+fun maxOf(a: Instant, b: Instant, vararg args: Instant): Instant {
+    var max = if (a > b) a else b
+    args.forEach {
+        if (it > max)
+            max = it
+    }
+    return max
+}
 
 

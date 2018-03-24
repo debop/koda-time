@@ -11,7 +11,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package com.github.debop.kodatimes
@@ -26,20 +25,20 @@ import org.joda.time.DateTimeZone
  */
 open class TimestampZoneText(val datetime: DateTime?) {
 
-  constructor(timestamp: Long, zone: DateTimeZone) : this(DateTime(timestamp, zone))
+    constructor(timestamp: Long, zone: DateTimeZone) : this(DateTime(timestamp, zone))
 
-  constructor(timestamp: Long, zoneId: String) : this(DateTime(timestamp, DateTimeZone.forID(zoneId)))
+    constructor(timestamp: Long, zoneId: String) : this(DateTime(timestamp, DateTimeZone.forID(zoneId)))
 
-  val timestamp: Long?
-    get() = datetime?.millis
+    val timestamp: Long?
+        get() = datetime?.millis
 
-  val zoneId: String?
-    get() = datetime?.zone?.id
+    val zoneId: String?
+        get() = datetime?.zone?.id
 
-  val timetext: String?
-    get() = datetime?.toIsoFormatHMSString()
+    val timetext: String?
+        get() = datetime?.toIsoFormatHMSString()
 
-  override fun toString(): String {
-    return "TimestampZoneText(timestamp=$timestamp, zoneId=$zoneId, timetext=$timetext)"
-  }
+    override fun toString(): String {
+        return "TimestampZoneText(timestamp=$timestamp, zoneId=$zoneId, timetext=$timetext)"
+    }
 }

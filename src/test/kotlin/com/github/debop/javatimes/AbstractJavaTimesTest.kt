@@ -13,17 +13,12 @@
  * limitations under the License.
  */
 
-package com.github.debop.kodatimes
+package com.github.debop.javatimes
 
 import mu.KLogging
-import org.junit.jupiter.api.Test
 
-// kobalt test 에서 abstract class에 대해서도 test 를 만들려고 한다  
-open class AbstractKodaTimesTest {
+abstract class AbstractJavaTimesTest {
 
     companion object : KLogging()
 
-    @Test fun dummy() {
-        println("Dummy test function")
-    }
 }

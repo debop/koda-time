@@ -13,6 +13,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("unused")
+
 package com.github.debop.javatimes
 
 import org.joda.time.DateTime
@@ -20,10 +22,14 @@ import org.joda.time.Interval
 import java.sql.Timestamp
 import java.time.*
 import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoField
-import java.time.temporal.TemporalAccessor
+import java.time.temporal.*
 import java.util.*
 import kotlin.coroutines.experimental.buildSequence
+
+val MILLIS_IN_DAY = Duration.ofDays(1L).toMillis()
+val MILLIS_IN_HOUR = Duration.ofHours(1L).toMillis()
+val MILLIS_IN_MINUTE = Duration.ofMinutes(1L).toMillis()
+
 
 /** Default DateTime format (ex: '2011-12-03T10:15:30+01:00') */
 @JvmField val DefaultDateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ISO_INSTANT
@@ -42,16 +48,42 @@ fun TemporalAccessor.toIsoTimeString(): String = DateTimeFormatter.ISO_TIME.form
 
 fun TemporalAccessor.toLocalIsoString(): String = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(this)
 
+fun Temporal.toEhpochMillis(): Long {
+    val days = try {
+        getLong(ChronoField.EPOCH_DAY)
+    } catch (e: Exception) {
+        0L
+    }
+    val millis = getLong(ChronoField.MILLI_OF_DAY)
+    return days * MILLIS_IN_DAY + millis
+}
+
 @JvmOverloads
 fun Instant.toLocalDateTime(zoneId: ZoneId = UTC): LocalDateTime = LocalDateTime.ofInstant(this, zoneId)
 
-fun Instant?.toDateTime(): DateTime? = this?.let { DateTime(toEpochMilli()) }
-fun Instant?.toDate(): Date? = this?.let { Date.from(this) }
+fun Instant.toDateTime(): org.joda.time.DateTime = org.joda.time.DateTime(toEpochMilli())
+fun Instant.toDate(): Date = Date.from(this)
 
-fun Date?.toDateTime(): DateTime? = this?.let { DateTime(time) }
-fun Timestamp?.toDateTome(): DateTime? = this?.let { DateTime(time) }
+fun dateOf(epochMilis: Long): Date = Date(epochMilis)
 
+/** plus operator for Date */
+operator fun Date.plus(that: Date): Date = Date(this.time + that.time)
+
+/** plus operator for Date */
+operator fun Date.plus(millis: Long): Date = Date(this.time + millis)
+
+/** minus operator for Date */
+operator fun Date.minus(that: Date): Date = Date(this.time - that.time)
+
+/** minus operator for Date */
+operator fun Date.minus(millis: Long): Date = Date(this.time - millis)
+
+fun Date.toDateTime(): DateTime = DateTime(time)
+fun Timestamp.toDateTime(): DateTime = DateTime(time)
+
+@JvmOverloads
 fun instantOf(epochMillis: Long = 0): Instant = Instant.ofEpochMilli(epochMillis)
+
 fun nowInstant(): Instant = Instant.now()
 val EPOCH: Instant get() = Instant.EPOCH
 
@@ -77,8 +109,14 @@ operator fun Int.times(period: Period): Period = period.multipliedBy(this)
 operator fun Duration.times(scalar: Int): Duration = multipliedBy(scalar.toLong())
 operator fun Period.times(scalar: Int): Period = multipliedBy(scalar)
 
-val Int.instant: Instant get() = Instant.ofEpochMilli(this.toLong())
-fun Int.toLocalDateTime(zoneId: ZoneId = UTC): LocalDateTime = LocalDateTime.ofInstant(instant, zoneId)
+@Deprecated(message = "Use #toInstant()", replaceWith = ReplaceWith("toInstant()"))
+val Int.instant: Instant
+    get() = Instant.ofEpochMilli(this.toLong())
+
+fun Int.toInstant(): Instant = Instant.ofEpochMilli(this.toLong())
+
+@JvmOverloads
+fun Int.toLocalDateTime(zoneId: ZoneId = UTC): LocalDateTime = LocalDateTime.ofInstant(toInstant(), zoneId)
 
 
 val Long.nanoseconds: Duration get() = Duration.ofNanos(this)
@@ -99,8 +137,14 @@ operator fun Long.times(period: Period): Period = period.multipliedBy(this.toInt
 //operator fun Duration.times(scalar: Long): Duration = multipliedBy(scalar.toInt())
 //operator fun Period.times(scalar: Long): Period = multipliedBy(scalar.toInt())
 
-val Long.instant: Instant get() = Instant.ofEpochMilli(this)
-fun Long.toLocalDateTime(zoneId: ZoneId = UTC): LocalDateTime = LocalDateTime.ofInstant(instant, zoneId)
+@Deprecated(message = "Use #toInstant()", replaceWith = ReplaceWith("toInstant()"))
+val Long.instant: Instant
+    get() = Instant.ofEpochMilli(this)
+
+fun Long.toInstant(): Instant = Instant.ofEpochMilli(this)
+
+@JvmOverloads
+fun Long.toLocalDateTime(zoneId: ZoneId = UTC): LocalDateTime = LocalDateTime.ofInstant(toInstant(), zoneId)
 
 @JvmOverloads
 fun localDateOf(year: Int, monthOfYear: Int = 1, dayOfMonth: Int = 1): LocalDate = LocalDate.of(year, monthOfYear, dayOfMonth)
@@ -119,8 +163,13 @@ fun localTimeOf(hourOfDay: Int = 0, minuteOfHour: Int = 0, secondOfMinute: Int =
     LocalTime.of(hourOfDay, minuteOfHour, secondOfMinute, nanoOfSecond)
 
 @JvmOverloads
-fun Instant.with(year: Int, monthOfYear: Int = 1, dayOfMonth: Int = 1,
-                 hourOfDay: Int = 0, minuteOfHour: Int = 0, secondOfMinute: Int = 0, millisOfSecond: Int = 0,
+fun Instant.with(year: Int,
+                 monthOfYear: Int = 1,
+                 dayOfMonth: Int = 1,
+                 hourOfDay: Int = 0,
+                 minuteOfHour: Int = 0,
+                 secondOfMinute: Int = 0,
+                 millisOfSecond: Int = 0,
                  zoneOffset: ZoneOffset = ZoneOffset.UTC): Instant =
     this.toLocalDateTime()
         .withYear(year)
@@ -134,51 +183,75 @@ fun Instant.with(year: Int, monthOfYear: Int = 1, dayOfMonth: Int = 1,
 
 
 val Instant.startOfDay: Instant get() = this.with(ChronoField.MILLI_OF_DAY, 0)
+val Instant.startOfWeek: Instant get() = this.with(ChronoField.DAY_OF_WEEK, 1).startOfDay
 val Instant.startOfMonth: Instant get() = this.with(ChronoField.DAY_OF_MONTH, 1).startOfDay
 val Instant.startOfYear: Instant get() = this.with(ChronoField.MONTH_OF_YEAR, 1).startOfMonth
+
+operator fun Instant.plus(millis: Long): Instant = this.plusMillis(millis)
+operator fun Instant.minus(millis: Long): Instant = this.minusMillis(millis)
+
 
 infix fun Instant?.min(that: Instant?): Instant? = when {
     this == null -> that
     that == null -> this
-    this > that  -> that
-    else         -> this
+    this > that -> that
+    else -> this
 }
 
 infix fun Instant?.max(that: Instant?): Instant? = when {
     this == null -> that
     that == null -> this
-    this < that  -> that
-    else         -> this
+    this < that -> that
+    else -> this
 }
 
 operator fun Instant.rangeTo(endExlusive: Instant): Interval = Interval(this.toEpochMilli(), endExlusive.toEpochMilli())
 
 /**
- * Year Interval at specified instatnt included
+ * Year `Interval` at specified instatnt included
  */
 val Instant.yearInterval: Interval
     get() {
         val start = this.startOfYear
-        return start .. (start + 1.years)
+        val endExclusive = start + 1.years
+        return start .. endExclusive
     }
 
 /**
- * Month [Interval] at specified instant included
+ * Month `Interval` at specified instant included
  */
 val Instant.monthInterval: Interval
     get() {
         val start = this.startOfMonth
-        return start .. (start + 1.months)
+        val endExclusive = start + 1.months
+        return start .. endExclusive
     }
 
+/**
+ * Week `Interval` at specified instant included
+ */
+val Instant.weekInterval: Interval
+    get() {
+        val start = this.startOfWeek
+        val endExclusive = start + 7.days
+        return start .. endExclusive
+    }
+
+/**
+ * Day `Interval` at specified instance included
+ */
 val Instant.dayInterval: Interval
     get() {
-        val start = this.startOfDay
-        return start .. (start + 1.days)
+        val start: Instant = this.startOfDay
+        val endExclusive = start + 1.days
+        return start .. endExclusive
     }
 
 operator fun Period.unaryMinus(): Period = this.negated()
 
+/**
+ * year sequence of `Period`
+ */
 suspend fun Period.yearSequence(): Sequence<Int> = buildSequence<Int> {
     var year = 0
     val years = this@yearSequence.years
@@ -193,6 +266,9 @@ suspend fun Period.yearSequence(): Sequence<Int> = buildSequence<Int> {
     }
 }
 
+/**
+ * month sequence of `java.time.Period`
+ */
 suspend fun Period.monthSequence(): Sequence<Int> = buildSequence<Int> {
     var month = 0
     val months = this@monthSequence.months
@@ -207,6 +283,9 @@ suspend fun Period.monthSequence(): Sequence<Int> = buildSequence<Int> {
     }
 }
 
+/**
+ * day sequence of `java.time.Period`
+ */
 suspend fun Period.daySequence(): Sequence<Int> = buildSequence<Int> {
     var day = 0
     val days = this@daySequence.days

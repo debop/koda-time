@@ -13,6 +13,7 @@ hs_err_pid*
 
 *.iml
 .idea/
+out/
 
 !gradle/wrapper/gradle-wrapper.jar
 build/
@@ -21,4 +22,6 @@ build/
 # eclipse
 .classpath
 .project
+
+.gradletasknamecache
 
