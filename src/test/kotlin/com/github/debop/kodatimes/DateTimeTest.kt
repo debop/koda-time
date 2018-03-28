@@ -15,7 +15,9 @@
 
 package com.github.debop.kodatimes
 
-import org.joda.time.*
+import org.joda.time.DateTime
+import org.joda.time.Interval
+import org.joda.time.LocalDate
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test

@@ -6,7 +6,7 @@ import java.util.*
 /**
  * An iterator over a sequence of values of type `java.util.Date`.
  */
-abstract class DateIterator<T : Date> : Iterator<T> {
+abstract class DateIterator<out T : Date> : Iterator<T> {
 
     final override fun next(): T = nextDate()
 
@@ -18,7 +18,7 @@ abstract class DateIterator<T : Date> : Iterator<T> {
 /**
  * An iterator over a sequence of values of type `java.util.Temporal`.
  */
-abstract class TemporalIterator<T : Temporal> : Iterator<T> {
+abstract class TemporalIterator<out T : Temporal> : Iterator<T> {
 
     final override fun next(): T = nextTemporal()
 

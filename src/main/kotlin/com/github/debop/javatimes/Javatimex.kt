@@ -22,7 +22,9 @@ import org.joda.time.Interval
 import java.sql.Timestamp
 import java.time.*
 import java.time.format.DateTimeFormatter
-import java.time.temporal.*
+import java.time.temporal.ChronoField
+import java.time.temporal.Temporal
+import java.time.temporal.TemporalAccessor
 import java.util.*
 import kotlin.coroutines.experimental.buildSequence
 
@@ -252,7 +254,7 @@ operator fun Period.unaryMinus(): Period = this.negated()
 /**
  * year sequence of `Period`
  */
-suspend fun Period.yearSequence(): Sequence<Int> = buildSequence<Int> {
+suspend fun Period.yearSequence(): Sequence<Int> = buildSequence {
     var year = 0
     val years = this@yearSequence.years
     if (years > 0) {
@@ -269,7 +271,7 @@ suspend fun Period.yearSequence(): Sequence<Int> = buildSequence<Int> {
 /**
  * month sequence of `java.time.Period`
  */
-suspend fun Period.monthSequence(): Sequence<Int> = buildSequence<Int> {
+suspend fun Period.monthSequence(): Sequence<Int> = buildSequence {
     var month = 0
     val months = this@monthSequence.months
     if (months > 0) {
@@ -286,7 +288,7 @@ suspend fun Period.monthSequence(): Sequence<Int> = buildSequence<Int> {
 /**
  * day sequence of `java.time.Period`
  */
-suspend fun Period.daySequence(): Sequence<Int> = buildSequence<Int> {
+suspend fun Period.daySequence(): Sequence<Int> = buildSequence {
     var day = 0
     val days = this@daySequence.days
     if (days > 0) {

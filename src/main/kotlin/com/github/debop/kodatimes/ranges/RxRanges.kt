@@ -18,7 +18,9 @@ package com.github.debop.kodatimes.ranges
 import io.reactivex.Flowable
 import kotlinx.coroutines.experimental.DefaultDispatcher
 import kotlinx.coroutines.experimental.rx2.rxFlowable
-import org.joda.time.*
+import org.joda.time.DateTime
+import org.joda.time.Duration
+import org.joda.time.Instant
 import kotlin.coroutines.experimental.CoroutineContext
 
 

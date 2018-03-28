@@ -19,7 +19,9 @@ package com.github.debop.kodatimes
 
 import org.joda.time.*
 import org.joda.time.base.AbstractInstant
-import org.joda.time.format.*
+import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.DateTimeFormatter
+import org.joda.time.format.ISODateTimeFormat
 import java.sql.Timestamp
 import java.util.*
 

@@ -19,7 +19,10 @@
 package com.github.debop.kodatimes
 
 import com.github.debop.kodatimes.PeriodUnit.*
-import org.joda.time.*
+import org.joda.time.DateTime
+import org.joda.time.Period
+import org.joda.time.ReadableInterval
+import org.joda.time.ReadablePeriod
 import kotlin.coroutines.experimental.buildSequence
 
 

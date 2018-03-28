@@ -37,7 +37,7 @@ typealias ZonedDateTimeProgression = TemporalProgression<ZonedDateTime>
  * @property last  last value of progression
  * @property step  progression step
  */
-open class DateProgression<T : Date> internal constructor(start: T, endInclusive: T, val step: Duration) : Iterable<T> {
+open class DateProgression<out T : Date> internal constructor(start: T, endInclusive: T, val step: Duration) : Iterable<T> {
     init {
         require(step != Duration.ZERO) { "step must be non-zero" }
     }

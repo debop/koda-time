@@ -122,7 +122,7 @@ open class TemporalRange<T>(start: T, end: T)
 
         @JvmStatic
         fun <T> of(start: T, end: T): TemporalRange<T> where T : Temporal, T : Comparable<T> =
-            TemporalRange<T>(start, end)
+            TemporalRange(start, end)
     }
 }
 

@@ -19,7 +19,10 @@ import com.github.debop.javatimes.AbstractJavaTimesTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import java.time.*
+import java.time.Duration
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 
 
 class InstantRangeTest : AbstractJavaTimesTest() {
