@@ -10,7 +10,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
 //        classpath "io.spring.gradle:propdeps-plugin:0.0.9.RELEASE"
-        classpath "org.junit.platform:junit-platform-gradle-plugin:$junit_platform_version"
+//        classpath "org.junit.platform:junit-platform-gradle-plugin:$junit_platform_version"
     }
 }
 
@@ -46,7 +46,7 @@ apply plugin: 'maven-publish'
 //apply plugin: 'propdeps-maven'
 //apply plugin: 'propdeps-idea'
 
-apply plugin: 'org.junit.platform.gradle.plugin'
+//apply plugin: 'org.junit.platform.gradle.plugin'
 
 
 group = 'com.github.debop'
@@ -117,9 +117,8 @@ kotlin {
     }
 }
 
-// Display detail test results in tree
-junitPlatform {
-    details 'tree'
+test {
+    useJUnitPlatform()
 }
 
 dokka {
