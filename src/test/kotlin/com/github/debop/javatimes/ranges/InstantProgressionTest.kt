@@ -15,13 +15,20 @@
 
 package com.github.debop.javatimes.ranges
 
-import com.github.debop.javatimes.*
-import org.junit.jupiter.api.Assertions.*
+import com.github.debop.javatimes.AbstractJavaTimesTest
+import com.github.debop.javatimes.hours
+import com.github.debop.javatimes.minus
+import com.github.debop.javatimes.plus
+import com.github.debop.javatimes.toLocalDateTime
+import com.github.debop.javatimes.with
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotEquals
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import java.time.Duration
 import java.time.Instant
 
-class InstantProgressionTest : AbstractJavaTimesTest() {
+class InstantProgressionTest: AbstractJavaTimesTest() {
 
     @Test fun `create simple`() {
         val start = Instant.now()

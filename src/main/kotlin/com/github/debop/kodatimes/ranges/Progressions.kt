@@ -16,19 +16,23 @@
 package com.github.debop.kodatimes.ranges
 
 import com.github.debop.kodatimes.JodaTimeIterator
-import org.joda.time.*
+import org.joda.time.DateTime
+import org.joda.time.Duration
+import org.joda.time.Instant
+import org.joda.time.ReadableDuration
+import org.joda.time.ReadableInstant
 import java.util.*
 import kotlin.NoSuchElementException
 
 // a mod b (in arithmetical sense)
 private fun mod(a: Int, b: Int): Int {
     val mod = a % b
-    return if (mod >= 0) mod else mod + b
+    return if(mod >= 0) mod else mod + b
 }
 
 private fun mod(a: Long, b: Long): Long {
     val mod = a % b
-    return if (mod >= 0) mod else mod + b
+    return if(mod >= 0) mod else mod + b
 }
 
 // (a - b) mod c
@@ -90,7 +94,7 @@ internal fun getProgressionLastElement(start: Instant, end: Instant, step: Reada
  * @property step  progression step
  */
 @Suppress("UNUSED_PARAMETER")
-abstract class JodaTimeProgression<out T : ReadableInstant>(start: T, endInclusive: T, val step: ReadableDuration) : Iterable<T> {
+abstract class JodaTimeProgression<out T: ReadableInstant>(start: T, endInclusive: T, val step: ReadableDuration): Iterable<T> {
     init {
         require(step.millis != 0L) { "step must be non-zero" }
     }
@@ -98,7 +102,7 @@ abstract class JodaTimeProgression<out T : ReadableInstant>(start: T, endInclusi
     val first: T = start
     abstract val last: T
 
-    open fun isEmpty(): Boolean = if (step.millis > 0) first > last else first < last
+    open fun isEmpty(): Boolean = if(step.millis > 0) first > last else first < last
 
     override fun equals(other: Any?): Boolean =
         other is JodaTimeProgression<*> &&
@@ -106,11 +110,11 @@ abstract class JodaTimeProgression<out T : ReadableInstant>(start: T, endInclusi
          (first == other.first && last == other.last && step == other.step))
 
     override fun hashCode(): Int =
-        if (isEmpty()) -1
+        if(isEmpty()) -1
         else Objects.hash(first, last, step)
 
     override fun toString(): String =
-        if (step.millis > 0) "$first..$last step $step"
+        if(step.millis > 0) "$first..$last step $step"
         else "$first downTo $last step ${step.toDuration().negated()}"
 }
 
@@ -155,18 +159,18 @@ open class InstantProgression internal constructor(start: Instant, endInclusive:
  *
  * @property step the number by which the value is incremented on each step.
  */
-internal class DateTimeProgressionIterator(first: DateTime, last: DateTime, val step: ReadableDuration) : JodaTimeIterator<DateTime>() {
+internal class DateTimeProgressionIterator(first: DateTime, last: DateTime, val step: ReadableDuration): JodaTimeIterator<DateTime>() {
 
     private val finalElement: DateTime = last
-    private var hasNext: Boolean = if (step.millis > 0) first <= last else first >= last
-    private var next: DateTime = if (hasNext) first else finalElement
+    private var hasNext: Boolean = if(step.millis > 0) first <= last else first >= last
+    private var next: DateTime = if(hasNext) first else finalElement
 
     override fun hasNext(): Boolean = hasNext
 
     override fun nextJodaTime(): DateTime {
         val value = next
-        if (value == finalElement) {
-            if (!hasNext) throw NoSuchElementException()
+        if(value == finalElement) {
+            if(!hasNext) throw NoSuchElementException()
             hasNext = false
         } else {
             next += step
@@ -180,18 +184,18 @@ internal class DateTimeProgressionIterator(first: DateTime, last: DateTime, val 
  *
  * @property step the number by which the value is incremented on each step.
  */
-internal class InstantProgressionIterator(first: Instant, last: Instant, val step: ReadableDuration) : JodaTimeIterator<Instant>() {
+internal class InstantProgressionIterator(first: Instant, last: Instant, val step: ReadableDuration): JodaTimeIterator<Instant>() {
 
     private val finalElement: Instant = last
-    private var hasNext: Boolean = if (step.millis > 0) first <= last else first >= last
-    private var next: Instant = if (hasNext) first else finalElement
+    private var hasNext: Boolean = if(step.millis > 0) first <= last else first >= last
+    private var next: Instant = if(hasNext) first else finalElement
 
     override fun hasNext(): Boolean = hasNext
 
     override fun nextJodaTime(): Instant {
         val value = next
-        if (value == finalElement) {
-            if (!hasNext) throw NoSuchElementException()
+        if(value == finalElement) {
+            if(!hasNext) throw NoSuchElementException()
             hasNext = false
         } else {
             next += step

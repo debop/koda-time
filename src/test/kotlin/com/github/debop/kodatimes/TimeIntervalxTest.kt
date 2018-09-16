@@ -20,16 +20,16 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
-class TimeIntervalxTest : AbstractKodaTimesTest() {
+class TimeIntervalxTest: AbstractKodaTimesTest() {
 
     @Test fun rangeTest() {
         val start = now()
         val end = start + 1.days()
 
-        val range: Interval = start .. end
+        val range: Interval = start..end
 
         assertTrue {
-            range.days().all { it in start.startOfDay() .. end }
+            range.days().all { it in start.startOfDay()..end }
         }
         assertEquals(range.days().last(), end.startOfDay())
     }
@@ -39,11 +39,11 @@ class TimeIntervalxTest : AbstractKodaTimesTest() {
         val end = start + 1.days() + 1.millis()
 
         // range contains is start <= x && x < end
-        (start .. end step 1.hours().toPeriod()).forEach {
-            assertTrue { it in start .. end }
+        (start..end step 1.hours().toPeriod()).forEach {
+            assertTrue { it in start..end }
         }
 
-        assertTrue((start .. end).hours().all { it in start .. end })
+        assertTrue((start..end).hours().all { it in start..end })
     }
 
 }

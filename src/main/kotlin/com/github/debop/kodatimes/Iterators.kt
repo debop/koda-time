@@ -20,7 +20,7 @@ import org.joda.time.ReadableInstant
 /**
  * An iterator over a sequence of values of type `org.joda.time.ReadableInstant`.
  */
-abstract class JodaTimeIterator<out T : ReadableInstant> : Iterator<T> {
+abstract class JodaTimeIterator<out T: ReadableInstant>: Iterator<T> {
 
     final override fun next(): T = nextJodaTime()
 

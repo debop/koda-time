@@ -15,12 +15,26 @@
 
 package com.github.debop.kodatimes.ranges
 
-import com.github.debop.kodatimes.*
+import com.github.debop.kodatimes.AbstractKodaTimesTest
+import com.github.debop.kodatimes.dayDuration
+import com.github.debop.kodatimes.dayDurationOf
+import com.github.debop.kodatimes.days
+import com.github.debop.kodatimes.hourDuration
+import com.github.debop.kodatimes.hours
+import com.github.debop.kodatimes.minus
+import com.github.debop.kodatimes.now
+import com.github.debop.kodatimes.plus
+import com.github.debop.kodatimes.standardDays
+import com.github.debop.kodatimes.standardHours
+import com.github.debop.kodatimes.today
+import com.github.debop.kodatimes.unaryMinus
 import org.joda.time.Duration
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotEquals
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 
-class InstantProgressionTest : AbstractKodaTimesTest() {
+class InstantProgressionTest: AbstractKodaTimesTest() {
 
     @Test fun `create simple`() {
         val start = today().toInstant()

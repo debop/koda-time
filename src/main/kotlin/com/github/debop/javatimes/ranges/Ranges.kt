@@ -20,7 +20,13 @@ package com.github.debop.javatimes.ranges
 import com.github.debop.javatimes.dateOf
 import java.sql.Time
 import java.sql.Timestamp
-import java.time.*
+import java.time.Duration
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.OffsetDateTime
+import java.time.ZonedDateTime
 import java.time.temporal.Temporal
 import java.util.*
 
@@ -68,13 +74,13 @@ open class DateRange(start: Date, endInclusive: Date)
     }
 }
 
-class TimeRange(start: Time, endInclusive: Time) : DateRange(start, endInclusive) {
+class TimeRange(start: Time, endInclusive: Time): DateRange(start, endInclusive) {
     companion object {
         @JvmField val EMPTY: TimeRange = TimeRange(Time(1), Time(0))
     }
 }
 
-class TimestampRange(start: Timestamp, endInclusive: Timestamp) : DateRange(start, endInclusive) {
+class TimestampRange(start: Timestamp, endInclusive: Timestamp): DateRange(start, endInclusive) {
     companion object {
         @JvmField val EMPTY: TimestampRange = TimestampRange(Timestamp(1), Timestamp(0))
     }
@@ -83,7 +89,7 @@ class TimestampRange(start: Timestamp, endInclusive: Timestamp) : DateRange(star
 /**
  * A range of [java.time.Instant]
  */
-class InstantRange(start: Instant, endInclusive: Instant) : InstantProgression(start, endInclusive), ClosedRange<Instant> {
+class InstantRange(start: Instant, endInclusive: Instant): InstantProgression(start, endInclusive), ClosedRange<Instant> {
 
     override val start: Instant get() = first
 
@@ -104,7 +110,7 @@ class InstantRange(start: Instant, endInclusive: Instant) : InstantProgression(s
  * A range of Temporal
  */
 open class TemporalRange<T>(start: T, end: T)
-    : TemporalProgression<T>(start, end, Duration.ofMillis(1L)), ClosedRange<T> where T : Temporal, T : Comparable<T> {
+    : TemporalProgression<T>(start, end, Duration.ofMillis(1L)), ClosedRange<T> where T: Temporal, T: Comparable<T> {
 
     override val start: T get() = first
 
@@ -121,7 +127,7 @@ open class TemporalRange<T>(start: T, end: T)
         @JvmField val EMPTY = of<LocalDateTime>(LocalDateTime.MAX, LocalDateTime.MIN)
 
         @JvmStatic
-        fun <T> of(start: T, end: T): TemporalRange<T> where T : Temporal, T : Comparable<T> =
+        fun <T> of(start: T, end: T): TemporalRange<T> where T: Temporal, T: Comparable<T> =
             TemporalRange(start, end)
     }
 }

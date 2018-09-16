@@ -15,12 +15,16 @@
 
 package com.github.debop.kodatimes.ranges
 
-import com.github.debop.kodatimes.*
+import com.github.debop.kodatimes.AbstractKodaTimesTest
+import com.github.debop.kodatimes.days
+import com.github.debop.kodatimes.minus
+import com.github.debop.kodatimes.plus
+import com.github.debop.kodatimes.today
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
-class InstantRangeTest : AbstractKodaTimesTest() {
+class InstantRangeTest: AbstractKodaTimesTest() {
 
     @Test fun `simple creation`() {
 

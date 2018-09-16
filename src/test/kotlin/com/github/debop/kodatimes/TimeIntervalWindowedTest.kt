@@ -15,16 +15,18 @@
 
 package com.github.debop.kodatimes
 
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
-class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
+class TimeIntervalWindowedTest: AbstractKodaTimesTest() {
 
     @Test
     fun `windowed year`() {
         val start = now().startOfYear()
         val endExclusive = start + 5.years()
-        val interval = start .. endExclusive
+        val interval = start..endExclusive
         logger.debug("interval=$interval")
 
         val windowed = interval.windowedYear(3, 2)
@@ -47,7 +49,7 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     fun `windowed month`() {
         val start = now().startOfMonth()
         val endExclusive = start + 5.months()
-        val interval = start .. endExclusive
+        val interval = start..endExclusive
         logger.debug("interval=$interval")
 
         val windowed = interval.windowedMonth(3, 2)
@@ -69,7 +71,7 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     fun `windowed week`() {
         val start = now().startOfWeek()
         val endExclusive = start + 5.weeks()
-        val interval = start .. endExclusive
+        val interval = start..endExclusive
         logger.debug("interval=$interval")
 
         val windowed = interval.windowedWeek(3, 2)
@@ -91,7 +93,7 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     fun `windowed day`() {
         val start = now().startOfDay()
         val endExclusive = start + 5.days()
-        val interval = start .. endExclusive
+        val interval = start..endExclusive
         logger.debug("interval=$interval")
 
         val windowed = interval.windowedDay(3, 2)
@@ -113,7 +115,7 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     fun `windowed hour`() {
         val start = now().trimToHour()
         val endExclusive = start + 5.hours()
-        val interval = start .. endExclusive
+        val interval = start..endExclusive
         logger.debug("interval=$interval")
 
         val windowed = interval.windowedHour(3, 2)
@@ -135,7 +137,7 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     fun `windowed minute`() {
         val start = now().trimToMinute()
         val endExclusive = start + 5.minutes()
-        val interval = start .. endExclusive
+        val interval = start..endExclusive
         logger.debug("interval=$interval")
 
         val windowed = interval.windowedMinute(3, 2)
@@ -157,7 +159,7 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     fun `windowed second`() {
         val start = now().trimToSecond()
         val endExclusive = start + 5.seconds()
-        val interval = start .. endExclusive
+        val interval = start..endExclusive
         logger.debug("interval=$interval")
 
         val windowed = interval.windowedSecond(3, 2)
@@ -179,7 +181,7 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     fun `zipWithNext years`() {
         val start = now().startOfYear()
         val endExclusive = start + 5.years()
-        val interval = start .. endExclusive
+        val interval = start..endExclusive
         logger.debug("interval=$interval")
 
         val pairs = interval.zipWithNextYear().toList()
@@ -196,7 +198,7 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     fun `zipWithNext months`() {
         val start = now().startOfMonth()
         val endExclusive = start + 5.months()
-        val interval = start .. endExclusive
+        val interval = start..endExclusive
         logger.debug("interval=$interval")
 
         val pairs = interval.zipWithNextMonth().toList()
@@ -213,7 +215,7 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     fun `zipWithNext weeks`() {
         val start = now().startOfWeek()
         val endExclusive = start + 5.weeks()
-        val interval = start .. endExclusive
+        val interval = start..endExclusive
         logger.debug("interval=$interval")
 
         val pairs = interval.zipWithNextWeek().toList()
@@ -230,7 +232,7 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     fun `zipWithNext days`() {
         val start = now().startOfDay()
         val endExclusive = start + 5.days()
-        val interval = start .. endExclusive
+        val interval = start..endExclusive
         logger.debug("interval=$interval")
 
         val pairs = interval.zipWithNextDay().toList()
@@ -247,7 +249,7 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     fun `zipWithNext hours`() {
         val start = now().trimToHour()
         val endExclusive = start + 5.hours()
-        val interval = start .. endExclusive
+        val interval = start..endExclusive
         logger.debug("interval=$interval")
 
         val pairs = interval.zipWithNextHour().toList()
@@ -264,7 +266,7 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     fun `zipWithNext minutes`() {
         val start = now().trimToMinute()
         val endExclusive = start + 5.minutes()
-        val interval = start .. endExclusive
+        val interval = start..endExclusive
         logger.debug("interval=$interval")
 
         val pairs = interval.zipWithNextMinute().toList()
@@ -281,7 +283,7 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
     fun `zipWithNext seconds`() {
         val start = now().trimToSecond()
         val endExclusive = start + 5.seconds()
-        val interval = start .. endExclusive
+        val interval = start..endExclusive
         logger.debug("interval=$interval")
 
         val pairs = interval.zipWithNextSecond().toList()

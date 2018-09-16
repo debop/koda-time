@@ -21,16 +21,16 @@ import org.joda.time.Duration
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-class DurationTest : AbstractKodaTimesTest() {
+class DurationTest: AbstractKodaTimesTest() {
 
     @Test fun makeDuration() {
         val now = DateTime.now()
-        val duration: Duration = (now .. now + 1.days()).toDuration()
+        val duration: Duration = (now..now + 1.days()).toDuration()
         assertEquals(1L, duration.standardDays)
 
-        assertEquals(7L, (now .. now + 7.days()).toDuration().standardDays)
-        assertEquals(40L, (now .. now + 40.days()).toDuration().standardDays)
-        assertEquals(500L, (now .. now + 500.days()).toDuration().standardDays)
+        assertEquals(7L, (now..now + 7.days()).toDuration().standardDays)
+        assertEquals(40L, (now..now + 40.days()).toDuration().standardDays)
+        assertEquals(500L, (now..now + 500.days()).toDuration().standardDays)
     }
 
     @Test fun sortDuration() {

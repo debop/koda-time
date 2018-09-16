@@ -17,13 +17,20 @@ package com.github.debop.javatimes.ranges
 
 import com.github.debop.javatimes.AbstractJavaTimesTest
 import com.github.debop.javatimes.hours
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotEquals
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import java.time.*
+import java.time.Duration
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.OffsetDateTime
+import java.time.ZonedDateTime
 import java.time.temporal.Temporal
 
-abstract class TemporalProgressionTest<T> : AbstractJavaTimesTest() where T : Temporal, T : Comparable<T> {
+abstract class TemporalProgressionTest<T>: AbstractJavaTimesTest() where T: Temporal, T: Comparable<T> {
 
     abstract val start: T
 
@@ -89,24 +96,24 @@ abstract class TemporalProgressionTest<T> : AbstractJavaTimesTest() where T : Te
     }
 }
 
-class LocalDateTimeProgressionTest : TemporalProgressionTest<LocalDateTime>() {
+class LocalDateTimeProgressionTest: TemporalProgressionTest<LocalDateTime>() {
     override val start: LocalDateTime = LocalDateTime.now()
 }
 
 @Disabled("Cannot support range")
-class LocalDateProgressionTest : TemporalProgressionTest<LocalDate>() {
+class LocalDateProgressionTest: TemporalProgressionTest<LocalDate>() {
     override val start: LocalDate = LocalDate.now()
 }
 
 @Disabled("Cannot support range")
-class LocalTimeProgressionTest : TemporalProgressionTest<LocalTime>() {
+class LocalTimeProgressionTest: TemporalProgressionTest<LocalTime>() {
     override val start: LocalTime = LocalTime.now()
 }
 
-class OffsetDateTimeProgressionTest : TemporalProgressionTest<OffsetDateTime>() {
+class OffsetDateTimeProgressionTest: TemporalProgressionTest<OffsetDateTime>() {
     override val start: OffsetDateTime = OffsetDateTime.now()
 }
 
-class ZonedDateTimeProgressionTest : TemporalProgressionTest<ZonedDateTime>() {
+class ZonedDateTimeProgressionTest: TemporalProgressionTest<ZonedDateTime>() {
     override val start: ZonedDateTime = ZonedDateTime.now()
 }

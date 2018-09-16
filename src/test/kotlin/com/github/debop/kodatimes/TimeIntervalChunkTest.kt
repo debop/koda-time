@@ -15,16 +15,18 @@
 
 package com.github.debop.kodatimes
 
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
-class TimeIntervalChunkTest : AbstractKodaTimesTest() {
+class TimeIntervalChunkTest: AbstractKodaTimesTest() {
 
     @Test fun `chunk years`() {
         val start = now().startOfYear()
         val endExclusive = start + 5.years()
         logger.debug { "start=$start, end=$endExclusive" }
-        val interval = start .. endExclusive
+        val interval = start..endExclusive
 
         val chunks = interval.chunkYear(4).toList()
         chunks.forEach(::println)
@@ -51,9 +53,9 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
         val start = now().startOfYear()
         val endExclusive = start + 5.years()
         logger.debug("start=$start, end=$endExclusive")
-        val interval = start .. endExclusive
+        val interval = start..endExclusive
 
-        val intervals = interval.chunkYear(3).map { years -> years.first() .. years.last() }.toList()
+        val intervals = interval.chunkYear(3).map { years -> years.first()..years.last() }.toList()
 
         assertEquals(2, intervals.size)
 
@@ -66,7 +68,7 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
         val start = now().startOfMonth()
         val endExclusive = start + 13.months()
         logger.debug("start=$start, end=$endExclusive")
-        val interval = start .. endExclusive
+        val interval = start..endExclusive
 
         val chunks = interval.chunkMonth(5).toList()
 
@@ -93,9 +95,9 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
         val start = now().startOfMonth()
         val endExclusive = start + 13.months()
         logger.debug("start=$start, end=$endExclusive")
-        val interval = start .. endExclusive
+        val interval = start..endExclusive
 
-        val intervals = interval.chunkMonth(5).map { months -> months.first() .. months.last() }.toList()
+        val intervals = interval.chunkMonth(5).map { months -> months.first()..months.last() }.toList()
 
         assertEquals(3, intervals.size)
 
@@ -108,7 +110,7 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
         val start = now().startOfWeek()
         val endExclusive = start + 5.weeks()
         logger.debug("start=$start, end=$endExclusive")
-        val interval = start .. endExclusive
+        val interval = start..endExclusive
 
         val chunks = interval.chunkWeek(2).toList()
 
@@ -136,9 +138,9 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
         val start = now().startOfWeek()
         val endExclusive = start + 5.weeks()
         logger.debug("start=$start, end=$endExclusive")
-        val interval = start .. endExclusive
+        val interval = start..endExclusive
 
-        val intervals = interval.chunkWeek(2).map { it.first() .. it.last() }.toList()
+        val intervals = interval.chunkWeek(2).map { it.first()..it.last() }.toList()
 
         intervals.forEach(::println)
         assertEquals(3, intervals.size)
@@ -152,7 +154,7 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
         val start = now().startOfDay()
         val endExclusive = start + 66.days()
         logger.debug("start=$start, end=$endExclusive")
-        val interval = start .. endExclusive
+        val interval = start..endExclusive
 
         val chunks = interval.chunkDay(30).toList()
 
@@ -180,9 +182,9 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
         val start = now().startOfDay()
         val endExclusive = start + 66.days()
         logger.debug("start=$start, end=$endExclusive")
-        val interval = start .. endExclusive
+        val interval = start..endExclusive
 
-        val intervals = interval.chunkDay(30).map { days -> days.first() .. days.last() }.toList()
+        val intervals = interval.chunkDay(30).map { days -> days.first()..days.last() }.toList()
 
         intervals.forEach(::println)
         assertEquals(3, intervals.size)
@@ -196,7 +198,7 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
         val start = now().trimToHour()
         val endExclusive = start + 66.hours()
         logger.debug("start=$start, end=$endExclusive")
-        val interval = start .. endExclusive
+        val interval = start..endExclusive
 
         val chunks = interval.chunkHour(20).toList()
 
@@ -224,9 +226,9 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
         val start = now().trimToHour()
         val endExclusive = start + 66.hours()
         logger.debug("start=$start, end=$endExclusive")
-        val interval = start .. endExclusive
+        val interval = start..endExclusive
 
-        val intervals = interval.chunkHour(20).map { it.first() .. it.last() }.toList()
+        val intervals = interval.chunkHour(20).map { it.first()..it.last() }.toList()
 
         intervals.forEach(::println)
         assertEquals(4, intervals.size)
@@ -240,7 +242,7 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
         val start = now().trimToMinute()
         val endExclusive = start + 33.minutes()
         logger.debug("start=$start, end=$endExclusive")
-        val interval = start .. endExclusive
+        val interval = start..endExclusive
 
         val chunks = interval.chunkMinute(10).toList()
 
@@ -268,9 +270,9 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
         val start = now().trimToMinute()
         val endExclusive = start + 33.minutes()
         logger.debug("start=$start, end=$endExclusive")
-        val interval = start .. endExclusive
+        val interval = start..endExclusive
 
-        val intervals = interval.chunkMinute(10).map { it.first() .. it.last() }.toList()
+        val intervals = interval.chunkMinute(10).map { it.first()..it.last() }.toList()
 
         intervals.forEach(::println)
         assertEquals(4, intervals.size)
@@ -284,7 +286,7 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
         val start = now().trimToSecond()
         val endExclusive = start + 33.seconds()
         logger.debug("start=$start, end=$endExclusive")
-        val interval = start .. endExclusive
+        val interval = start..endExclusive
 
         val chunks = interval.chunkSecond(10).toList()
 
@@ -311,9 +313,9 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
         val start = now().trimToSecond()
         val endExclusive = start + 33.seconds()
         logger.debug("start=$start, end=$endExclusive")
-        val interval = start .. endExclusive
+        val interval = start..endExclusive
 
-        val intervals = interval.chunkSecond(10).map { it.first() .. it.last() }.toList()
+        val intervals = interval.chunkSecond(10).map { it.first()..it.last() }.toList()
 
         intervals.forEach(::println)
         assertEquals(4, intervals.size)

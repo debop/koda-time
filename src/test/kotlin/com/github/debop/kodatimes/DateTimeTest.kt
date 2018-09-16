@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
-class DateTimeTest : AbstractKodaTimesTest() {
+class DateTimeTest: AbstractKodaTimesTest() {
 
     private val EXPECTED_DATETIME_STR = "2013-03-02T07:08:09.123+0900"
 
@@ -71,10 +71,10 @@ class DateTimeTest : AbstractKodaTimesTest() {
         assertTrue { DateTime.now().nextMonth() < DateTime.now() + 2.months() }
 
         val now = DateTime.now()
-        val range: Interval = now .. now.tomorrow()
+        val range: Interval = now..now.tomorrow()
         println("range=$range")
 
-        val sec: Interval = now .. now.nextSecond()
+        val sec: Interval = now..now.nextSecond()
         assertEquals(1000L, sec.millis())
     }
 

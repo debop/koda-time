@@ -51,7 +51,7 @@ class DateTimeRange(start: DateTime, endInclusive: DateTime)
     override fun isEmpty(): Boolean = first > last
 
     override fun equals(other: Any?): Boolean =
-        when (other) {
+        when(other) {
             is DateTimeRange -> isEmpty() && other.isEmpty() || (first == other.first && last == other.last)
             else -> false
         }
@@ -85,7 +85,7 @@ class InstantRange(start: Instant, endInclusive: Instant)
     override fun isEmpty(): Boolean = first > last
 
     override fun equals(other: Any?): Boolean =
-        when (other) {
+        when(other) {
             is InstantRange -> isEmpty() && other.isEmpty() || (first == other.first && last == other.last)
             else -> false
         }

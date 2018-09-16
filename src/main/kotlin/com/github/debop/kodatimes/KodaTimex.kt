@@ -17,7 +17,20 @@
 
 package com.github.debop.kodatimes
 
-import org.joda.time.*
+import org.joda.time.DateTime
+import org.joda.time.DateTimeConstants
+import org.joda.time.DateTimeZone
+import org.joda.time.Duration
+import org.joda.time.Instant
+import org.joda.time.Interval
+import org.joda.time.LocalDate
+import org.joda.time.LocalDateTime
+import org.joda.time.LocalTime
+import org.joda.time.MutableDateTime
+import org.joda.time.Period
+import org.joda.time.ReadableDuration
+import org.joda.time.ReadableInstant
+import org.joda.time.ReadablePeriod
 import org.joda.time.base.AbstractInstant
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
@@ -118,33 +131,33 @@ fun dateTimeFormat(pattern: String): DateTimeFormatter = DateTimeFormat.forPatte
 
 /** Parse string to [DateTime] */
 fun String.toDateTime(pattern: String? = null): DateTime? = try {
-    if (pattern.isNullOrBlank()) DateTime(this)
+    if(pattern.isNullOrBlank()) DateTime(this)
     else DateTime.parse(this, dateTimeFormat(pattern!!))
-} catch (ignored: Throwable) {
+} catch(ignored: Throwable) {
     null
 }
 
 /** Parse string to `Interval` */
 fun String.toInterval(): Interval? = try {
     Interval.parse(this)
-} catch (ignored: Throwable) {
+} catch(ignored: Throwable) {
     null
 }
 
 /** Parse string to `LocalDate` */
 fun String.toLocalDate(pattern: String? = null): LocalDate? = try {
-    if (pattern.isNullOrBlank()) LocalDate(this)
+    if(pattern.isNullOrBlank()) LocalDate(this)
     else LocalDate.parse(this, dateTimeFormat(pattern!!))
-} catch (ignored: Throwable) {
+} catch(ignored: Throwable) {
     null
 }
 
 /** Parse string to `LocalTime` */
 fun String.toLocalTime(pattern: String? = null): LocalTime? = try {
-    if (pattern.isNullOrBlank())
+    if(pattern.isNullOrBlank())
         LocalTime(this)
     else LocalTime.parse(this, dateTimeFormat(pattern!!))
-} catch (ignored: Throwable) {
+} catch(ignored: Throwable) {
     null
 }
 
@@ -249,28 +262,28 @@ fun DateTime.toIsoFormatHMSString(): String = ISODateTimeFormat.dateHourMinuteSe
 
 fun DateTime.toTimestampZoneText(): TimestampZoneText = TimestampZoneText(this)
 
-infix fun <T : ReadableInstant> T.min(that: T): T {
-    return if (this < that) this else that
+infix fun <T: ReadableInstant> T.min(that: T): T {
+    return if(this < that) this else that
 }
 
-infix fun <T : ReadableInstant> T.max(that: T): T {
-    return if (this > that) this else that
+infix fun <T: ReadableInstant> T.max(that: T): T {
+    return if(this > that) this else that
 }
 
 /** get minimum [DateTime] */
 infix fun DateTime.min(that: DateTime): DateTime {
-    return if (this < that) this else that
+    return if(this < that) this else that
 }
 
 /** get maximum [DateTime] */
 infix fun DateTime.max(that: DateTime): DateTime {
-    return if (this > that) this else that
+    return if(this > that) this else that
 }
 
 fun minOf(a: DateTime, b: DateTime, vararg args: DateTime): DateTime {
-    var min = if (a < b) a else b
+    var min = if(a < b) a else b
     args.forEach {
-        if (it < min) {
+        if(it < min) {
             min = it
         }
     }
@@ -278,9 +291,9 @@ fun minOf(a: DateTime, b: DateTime, vararg args: DateTime): DateTime {
 }
 
 fun maxOf(a: DateTime, b: DateTime, vararg args: DateTime): DateTime {
-    var max = if (a < b) b else a
+    var max = if(a < b) b else a
     args.forEach {
-        if (it > max) {
+        if(it > max) {
             max = it
         }
     }
@@ -429,7 +442,7 @@ fun Duration.minutes(): Long = this.standardMinutes
 fun Duration.seconds(): Long = this.standardSeconds
 
 /** absolute duration */
-fun Duration.abs(): Duration = if (this < emptyDuration) -this else this
+fun Duration.abs(): Duration = if(this < emptyDuration) -this else this
 
 /** get [DateTime] from current time + duration */
 fun Duration.fromNow(): DateTime = now() + this
@@ -450,26 +463,26 @@ operator fun Duration.times(multiplicand: Long): Duration = this.multipliedBy(mu
 fun Duration.isZero(): Boolean = this.millis == 0L
 
 infix fun Duration.min(that: Duration): Duration {
-    return if (this < that) this else that
+    return if(this < that) this else that
 }
 
 infix fun Duration.max(that: Duration): Duration {
-    return if (this > that) this else that
+    return if(this > that) this else that
 }
 
 fun minOf(a: Duration, b: Duration, vararg args: Duration): Duration {
-    var min = if (a < b) a else b
+    var min = if(a < b) a else b
     args.forEach {
-        if (it < min)
+        if(it < min)
             min = it
     }
     return min
 }
 
 fun maxOf(a: Duration, b: Duration, vararg args: Duration): Duration {
-    var max = if (a > b) a else b
+    var max = if(a > b) a else b
     args.forEach {
-        if (it > max)
+        if(it > max)
             max = it
     }
     return max
@@ -525,18 +538,18 @@ fun thisMinute(): Interval = now().minuteOfHour().toInterval()
 fun thisHour(): Interval = now().hourOfDay().toInterval()
 
 fun minOf(a: Instant, b: Instant, vararg args: Instant): Instant {
-    var min = if (a < b) a else b
+    var min = if(a < b) a else b
     args.forEach {
-        if (it < min)
+        if(it < min)
             min = it
     }
     return min
 }
 
 fun maxOf(a: Instant, b: Instant, vararg args: Instant): Instant {
-    var max = if (a > b) a else b
+    var max = if(a > b) a else b
     args.forEach {
-        if (it > max)
+        if(it > max)
             max = it
     }
     return max

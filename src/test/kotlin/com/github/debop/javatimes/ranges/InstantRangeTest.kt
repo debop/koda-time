@@ -25,7 +25,7 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 
 
-class InstantRangeTest : AbstractJavaTimesTest() {
+class InstantRangeTest: AbstractJavaTimesTest() {
 
     @Test fun `simple creation`() {
 

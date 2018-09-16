@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.time.Duration
 
-class DateRangeTest : AbstractJavaTimesTest() {
+class DateRangeTest: AbstractJavaTimesTest() {
 
     @Test fun `simple creation`() {
 

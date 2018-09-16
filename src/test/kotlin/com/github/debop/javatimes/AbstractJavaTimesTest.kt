@@ -19,6 +19,6 @@ import mu.KLogging
 
 abstract class AbstractJavaTimesTest {
 
-    companion object : KLogging()
+    companion object: KLogging()
 
 }

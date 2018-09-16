@@ -20,7 +20,16 @@ package com.github.debop.javatimes
 import org.joda.time.DateTime
 import org.joda.time.Interval
 import java.sql.Timestamp
-import java.time.*
+import java.time.Duration
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.Month
+import java.time.MonthDay
+import java.time.Period
+import java.time.ZoneId
+import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoField
 import java.time.temporal.Temporal
@@ -53,7 +62,7 @@ fun TemporalAccessor.toLocalIsoString(): String = DateTimeFormatter.ISO_LOCAL_DA
 fun Temporal.toEhpochMillis(): Long {
     val days = try {
         getLong(ChronoField.EPOCH_DAY)
-    } catch (e: Exception) {
+    } catch(e: Exception) {
         0L
     }
     val millis = getLong(ChronoField.MILLI_OF_DAY)
@@ -216,7 +225,7 @@ val Instant.yearInterval: Interval
     get() {
         val start = this.startOfYear
         val endExclusive = start + 1.years
-        return start .. endExclusive
+        return start..endExclusive
     }
 
 /**
@@ -226,7 +235,7 @@ val Instant.monthInterval: Interval
     get() {
         val start = this.startOfMonth
         val endExclusive = start + 1.months
-        return start .. endExclusive
+        return start..endExclusive
     }
 
 /**
@@ -236,7 +245,7 @@ val Instant.weekInterval: Interval
     get() {
         val start = this.startOfWeek
         val endExclusive = start + 7.days
-        return start .. endExclusive
+        return start..endExclusive
     }
 
 /**
@@ -246,7 +255,7 @@ val Instant.dayInterval: Interval
     get() {
         val start: Instant = this.startOfDay
         val endExclusive = start + 1.days
-        return start .. endExclusive
+        return start..endExclusive
     }
 
 operator fun Period.unaryMinus(): Period = this.negated()
@@ -257,12 +266,12 @@ operator fun Period.unaryMinus(): Period = this.negated()
 suspend fun Period.yearSequence(): Sequence<Int> = buildSequence {
     var year = 0
     val years = this@yearSequence.years
-    if (years > 0) {
-        while (year < years) {
+    if(years > 0) {
+        while(year < years) {
             yield(year++)
         }
     } else {
-        while (year > years) {
+        while(year > years) {
             yield(year--)
         }
     }
@@ -274,12 +283,12 @@ suspend fun Period.yearSequence(): Sequence<Int> = buildSequence {
 suspend fun Period.monthSequence(): Sequence<Int> = buildSequence {
     var month = 0
     val months = this@monthSequence.months
-    if (months > 0) {
-        while (month < months) {
+    if(months > 0) {
+        while(month < months) {
             yield(month++)
         }
     } else {
-        while (month > months) {
+        while(month > months) {
             yield(month--)
         }
     }
@@ -291,12 +300,12 @@ suspend fun Period.monthSequence(): Sequence<Int> = buildSequence {
 suspend fun Period.daySequence(): Sequence<Int> = buildSequence {
     var day = 0
     val days = this@daySequence.days
-    if (days > 0) {
-        while (day < days) {
+    if(days > 0) {
+        while(day < days) {
             yield(day++)
         }
     } else {
-        while (day > days) {
+        while(day > days) {
             yield(day--)
         }
     }
