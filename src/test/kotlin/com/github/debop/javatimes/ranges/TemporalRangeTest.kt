@@ -20,12 +20,18 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import java.time.*
+import java.time.Duration
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.OffsetDateTime
+import java.time.ZonedDateTime
 import java.time.temporal.Temporal
 
 abstract class TemporalRangeTest<T> : AbstractJavaTimesTest() where T : Temporal, T : Comparable<T> {
 
     abstract val start: T
+    @Suppress("UNCHECKED_CAST")
     val endInclusive: T get() = (start + Duration.ofDays(1)) as T
     abstract val range: TemporalRange<T>
 
