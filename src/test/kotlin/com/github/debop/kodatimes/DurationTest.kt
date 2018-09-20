@@ -15,25 +15,27 @@
 
 package com.github.debop.kodatimes
 
-
 import org.joda.time.DateTime
 import org.joda.time.Duration
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import org.junit.Test
+import kotlin.test.assertEquals
+
 
 class DurationTest: AbstractKodaTimesTest() {
 
-    @Test fun makeDuration() {
+    @Test
+    fun makeDuration() {
         val now = DateTime.now()
         val duration: Duration = (now..now + 1.days()).toDuration()
-        assertEquals(1L, duration.standardDays)
 
+        assertEquals(1L, duration.standardDays)
         assertEquals(7L, (now..now + 7.days()).toDuration().standardDays)
         assertEquals(40L, (now..now + 40.days()).toDuration().standardDays)
         assertEquals(500L, (now..now + 500.days()).toDuration().standardDays)
     }
 
-    @Test fun sortDuration() {
+    @Test
+    fun sortDuration() {
         val list = listOf(1.seconds(), 5.seconds(), 2.seconds(), 4.seconds()).map { it.duration }
         val expected = listOf(1.seconds(), 2.seconds(), 4.seconds(), 5.seconds()).map { it.duration }
 

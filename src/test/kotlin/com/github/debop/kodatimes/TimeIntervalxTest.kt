@@ -16,13 +16,14 @@
 package com.github.debop.kodatimes
 
 import org.joda.time.Interval
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.Test
+import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class TimeIntervalxTest: AbstractKodaTimesTest() {
 
-    @Test fun rangeTest() {
+    @Test
+    fun rangeTest() {
         val start = now()
         val end = start + 1.days()
 
@@ -34,7 +35,8 @@ class TimeIntervalxTest: AbstractKodaTimesTest() {
         assertEquals(range.days().last(), end.startOfDay())
     }
 
-    @Test fun rangeStepTest() {
+    @Test
+    fun rangeStepTest() {
         val start = now()
         val end = start + 1.days() + 1.millis()
 

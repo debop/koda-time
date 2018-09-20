@@ -29,14 +29,15 @@ import com.github.debop.kodatimes.standardHours
 import com.github.debop.kodatimes.today
 import com.github.debop.kodatimes.unaryMinus
 import org.joda.time.Duration
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotEquals
-import org.junit.jupiter.api.Assertions.assertThrows
-import org.junit.jupiter.api.Test
+import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
+import kotlin.test.assertNotEquals
 
 class InstantProgressionTest: AbstractKodaTimesTest() {
 
-    @Test fun `create simple`() {
+    @Test
+    fun `create simple`() {
         val start = today().toInstant()
         val endInclusive = start + 1.days()
 
@@ -50,15 +51,17 @@ class InstantProgressionTest: AbstractKodaTimesTest() {
         assertEquals(25, list.count())
     }
 
-    @Test fun `zero step`() {
+    @Test
+    fun `zero step`() {
         val instant = now().toInstant()
 
-        assertThrows(IllegalArgumentException::class.java) {
+        assertFailsWith(IllegalArgumentException::class) {
             InstantProgression.fromClosedRange(instant, instant, Duration(0))
         }
     }
 
-    @Test fun `step greater than range`() {
+    @Test
+    fun `step greater than range`() {
         val start = today().toInstant()
         val endInclusive = start + 1.days()
 
@@ -73,7 +76,8 @@ class InstantProgressionTest: AbstractKodaTimesTest() {
         assertEquals(1, list.count())
     }
 
-    @Test fun `stepping not exact endInclusive`() {
+    @Test
+    fun `stepping not exact endInclusive`() {
         val start = today().toInstant()
         val endInclusive = start + 1.days()
 
@@ -92,7 +96,8 @@ class InstantProgressionTest: AbstractKodaTimesTest() {
         assertEquals(listOf(0, 5, 10, 15, 20), list.map { it.toDateTime().hourOfDay })
     }
 
-    @Test fun `downTo progression`() {
+    @Test
+    fun `downTo progression`() {
         val start = today().toInstant()
         val endInclusive = start - 5.days()
         val step = dayDurationOf(-1)
@@ -101,7 +106,6 @@ class InstantProgressionTest: AbstractKodaTimesTest() {
 
         assertEquals(start, progression.first)
         assertEquals(endInclusive, progression.last)
-
         assertEquals("$start downTo $endInclusive step ${-step}", progression.toString())
 
         val list = progression.toList()

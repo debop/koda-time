@@ -17,11 +17,9 @@ package com.github.debop.javatimes.ranges
 
 import com.github.debop.javatimes.AbstractJavaTimesTest
 import com.github.debop.javatimes.hours
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotEquals
-import org.junit.jupiter.api.Assertions.assertThrows
-import org.junit.jupiter.api.Disabled
-import org.junit.jupiter.api.Test
+import org.assertj.core.api.Assertions.assertThatThrownBy
+import org.junit.Ignore
+import org.junit.Test
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -29,6 +27,8 @@ import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.ZonedDateTime
 import java.time.temporal.Temporal
+import kotlin.test.assertEquals
+import kotlin.test.assertNotEquals
 
 abstract class TemporalProgressionTest<T>: AbstractJavaTimesTest() where T: Temporal, T: Comparable<T> {
 
@@ -38,7 +38,8 @@ abstract class TemporalProgressionTest<T>: AbstractJavaTimesTest() where T: Temp
     val endInclusive: T
         get() = (start + Duration.ofDays(1)) as T
 
-    @Test fun `construcot LocalDateTimeProgression`() {
+    @Test
+    fun `construcot LocalDateTimeProgression`() {
 
         val progression = TemporalProgression.fromClosedRange(start, endInclusive, 1.hours)
 
@@ -52,9 +53,9 @@ abstract class TemporalProgressionTest<T>: AbstractJavaTimesTest() where T: Temp
 
     @Test fun `zero step`() {
         val temporal = start
-        assertThrows(IllegalArgumentException::class.java) {
+        assertThatThrownBy {
             TemporalProgression.fromClosedRange(temporal, temporal, Duration.ZERO)
-        }
+        }.isInstanceOf(IllegalArgumentException::class.java)
     }
 
     @Test fun `step greater than range`() {
@@ -100,12 +101,12 @@ class LocalDateTimeProgressionTest: TemporalProgressionTest<LocalDateTime>() {
     override val start: LocalDateTime = LocalDateTime.now()
 }
 
-@Disabled("Cannot support range")
+@Ignore("Cannot support range")
 class LocalDateProgressionTest: TemporalProgressionTest<LocalDate>() {
     override val start: LocalDate = LocalDate.now()
 }
 
-@Disabled("Cannot support range")
+@Ignore("Cannot support range")
 class LocalTimeProgressionTest: TemporalProgressionTest<LocalTime>() {
     override val start: LocalTime = LocalTime.now()
 }

@@ -21,16 +21,19 @@ import com.github.debop.javatimes.minus
 import com.github.debop.javatimes.plus
 import com.github.debop.javatimes.toDateTime
 import com.github.debop.kodatimes.today
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotEquals
-import org.junit.jupiter.api.Assertions.assertThrows
-import org.junit.jupiter.api.Test
+import org.junit.Test
+
+
 import java.time.Duration
 import java.util.*
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
+import kotlin.test.assertNotEquals
 
 class DateProgressionTest: AbstractJavaTimesTest() {
 
-    @Test fun `create simple`() {
+    @Test
+    fun `create simple`() {
         val start = today().toDate()
         val endInclusive = start + Duration.ofDays(1).toMillis()
 
@@ -44,15 +47,17 @@ class DateProgressionTest: AbstractJavaTimesTest() {
         assertEquals(25, list.count())
     }
 
-    @Test fun `zero step`() {
+    @Test
+    fun `zero step`() {
         val instant = today().toDate()
 
-        assertThrows(IllegalArgumentException::class.java) {
+        assertFailsWith(IllegalArgumentException::class) {
             DateProgression.fromClosedRange(instant, instant, Duration.ZERO)
         }
     }
 
-    @Test fun `step greater than range`() {
+    @Test
+    fun `step greater than range`() {
         val start = today().toDate()
         val endInclusive = start + Duration.ofDays(1).toMillis()
 
@@ -67,7 +72,8 @@ class DateProgressionTest: AbstractJavaTimesTest() {
         assertEquals(1, list.count())
     }
 
-    @Test fun `stepping not exact endInclusive`() {
+    @Test
+    fun `stepping not exact endInclusive`() {
         val start = today().toDate()
         val endInclusive = start + Duration.ofDays(1).toMillis()
 
@@ -82,7 +88,8 @@ class DateProgressionTest: AbstractJavaTimesTest() {
         assertEquals(listOf(0, 5, 10, 15, 20), list.map { it.toDateTime().hourOfDay })
     }
 
-    @Test fun `downTo progression`() {
+    @Test
+    fun `downTo progression`() {
         val start = today().toDate()
         val endInclusive = start - Duration.ofDays(5).toMillis()
         val step = Duration.ofDays(-1L)

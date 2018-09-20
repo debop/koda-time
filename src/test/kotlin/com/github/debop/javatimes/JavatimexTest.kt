@@ -15,11 +15,11 @@
 
 package com.github.debop.javatimes
 
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.time.LocalDate
+import kotlin.test.assertEquals
 
 
 class JavatimexTest {
@@ -28,11 +28,13 @@ class JavatimexTest {
         private val log: Logger = LoggerFactory.getLogger(JavatimexTest::class.java)
     }
 
-    @Test fun `constant variables`() {
+    @Test
+    fun `constant variables`() {
         assertEquals(LocalDate.now(), NowLocalDate)
     }
 
-    @Test fun `time units`() {
+    @Test
+    fun `time units`() {
         assertEquals(1.microseconds, 1000.nanoseconds)
         assertEquals(1.millis, 1000.microseconds)
         assertEquals(1.seconds, 1000.millis)
@@ -42,11 +44,13 @@ class JavatimexTest {
         assertEquals(1.weeks, 7.days)
     }
 
-    @Test fun `time operator`() {
+    @Test
+    fun `time operator`() {
         assertEquals(1.microseconds, 1000 * 1.nanoseconds)
     }
 
-    @Test fun `Number to LocalDateTime`() {
+    @Test
+    fun `Number to LocalDateTime`() {
         val now = nowInstant()
         val ms = now.toEpochMilli()
         assertEquals(now, ms.toInstant())

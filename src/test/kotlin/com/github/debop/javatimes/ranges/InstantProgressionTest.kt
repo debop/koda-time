@@ -21,16 +21,18 @@ import com.github.debop.javatimes.minus
 import com.github.debop.javatimes.plus
 import com.github.debop.javatimes.toLocalDateTime
 import com.github.debop.javatimes.with
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotEquals
-import org.junit.jupiter.api.Assertions.assertThrows
-import org.junit.jupiter.api.Test
+import org.junit.Test
+
 import java.time.Duration
 import java.time.Instant
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
+import kotlin.test.assertNotEquals
 
 class InstantProgressionTest: AbstractJavaTimesTest() {
 
-    @Test fun `create simple`() {
+    @Test
+    fun `create simple`() {
         val start = Instant.now()
         val endInclusive = start + Duration.ofDays(1)
 
@@ -44,15 +46,17 @@ class InstantProgressionTest: AbstractJavaTimesTest() {
         assertEquals(25, list.count())
     }
 
-    @Test fun `zero step`() {
+    @Test
+    fun `zero step`() {
         val instant = Instant.now()
 
-        assertThrows(IllegalArgumentException::class.java) {
+        assertFailsWith(IllegalArgumentException::class) {
             InstantProgression.fromClosedRange(instant, instant, Duration.ZERO)
         }
     }
 
-    @Test fun `step greater than range`() {
+    @Test
+    fun `step greater than range`() {
         val start = Instant.now()
         val endInclusive = start + Duration.ofDays(1).toMillis()
 
@@ -67,7 +71,8 @@ class InstantProgressionTest: AbstractJavaTimesTest() {
         assertEquals(1, list.count())
     }
 
-    @Test fun `stepping not exact endInclusive`() {
+    @Test
+    fun `stepping not exact endInclusive`() {
         val start = Instant.now().with(2017, 10, 14)
         val endInclusive = start + Duration.ofDays(1).toMillis()
 
@@ -84,7 +89,8 @@ class InstantProgressionTest: AbstractJavaTimesTest() {
         assertEquals(listOf(0, 5, 10, 15, 20), list.map { it.toLocalDateTime().hour })
     }
 
-    @Test fun `downTo progression`() {
+    @Test
+    fun `downTo progression`() {
         val start = Instant.now()
         val endInclusive = start - Duration.ofDays(5).toMillis()
         val step = Duration.ofDays(-1L)

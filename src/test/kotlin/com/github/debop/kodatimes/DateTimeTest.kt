@@ -18,15 +18,17 @@ package com.github.debop.kodatimes
 import org.joda.time.DateTime
 import org.joda.time.Interval
 import org.joda.time.LocalDate
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.Test
+import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class DateTimeTest: AbstractKodaTimesTest() {
+    companion object {
+        private const val EXPECTED_DATETIME_STR = "2013-03-02T07:08:09.123+0900"
+    }
 
-    private val EXPECTED_DATETIME_STR = "2013-03-02T07:08:09.123+0900"
-
-    @Test fun dateTimeManupulation() {
+    @Test
+    fun dateTimeManupulation() {
         val now = DateTime.now()
 
         assertEquals(now, now)
@@ -34,7 +36,8 @@ class DateTimeTest: AbstractKodaTimesTest() {
         assertTrue { (now + 1.hours()).isAfterNow }
     }
 
-    @Test fun builderPattern() {
+    @Test
+    fun builderPattern() {
 
         val actual =
             DateTime.parse("2014-01-01T01:01:01.123+0900")
@@ -50,7 +53,8 @@ class DateTimeTest: AbstractKodaTimesTest() {
         assertEquals(expected, actual)
     }
 
-    @Test fun builderPatternWithMillis() {
+    @Test
+    fun builderPatternWithMillis() {
         val actual =
             DateTime.parse("2014-01-01T01:01:01.123+0900")
                 .withYear(2013)
@@ -67,7 +71,8 @@ class DateTimeTest: AbstractKodaTimesTest() {
         assertEquals(expected.withMillisOfSecond(500), actual)
     }
 
-    @Test fun operatorTest() {
+    @Test
+    fun operatorTest() {
         assertTrue { DateTime.now().nextMonth() < DateTime.now() + 2.months() }
 
         val now = DateTime.now()
@@ -78,7 +83,8 @@ class DateTimeTest: AbstractKodaTimesTest() {
         assertEquals(1000L, sec.millis())
     }
 
-    @Test fun sortDateTime() {
+    @Test
+    fun sortDateTime() {
         val now = DateTime.now()
         val list = listOf(now, now + 3.seconds(), now + 10.seconds(), now + 1.seconds(), now - 2.seconds())
 
@@ -88,7 +94,8 @@ class DateTimeTest: AbstractKodaTimesTest() {
         assertEquals(now + 10.seconds(), list.max())
     }
 
-    @Test fun sortLocalDate() {
+    @Test
+    fun sortLocalDate() {
         val today = LocalDate.now()
 
         val list = listOf(today + 1.days(), today + 3.days(), today + 10.days(), today + 2.days())

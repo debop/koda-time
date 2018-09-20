@@ -27,14 +27,16 @@ import com.github.debop.kodatimes.standardHours
 import com.github.debop.kodatimes.today
 import com.github.debop.kodatimes.unaryMinus
 import org.joda.time.Duration
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotEquals
-import org.junit.jupiter.api.Assertions.assertThrows
-import org.junit.jupiter.api.Test
+import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
+import kotlin.test.assertNotEquals
+
 
 class DateTimeProgressTest: AbstractKodaTimesTest() {
 
-    @Test fun `create simple`() {
+    @Test
+    fun `create simple`() {
         val start = today()
         val endInclusive = start + 1.days()
 
@@ -48,15 +50,17 @@ class DateTimeProgressTest: AbstractKodaTimesTest() {
         assertEquals(25, list.count())
     }
 
-    @Test fun `zero step`() {
+    @Test
+    fun `zero step`() {
         val instant = now()
 
-        assertThrows(IllegalArgumentException::class.java) {
+        assertFailsWith(IllegalArgumentException::class) {
             DateTimeProgression.fromClosedRange(instant, instant, Duration(0))
         }
     }
 
-    @Test fun `step greater than range`() {
+    @Test
+    fun `step greater than range`() {
         val start = today()
         val endInclusive = start + 1.days()
 
@@ -71,7 +75,8 @@ class DateTimeProgressTest: AbstractKodaTimesTest() {
         assertEquals(1, list.count())
     }
 
-    @Test fun `stepping not exact endInclusive`() {
+    @Test
+    fun `stepping not exact endInclusive`() {
         val start = today()
         val endInclusive = start + 1.days()
 
@@ -86,7 +91,8 @@ class DateTimeProgressTest: AbstractKodaTimesTest() {
         assertEquals(listOf(0, 5, 10, 15, 20), list.map { it.hourOfDay })
     }
 
-    @Test fun `downTo progression`() {
+    @Test
+    fun `downTo progression`() {
         val start = today()
         val endInclusive = start - 5.days()
         val step = dayDurationOf(-1)

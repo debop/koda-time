@@ -20,13 +20,14 @@ import com.github.debop.kodatimes.days
 import com.github.debop.kodatimes.minus
 import com.github.debop.kodatimes.plus
 import com.github.debop.kodatimes.today
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.Test
+import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class InstantRangeTest: AbstractKodaTimesTest() {
 
-    @Test fun `simple creation`() {
+    @Test
+    fun `simple creation`() {
 
         val start = today().toInstant()
         val endInclusive = start + 5.days()
@@ -39,14 +40,15 @@ class InstantRangeTest: AbstractKodaTimesTest() {
         assertEquals(endInclusive, range.last)
     }
 
-    @Test fun `empty range`() {
+    @Test
+    fun `empty range`() {
 
         val start = today().toInstant()
         val endInclusive = start - 1.days()
 
         val range = InstantRange(start, endInclusive)
-        assertTrue { range.isEmpty() }
 
+        assertTrue { range.isEmpty() }
         assertEquals(InstantRange.EMPTY, range)
     }
 

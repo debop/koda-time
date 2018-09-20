@@ -18,10 +18,10 @@ package com.github.debop.kodatimes
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotNull
-import org.junit.jupiter.api.Assertions.assertNull
-import org.junit.jupiter.api.Test
+import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 
 class ParsingTest: AbstractKodaTimesTest() {
 
@@ -30,7 +30,8 @@ class ParsingTest: AbstractKodaTimesTest() {
         private val EXPECTED_TIME_STR: String = "17:55:34"
     }
 
-    @Test fun stringToDate() {
+    @Test
+    fun stringToDate() {
         val expected = DateTime(EXPECTED_DATE_STR)
 
         assertEquals(expected, EXPECTED_DATE_STR.toDateTime())
@@ -40,7 +41,8 @@ class ParsingTest: AbstractKodaTimesTest() {
         assertNull("".toDateTime())
     }
 
-    @Test fun stringToLocalDate() {
+    @Test
+    fun stringToLocalDate() {
         val expected = LocalDate(EXPECTED_DATE_STR)
 
         assertEquals(expected, EXPECTED_DATE_STR.toLocalDate())
@@ -50,7 +52,8 @@ class ParsingTest: AbstractKodaTimesTest() {
         assertNull("".toLocalDate())
     }
 
-    @Test fun stringToLocalTime() {
+    @Test
+    fun stringToLocalTime() {
         val expected = LocalTime(EXPECTED_TIME_STR)
 
         assertEquals(expected, EXPECTED_TIME_STR.toLocalTime())
