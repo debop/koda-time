@@ -17,7 +17,6 @@ package com.github.debop.javatimes.ranges
 
 import com.github.debop.javatimes.AbstractJavaTimesTest
 import com.github.debop.javatimes.hours
-import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.Ignore
 import org.junit.Test
 import java.time.Duration
@@ -28,9 +27,10 @@ import java.time.OffsetDateTime
 import java.time.ZonedDateTime
 import java.time.temporal.Temporal
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertNotEquals
 
-abstract class TemporalProgressionTest<T>: AbstractJavaTimesTest() where T: Temporal, T: Comparable<T> {
+abstract class TemporalProgressionTest<T> : AbstractJavaTimesTest() where T : Temporal, T : Comparable<T> {
 
     abstract val start: T
 
@@ -51,14 +51,17 @@ abstract class TemporalProgressionTest<T>: AbstractJavaTimesTest() where T: Temp
         assertEquals(25, elements.count())
     }
 
-    @Test fun `zero step`() {
+    @Test
+    fun `zero step`() {
         val temporal = start
-        assertThatThrownBy {
+
+        assertFailsWith<IllegalArgumentException> {
             TemporalProgression.fromClosedRange(temporal, temporal, Duration.ZERO)
-        }.isInstanceOf(IllegalArgumentException::class.java)
+        }
     }
 
-    @Test fun `step greater than range`() {
+    @Test
+    fun `step greater than range`() {
         val progression = TemporalProgression.fromClosedRange(start, endInclusive, Duration.ofDays(7))
 
         assertEquals(start, progression.first)
@@ -69,7 +72,8 @@ abstract class TemporalProgressionTest<T>: AbstractJavaTimesTest() where T: Temp
         assertEquals(1, progression.toList().size)
     }
 
-    @Test fun `stepping not exact endInclusive`() {
+    @Test
+    fun `stepping not exact endInclusive`() {
         val progression = TemporalProgression.fromClosedRange(start, endInclusive, Duration.ofHours(5))
 
         assertEquals(start, progression.first)
@@ -80,7 +84,8 @@ abstract class TemporalProgressionTest<T>: AbstractJavaTimesTest() where T: Temp
         assertEquals(5, elements.size)
     }
 
-    @Test fun `downTo progression`() {
+    @Test
+    fun `downTo progression`() {
 
         val step = Duration.ofHours(-1)
         val progression = TemporalProgression.fromClosedRange(endInclusive, start, step)
@@ -97,24 +102,24 @@ abstract class TemporalProgressionTest<T>: AbstractJavaTimesTest() where T: Temp
     }
 }
 
-class LocalDateTimeProgressionTest: TemporalProgressionTest<LocalDateTime>() {
+class LocalDateTimeProgressionTest : TemporalProgressionTest<LocalDateTime>() {
     override val start: LocalDateTime = LocalDateTime.now()
 }
 
 @Ignore("Cannot support range")
-class LocalDateProgressionTest: TemporalProgressionTest<LocalDate>() {
+class LocalDateProgressionTest : TemporalProgressionTest<LocalDate>() {
     override val start: LocalDate = LocalDate.now()
 }
 
 @Ignore("Cannot support range")
-class LocalTimeProgressionTest: TemporalProgressionTest<LocalTime>() {
+class LocalTimeProgressionTest : TemporalProgressionTest<LocalTime>() {
     override val start: LocalTime = LocalTime.now()
 }
 
-class OffsetDateTimeProgressionTest: TemporalProgressionTest<OffsetDateTime>() {
+class OffsetDateTimeProgressionTest : TemporalProgressionTest<OffsetDateTime>() {
     override val start: OffsetDateTime = OffsetDateTime.now()
 }
 
-class ZonedDateTimeProgressionTest: TemporalProgressionTest<ZonedDateTime>() {
+class ZonedDateTimeProgressionTest : TemporalProgressionTest<ZonedDateTime>() {
     override val start: ZonedDateTime = ZonedDateTime.now()
 }
