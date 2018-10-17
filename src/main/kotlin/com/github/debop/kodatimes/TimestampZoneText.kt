@@ -17,17 +17,19 @@ package com.github.debop.kodatimes
 
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
+import java.io.Serializable
+import java.util.*
 
 /**
  * [DateTime] 의 TimeZone 정보를 제공합니다
  *
  * @author sunghyouk.bae@gmail.com
  */
-open class TimestampZoneText(val datetime: DateTime?) {
+open class TimestampZoneText(val datetime: DateTime?) : Serializable {
 
-    constructor(timestamp: Long, zone: DateTimeZone): this(DateTime(timestamp, zone))
+    constructor(timestamp: Long, zone: DateTimeZone) : this(DateTime(timestamp, zone))
 
-    constructor(timestamp: Long, zoneId: String): this(DateTime(timestamp, DateTimeZone.forID(zoneId)))
+    constructor(timestamp: Long, zoneId: String) : this(DateTime(timestamp, DateTimeZone.forID(zoneId)))
 
     val timestamp: Long?
         get() = datetime?.millis
@@ -37,6 +39,18 @@ open class TimestampZoneText(val datetime: DateTime?) {
 
     val timetext: String?
         get() = datetime?.toIsoFormatHMSString()
+
+    override fun equals(other: Any?): Boolean {
+        if(other == null) return false
+        if(other === this) return true
+
+        return if(other is TimestampZoneText) hashCode() == other.hashCode()
+        else false
+    }
+
+    override fun hashCode(): Int {
+        return Objects.hash(timestamp, zoneId, timetext)
+    }
 
     override fun toString(): String {
         return "TimestampZoneText(timestamp=$timestamp, zoneId=$zoneId, timetext=$timetext)"

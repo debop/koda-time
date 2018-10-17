@@ -20,11 +20,11 @@ import org.joda.time.ReadableInstant
 /**
  * An iterator over a sequence of values of type `org.joda.time.ReadableInstant`.
  */
-abstract class JodaTimeIterator<out T: ReadableInstant>: Iterator<T> {
+abstract class JodaTimeIterator<out T : ReadableInstant> : Iterator<T> {
 
     final override fun next(): T = nextJodaTime()
 
     /** Returns the next value in the sequence without boxing. */
-    public abstract fun nextJodaTime(): T
+    abstract fun nextJodaTime(): T
 }
 

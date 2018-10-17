@@ -26,17 +26,17 @@ import com.github.debop.kodatimes.PeriodUnit.SECOND
 import com.github.debop.kodatimes.PeriodUnit.WEEK
 import com.github.debop.kodatimes.PeriodUnit.YEAR
 import org.joda.time.DateTime
-import org.joda.time.Period
 import org.joda.time.ReadableInterval
 import org.joda.time.ReadablePeriod
+import org.joda.time.Seconds
 import kotlin.coroutines.experimental.buildSequence
 
 
 fun ReadableInterval.millis(): Long = this.toDurationMillis()
 
 infix fun ReadableInterval.step(period: ReadablePeriod): Sequence<DateTime> {
-    require(period.toPeriod().toStandardSeconds() > Period.seconds(0).toStandardSeconds()) {
-        "period must have postive value [$period]"
+    require(period.toPeriod().toStandardSeconds() > Seconds.ZERO) {
+        "period must have positive value [$period]"
     }
 
     return generateSequence(start) { it + period }.takeWhile { it <= end }
@@ -54,6 +54,7 @@ suspend fun ReadableInterval.buildSequence(periodUnit: PeriodUnit = DAY, step: I
         WEEK -> buildWeeks(step)
         MONTH -> buildMonths(step)
         YEAR -> buildYears(step)
+
         else -> throw UnsupportedOperationException("Not supported period unit. periodUnit=$periodUnit")
     }
 }

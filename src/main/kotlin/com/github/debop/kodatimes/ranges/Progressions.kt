@@ -94,7 +94,9 @@ internal fun getProgressionLastElement(start: Instant, end: Instant, step: Reada
  * @property step  progression step
  */
 @Suppress("UNUSED_PARAMETER")
-abstract class JodaTimeProgression<out T: ReadableInstant>(start: T, endInclusive: T, val step: ReadableDuration): Iterable<T> {
+abstract class JodaTimeProgression<out T : ReadableInstant>(start: T,
+                                                            endInclusive: T,
+                                                            val step: ReadableDuration) : Iterable<T> {
     init {
         require(step.millis != 0L) { "step must be non-zero" }
     }
@@ -203,5 +205,3 @@ internal class InstantProgressionIterator(first: Instant, last: Instant, val ste
         return value
     }
 }
-
-

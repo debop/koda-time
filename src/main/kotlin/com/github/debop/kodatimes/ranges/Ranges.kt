@@ -50,18 +50,21 @@ class DateTimeRange(start: DateTime, endInclusive: DateTime)
 
     override fun isEmpty(): Boolean = first > last
 
-    override fun equals(other: Any?): Boolean =
-        when(other) {
+    override fun equals(other: Any?): Boolean {
+        if(other == null) return false
+        if(other === this) return true
+
+        return when(other) {
             is DateTimeRange -> isEmpty() && other.isEmpty() || (first == other.first && last == other.last)
             else -> false
         }
+    }
 
     override fun hashCode(): Int = Objects.hash(first, last)
 
     override fun toString(): String = "$first..$last"
 
     companion object {
-
         /** Empty [DateTimeRange] */
         @JvmField val EMPTY: DateTimeRange = DateTimeRange(dateTimeOf(1, 1, 1), dateTimeOf(0, 1, 1))
     }
@@ -84,11 +87,15 @@ class InstantRange(start: Instant, endInclusive: Instant)
 
     override fun isEmpty(): Boolean = first > last
 
-    override fun equals(other: Any?): Boolean =
-        when(other) {
+    override fun equals(other: Any?): Boolean {
+        if(other == null) return false
+        if(other === this) return true
+
+        return when(other) {
             is InstantRange -> isEmpty() && other.isEmpty() || (first == other.first && last == other.last)
             else -> false
         }
+    }
 
     override fun hashCode(): Int = Objects.hash(first, last)
 
