@@ -165,13 +165,14 @@ fun String.toLocalTime(pattern: String? = null): LocalTime? = try {
 fun dateTimeFromJson(json: String): DateTime = DateTime(json)
 
 /** Build [DateTime] */
-@JvmOverloads fun dateTimeOf(year: Int,
-                             month: Int = 1,
-                             day: Int = 1,
-                             hours: Int = 0,
-                             minutes: Int = 0,
-                             seconds: Int = 0,
-                             millis: Int = 0): DateTime =
+@JvmOverloads
+fun dateTimeOf(year: Int,
+               month: Int = 1,
+               day: Int = 1,
+               hours: Int = 0,
+               minutes: Int = 0,
+               seconds: Int = 0,
+               millis: Int = 0): DateTime =
     DateTime(year, month, day, hours, minutes, seconds, millis)
 
 /** Start time of Day from this datetime */
@@ -243,7 +244,8 @@ fun DateTime.toTimestamp(): Timestamp = Timestamp(this.millis)
 fun DateTime.asUtc(): DateTime = this.toDateTime(DateTimeZone.UTC)
 
 /** Convert [DateTime] timezone to specified time zone. not specified to system default time zone */
-@JvmOverloads fun DateTime.asLocal(tz: DateTimeZone = DateTimeZone.getDefault()): DateTime = this.toDateTime(tz)
+@JvmOverloads
+fun DateTime.asLocal(tz: DateTimeZone = DateTimeZone.getDefault()): DateTime = this.toDateTime(tz)
 
 /** Convert [DateTime] to ISO DateTime Format String (YYYY-MM-DD hh:nn:ss.zzz) */
 fun DateTime.toIsoFormatString(): String = ISODateTimeFormat.dateTime().print(this)
@@ -262,11 +264,11 @@ fun DateTime.toIsoFormatHMSString(): String = ISODateTimeFormat.dateHourMinuteSe
 
 fun DateTime.toTimestampZoneText(): TimestampZoneText = TimestampZoneText(this)
 
-infix fun <T: ReadableInstant> T.min(that: T): T {
+infix fun <T : ReadableInstant> T.min(that: T): T {
     return if(this < that) this else that
 }
 
-infix fun <T: ReadableInstant> T.max(that: T): T {
+infix fun <T : ReadableInstant> T.max(that: T): T {
     return if(this > that) this else that
 }
 
@@ -537,7 +539,7 @@ fun thisSecond(): Interval = now().secondOfMinute().toInterval()
 fun thisMinute(): Interval = now().minuteOfHour().toInterval()
 fun thisHour(): Interval = now().hourOfDay().toInterval()
 
-fun minOf(a: Instant, b: Instant, vararg args: Instant): Instant {
+fun <T : ReadableInstant> minOf(a: T, b: T, vararg args: T): T {
     var min = if(a < b) a else b
     args.forEach {
         if(it < min)
@@ -546,7 +548,7 @@ fun minOf(a: Instant, b: Instant, vararg args: Instant): Instant {
     return min
 }
 
-fun maxOf(a: Instant, b: Instant, vararg args: Instant): Instant {
+fun <T : ReadableInstant> maxOf(a: T, b: T, vararg args: T): T {
     var max = if(a > b) a else b
     args.forEach {
         if(it > max)
