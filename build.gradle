@@ -94,11 +94,39 @@ dokka {
     outputFormat = 'html'
     outputDirectory = "$buildDir/dokka"
     jdkVersion = 8
-    reportNotDocumented = false
+    
+    // Emit warnings about not documented members. Applies globally, also can be overridden by packageOptions
+    reportUndocumented = false
+
     sourceRoot {
         path = "src/main/kotlin"
         platforms = ["JVM"]
     }
+
+    // Specifies the location of the project source code on the Web.
+    // If provided, Dokka generates "source" links for each declaration.
+    // Repeat for multiple mappings
+    linkMapping {
+        // Source directory
+        dir = "src/main/kotlin"
+
+        // URL showing where the source code can be accessed through the web browser
+        url = "https://github.com/debop/koda-time/blob/master/src/main/kotlin"
+
+        // Suffix which is used to append the line number to the URL. Use #L for GitHub
+        suffix = "#L"
+    }
+
+    // Allows linking to documentation of the project's dependencies (generated with Javadoc or Dokka)
+    // Repeat for multiple links
+    externalDocumentationLink {
+        // Root URL of the generated documentation to link with. The trailing slash is required!
+        url = new URL("https://www.joda.org/joda-time/apidocs/")
+
+        // If package-list file located in non-standard location
+        // packageListUrl = new URL("file:///home/user/localdocs/package-list")
+    }
+
 }
 
 task dokkaJar(type: Jar, dependsOn: dokka) {
