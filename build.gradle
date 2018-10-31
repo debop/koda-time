@@ -65,8 +65,8 @@ compileKotlin {
     kotlinOptions {
         jvmTarget = "1.8"
         javaParameters = true
-        apiVersion = "1.2"
-        languageVersion = "1.2"
+        apiVersion = "1.3"
+        languageVersion = "1.3"
         suppressWarnings = false
     }
 }
@@ -191,8 +191,3 @@ bintray {
 clean {
     delete "out/"
 }
-
-wrapper {
-    gradleVersion = '4.8.1'
-}
-

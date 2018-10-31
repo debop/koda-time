@@ -50,7 +50,7 @@ class JavatimexTest {
     }
 
     @Test
-    fun `Number to LocalDateTime`() {
+    fun `number to LocalDateTime`() {
         val now = nowInstant()
         val ms = now.toEpochMilli()
         assertEquals(now, ms.toInstant())

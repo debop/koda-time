@@ -35,7 +35,6 @@ import java.time.temporal.ChronoField
 import java.time.temporal.Temporal
 import java.time.temporal.TemporalAccessor
 import java.util.*
-import kotlin.coroutines.experimental.buildSequence
 
 val MILLIS_IN_DAY = Duration.ofDays(1L).toMillis()
 val MILLIS_IN_HOUR = Duration.ofHours(1L).toMillis()
@@ -205,15 +204,15 @@ operator fun Instant.minus(millis: Long): Instant = this.minusMillis(millis)
 infix fun Instant?.min(that: Instant?): Instant? = when {
     this == null -> that
     that == null -> this
-    this > that -> that
-    else -> this
+    this > that  -> that
+    else         -> this
 }
 
 infix fun Instant?.max(that: Instant?): Instant? = when {
     this == null -> that
     that == null -> this
-    this < that -> that
-    else -> this
+    this < that  -> that
+    else         -> this
 }
 
 operator fun Instant.rangeTo(endExlusive: Instant): Interval = Interval(this.toEpochMilli(), endExlusive.toEpochMilli())
@@ -263,7 +262,7 @@ operator fun Period.unaryMinus(): Period = this.negated()
 /**
  * year sequence of `Period`
  */
-suspend fun Period.yearSequence(): Sequence<Int> = buildSequence {
+suspend fun Period.yearSequence(): Sequence<Int> = sequence {
     var year = 0
     val years = this@yearSequence.years
     if(years > 0) {
@@ -280,7 +279,7 @@ suspend fun Period.yearSequence(): Sequence<Int> = buildSequence {
 /**
  * month sequence of `java.time.Period`
  */
-suspend fun Period.monthSequence(): Sequence<Int> = buildSequence {
+suspend fun Period.monthSequence(): Sequence<Int> = sequence {
     var month = 0
     val months = this@monthSequence.months
     if(months > 0) {
@@ -297,7 +296,7 @@ suspend fun Period.monthSequence(): Sequence<Int> = buildSequence {
 /**
  * day sequence of `java.time.Period`
  */
-suspend fun Period.daySequence(): Sequence<Int> = buildSequence {
+suspend fun Period.daySequence(): Sequence<Int> = sequence {
     var day = 0
     val days = this@daySequence.days
     if(days > 0) {

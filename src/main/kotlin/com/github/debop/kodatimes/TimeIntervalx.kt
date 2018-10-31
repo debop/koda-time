@@ -29,7 +29,6 @@ import org.joda.time.DateTime
 import org.joda.time.Period
 import org.joda.time.ReadableInterval
 import org.joda.time.ReadablePeriod
-import kotlin.coroutines.experimental.buildSequence
 
 
 fun ReadableInterval.millis(): Long = this.toDurationMillis()
@@ -67,7 +66,7 @@ fun ReadableInterval.seconds(step: Int = 1): Sequence<DateTime> {
 }
 
 @JvmOverloads
-suspend fun ReadableInterval.buildSeconds(step: Int = 1): Sequence<DateTime> = buildSequence {
+suspend fun ReadableInterval.buildSeconds(step: Int = 1): Sequence<DateTime> = sequence {
     require(step > 0) { "step must postive value [$step]" }
 
     var current = start
@@ -87,7 +86,7 @@ fun ReadableInterval.minutes(step: Int = 1): Sequence<DateTime> {
 }
 
 @JvmOverloads
-suspend fun ReadableInterval.buildMinutes(step: Int = 1): Sequence<DateTime> = buildSequence {
+suspend fun ReadableInterval.buildMinutes(step: Int = 1): Sequence<DateTime> = sequence {
     require(step > 0) { "step must postive value [$step]" }
 
     var current = start
@@ -106,7 +105,7 @@ fun ReadableInterval.hours(step: Int = 1): Sequence<DateTime> {
 }
 
 @JvmOverloads
-suspend fun ReadableInterval.buildHours(step: Int = 1): Sequence<DateTime> = buildSequence {
+suspend fun ReadableInterval.buildHours(step: Int = 1): Sequence<DateTime> = sequence {
     require(step > 0) { "step must postive value [$step]" }
 
     var current = start
@@ -125,7 +124,7 @@ fun ReadableInterval.days(step: Int = 1): Sequence<DateTime> {
 }
 
 @JvmOverloads
-suspend fun ReadableInterval.buildDays(step: Int = 1): Sequence<DateTime> = buildSequence {
+suspend fun ReadableInterval.buildDays(step: Int = 1): Sequence<DateTime> = sequence {
     require(step > 0) { "step must postive value [$step]" }
     var current = start
     val increment = step.days()
@@ -143,7 +142,7 @@ fun ReadableInterval.weeks(step: Int = 1): Sequence<DateTime> {
 }
 
 @JvmOverloads
-suspend fun ReadableInterval.buildWeeks(step: Int = 1): Sequence<DateTime> = buildSequence {
+suspend fun ReadableInterval.buildWeeks(step: Int = 1): Sequence<DateTime> = sequence {
     var current = start
     val increment = step.weeks()
     while(current <= end) {
@@ -160,7 +159,7 @@ fun ReadableInterval.months(step: Int = 1): Sequence<DateTime> {
 }
 
 @JvmOverloads
-suspend fun ReadableInterval.buildMonths(step: Int = 1): Sequence<DateTime> = buildSequence {
+suspend fun ReadableInterval.buildMonths(step: Int = 1): Sequence<DateTime> = sequence {
     require(step > 0) { "step must postive value [$step]" }
 
     var current = start
@@ -179,7 +178,7 @@ fun ReadableInterval.years(step: Int = 1): Sequence<DateTime> {
 }
 
 @JvmOverloads
-suspend fun ReadableInterval.buildYears(step: Int = 1): Sequence<DateTime> = buildSequence {
+suspend fun ReadableInterval.buildYears(step: Int = 1): Sequence<DateTime> = sequence {
     require(step > 0) { "step must postive value [$step]" }
 
     var current = start
@@ -220,7 +219,7 @@ fun ReadableInterval.chunkYear(size: Int): Sequence<List<DateTime>> {
 
     require(size > 0) { "chunk size must postive value [$size]" }
 
-    return buildSequence {
+    return sequence {
         var current = start.startOfYear()
         val increment = size.years()
 
@@ -235,7 +234,7 @@ fun ReadableInterval.chunkMonth(size: Int): Sequence<List<DateTime>> {
 
     require(size > 0) { "chunk size must postive value [$size]" }
 
-    return buildSequence {
+    return sequence {
         var current = start.startOfMonth()
         val increment = size.months()
 
@@ -250,7 +249,7 @@ fun ReadableInterval.chunkWeek(size: Int): Sequence<List<DateTime>> {
 
     require(size > 0) { "chunk size must postive value [$size]" }
 
-    return buildSequence {
+    return sequence {
         var current = start.startOfWeek()
         val increment = size.weeks()
 
@@ -265,7 +264,7 @@ fun ReadableInterval.chunkDay(size: Int): Sequence<List<DateTime>> {
 
     require(size > 0) { "chunk size must postive value [$size]" }
 
-    return buildSequence {
+    return sequence {
         var current = start.startOfDay()
         val increment = size.days()
 
@@ -280,7 +279,7 @@ fun ReadableInterval.chunkHour(size: Int): Sequence<List<DateTime>> {
 
     require(size > 0) { "chunk size must postive value [$size]" }
 
-    return buildSequence {
+    return sequence {
         var current = start.trimToHour()
         val increment = size.hours()
 
@@ -295,7 +294,7 @@ fun ReadableInterval.chunkMinute(size: Int): Sequence<List<DateTime>> {
 
     require(size > 0) { "chunk size must postive value [$size]" }
 
-    return buildSequence {
+    return sequence {
         var current = start.trimToMinute()
         val increment = size.minutes()
 
@@ -310,7 +309,7 @@ fun ReadableInterval.chunkSecond(size: Int): Sequence<List<DateTime>> {
 
     require(size > 0) { "chunk size must postive value [$size]" }
 
-    return buildSequence {
+    return sequence {
         var current = start.trimToSecond()
         val increment = size.seconds()
 
@@ -348,7 +347,7 @@ fun ReadableInterval.windowedYear(size: Int, step: Int = 1): Sequence<List<DateT
     require(size > 0) { "size must positive number. [$size]" }
     require(step > 0) { "step must positive number. [$step] " }
 
-    return buildSequence {
+    return sequence {
         var current = start.startOfYear()
         val increment = step.years()
 
@@ -365,7 +364,7 @@ fun ReadableInterval.windowedMonth(size: Int, step: Int = 1): Sequence<List<Date
     require(size > 0) { "size must positive number. [$size]" }
     require(step > 0) { "step must positive number. [$step] " }
 
-    return buildSequence {
+    return sequence {
         var current = start.startOfMonth()
         val increment = step.months()
 
@@ -382,7 +381,7 @@ fun ReadableInterval.windowedWeek(size: Int, step: Int = 1): Sequence<List<DateT
     require(size > 0) { "size must positive number. [$size]" }
     require(step > 0) { "step must positive number. [$step] " }
 
-    return buildSequence {
+    return sequence {
         var current = start.startOfWeek()
         val increment = step.weeks()
 
@@ -399,7 +398,7 @@ fun ReadableInterval.windowedDay(size: Int, step: Int = 1): Sequence<List<DateTi
     require(size > 0) { "size must positive number. [$size]" }
     require(step > 0) { "step must positive number. [$step] " }
 
-    return buildSequence {
+    return sequence {
         var current = start.startOfDay()
         val increment = step.days()
 
@@ -415,7 +414,7 @@ fun ReadableInterval.windowedHour(size: Int, step: Int = 1): Sequence<List<DateT
     require(size > 0) { "size must positive number. [$size]" }
     require(step > 0) { "step must positive number. [$step] " }
 
-    return buildSequence {
+    return sequence {
         var current = start.trimToHour()
         val increment = step.hours()
 
@@ -431,7 +430,7 @@ fun ReadableInterval.windowedMinute(size: Int, step: Int = 1): Sequence<List<Dat
     require(size > 0) { "size must positive number. [$size]" }
     require(step > 0) { "step must positive number. [$step] " }
 
-    return buildSequence {
+    return sequence {
         var current = start.trimToMinute()
         val increment = step.minutes()
 
@@ -447,7 +446,7 @@ fun ReadableInterval.windowedSecond(size: Int, step: Int = 1): Sequence<List<Dat
     require(size > 0) { "size must positive number. [$size]" }
     require(step > 0) { "step must positive number. [$step] " }
 
-    return buildSequence {
+    return sequence {
         var current = start.trimToSecond()
         val increment = step.seconds()
         while(current < end) {
@@ -486,7 +485,7 @@ fun ReadableInterval.zipWithNext(periodUnit: PeriodUnit): Sequence<Pair<DateTime
 /**
  * pairwise operation which applies the immediate transform on an each pair
  */
-fun ReadableInterval.zipWithNextYear(): Sequence<Pair<DateTime, DateTime>> = buildSequence {
+fun ReadableInterval.zipWithNextYear(): Sequence<Pair<DateTime, DateTime>> = sequence {
     var current = start.startOfYear()
     val increment = 1.years()
     val limit = end - increment
@@ -497,7 +496,7 @@ fun ReadableInterval.zipWithNextYear(): Sequence<Pair<DateTime, DateTime>> = bui
     }
 }
 
-fun ReadableInterval.zipWithNextMonth(): Sequence<Pair<DateTime, DateTime>> = buildSequence {
+fun ReadableInterval.zipWithNextMonth(): Sequence<Pair<DateTime, DateTime>> = sequence {
     var current = start.startOfMonth()
     val increment = 1.months()
     val limit = end - increment
@@ -508,7 +507,7 @@ fun ReadableInterval.zipWithNextMonth(): Sequence<Pair<DateTime, DateTime>> = bu
     }
 }
 
-fun ReadableInterval.zipWithNextWeek(): Sequence<Pair<DateTime, DateTime>> = buildSequence {
+fun ReadableInterval.zipWithNextWeek(): Sequence<Pair<DateTime, DateTime>> = sequence {
     var current = start.startOfWeek()
     val increment = 1.weeks()
     val limit = end - increment
@@ -519,7 +518,7 @@ fun ReadableInterval.zipWithNextWeek(): Sequence<Pair<DateTime, DateTime>> = bui
     }
 }
 
-fun ReadableInterval.zipWithNextDay(): Sequence<Pair<DateTime, DateTime>> = buildSequence {
+fun ReadableInterval.zipWithNextDay(): Sequence<Pair<DateTime, DateTime>> = sequence {
     var current = start.startOfDay()
     val increment = 1.days()
     val limit = end - increment
@@ -530,7 +529,7 @@ fun ReadableInterval.zipWithNextDay(): Sequence<Pair<DateTime, DateTime>> = buil
     }
 }
 
-fun ReadableInterval.zipWithNextHour(): Sequence<Pair<DateTime, DateTime>> = buildSequence {
+fun ReadableInterval.zipWithNextHour(): Sequence<Pair<DateTime, DateTime>> = sequence {
     var current = start.trimToHour()
     val increment = 1.hours()
     val limit = end - increment
@@ -541,7 +540,7 @@ fun ReadableInterval.zipWithNextHour(): Sequence<Pair<DateTime, DateTime>> = bui
     }
 }
 
-fun ReadableInterval.zipWithNextMinute(): Sequence<Pair<DateTime, DateTime>> = buildSequence {
+fun ReadableInterval.zipWithNextMinute(): Sequence<Pair<DateTime, DateTime>> = sequence {
     var current = start.trimToMinute()
     val increment = 1.minutes()
     val limit = end - increment
@@ -552,7 +551,7 @@ fun ReadableInterval.zipWithNextMinute(): Sequence<Pair<DateTime, DateTime>> = b
     }
 }
 
-fun ReadableInterval.zipWithNextSecond(): Sequence<Pair<DateTime, DateTime>> = buildSequence {
+fun ReadableInterval.zipWithNextSecond(): Sequence<Pair<DateTime, DateTime>> = sequence {
     var current = start.trimToSecond()
     val increment = 1.seconds()
     val limit = end - increment
