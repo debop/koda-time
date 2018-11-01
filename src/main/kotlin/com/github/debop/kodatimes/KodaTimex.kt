@@ -132,7 +132,7 @@ fun dateTimeFormat(pattern: String): DateTimeFormatter = DateTimeFormat.forPatte
 /** Parse string to [DateTime] */
 fun String.toDateTime(pattern: String? = null): DateTime? = try {
     if(pattern.isNullOrBlank()) DateTime(this)
-    else DateTime.parse(this, dateTimeFormat(pattern!!))
+    else DateTime.parse(this, dateTimeFormat(pattern))
 } catch(ignored: Throwable) {
     null
 }
@@ -147,7 +147,7 @@ fun String.toInterval(): Interval? = try {
 /** Parse string to `LocalDate` */
 fun String.toLocalDate(pattern: String? = null): LocalDate? = try {
     if(pattern.isNullOrBlank()) LocalDate(this)
-    else LocalDate.parse(this, dateTimeFormat(pattern!!))
+    else LocalDate.parse(this, dateTimeFormat(pattern))
 } catch(ignored: Throwable) {
     null
 }
@@ -156,7 +156,7 @@ fun String.toLocalDate(pattern: String? = null): LocalDate? = try {
 fun String.toLocalTime(pattern: String? = null): LocalTime? = try {
     if(pattern.isNullOrBlank())
         LocalTime(this)
-    else LocalTime.parse(this, dateTimeFormat(pattern!!))
+    else LocalTime.parse(this, dateTimeFormat(pattern))
 } catch(ignored: Throwable) {
     null
 }

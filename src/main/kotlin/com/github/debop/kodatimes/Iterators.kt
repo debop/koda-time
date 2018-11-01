@@ -25,6 +25,6 @@ abstract class JodaTimeIterator<out T: ReadableInstant>: Iterator<T> {
     final override fun next(): T = nextJodaTime()
 
     /** Returns the next value in the sequence without boxing. */
-    public abstract fun nextJodaTime(): T
+    abstract fun nextJodaTime(): T
 }
 

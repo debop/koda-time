@@ -16,6 +16,7 @@
 package com.github.debop.kodatimes.ranges
 
 import io.reactivex.Flowable
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.rx2.rxFlowable
 import org.joda.time.DateTime
@@ -24,20 +25,21 @@ import org.joda.time.Instant
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
-
+@ExperimentalCoroutinesApi
 fun DateTimeProgression.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutineContext): Flowable<DateTime> {
     return GlobalScope.rxFlowable(coroutineContext) {
         this@toFlowable.forEach { send(it) }
     }
 }
 
-
+@ExperimentalCoroutinesApi
 fun InstantProgression.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutineContext): Flowable<Instant> {
     return GlobalScope.rxFlowable(coroutineContext) {
         this@toFlowable.forEach { send(it) }
     }
 }
 
+@ExperimentalCoroutinesApi
 fun DateTimeRange.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutineContext,
                              step: Duration = Duration.millis(1L)): Flowable<DateTime> {
 
@@ -47,6 +49,7 @@ fun DateTimeRange.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutine
 
 }
 
+@ExperimentalCoroutinesApi
 fun InstantRange.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutineContext,
                             step: Duration = Duration.millis(1L)): Flowable<Instant> {
     return InstantProgression

@@ -16,6 +16,7 @@
 package com.github.debop.javatimes.ranges
 
 import io.reactivex.Flowable
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.rx2.rxFlowable
 import java.time.Duration
@@ -25,18 +26,21 @@ import java.util.*
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
+@ExperimentalCoroutinesApi
 fun <T : Date> DateProgression<T>.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutineContext): Flowable<T> {
     return GlobalScope.rxFlowable(coroutineContext) {
         this@toFlowable.forEach { send(it) }
     }
 }
 
+@ExperimentalCoroutinesApi
 fun InstantProgression.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutineContext): Flowable<Instant> {
     return GlobalScope.rxFlowable(coroutineContext) {
         this@toFlowable.forEach { send(it) }
     }
 }
 
+@ExperimentalCoroutinesApi
 fun <T> TemporalProgression<T>.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutineContext): Flowable<T>
 where T : Temporal, T : Comparable<T> {
     return GlobalScope.rxFlowable(coroutineContext) {
@@ -44,6 +48,7 @@ where T : Temporal, T : Comparable<T> {
     }
 }
 
+@ExperimentalCoroutinesApi
 @JvmOverloads
 fun DateRange.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutineContext,
                          step: Duration = Duration.ofDays(1)): Flowable<Date> {
@@ -52,6 +57,7 @@ fun DateRange.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutineCont
         .toFlowable(coroutineContext)
 }
 
+@ExperimentalCoroutinesApi
 @JvmOverloads
 fun InstantRange.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutineContext,
                             step: Duration = Duration.ofMillis(1)): Flowable<Instant> {
@@ -60,6 +66,7 @@ fun InstantRange.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutineC
         .toFlowable(coroutineContext)
 }
 
+@ExperimentalCoroutinesApi
 @JvmOverloads
 fun <T> TemporalRange<T>.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutineContext,
                                     step: Duration = Duration.ofMillis(1)): Flowable<T>
