@@ -17,7 +17,7 @@ package com.github.debop.javatimes.ranges
 
 import io.reactivex.Flowable
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.rx2.rxFlowable
 import java.time.Duration
 import java.time.Instant
@@ -27,31 +27,37 @@ import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
 @ExperimentalCoroutinesApi
-fun <T : Date> DateProgression<T>.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutineContext): Flowable<T> {
-    return GlobalScope.rxFlowable(coroutineContext) {
-        this@toFlowable.forEach { send(it) }
+suspend fun <T : Date> DateProgression<T>.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutineContext): Flowable<T> {
+    return coroutineScope {
+        rxFlowable(coroutineContext) {
+            this@toFlowable.forEach { send(it) }
+        }
     }
 }
 
 @ExperimentalCoroutinesApi
-fun InstantProgression.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutineContext): Flowable<Instant> {
-    return GlobalScope.rxFlowable(coroutineContext) {
-        this@toFlowable.forEach { send(it) }
+suspend fun InstantProgression.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutineContext): Flowable<Instant> {
+    return coroutineScope {
+        rxFlowable(coroutineContext) {
+            this@toFlowable.forEach { send(it) }
+        }
     }
 }
 
 @ExperimentalCoroutinesApi
-fun <T> TemporalProgression<T>.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutineContext): Flowable<T>
+suspend fun <T> TemporalProgression<T>.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutineContext): Flowable<T>
 where T : Temporal, T : Comparable<T> {
-    return GlobalScope.rxFlowable(coroutineContext) {
-        this@toFlowable.forEach { send(it) }
+    return coroutineScope {
+        rxFlowable(coroutineContext) {
+            this@toFlowable.forEach { send(it) }
+        }
     }
 }
 
 @ExperimentalCoroutinesApi
 @JvmOverloads
-fun DateRange.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutineContext,
-                         step: Duration = Duration.ofDays(1)): Flowable<Date> {
+suspend fun DateRange.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutineContext,
+                                 step: Duration = Duration.ofDays(1)): Flowable<Date> {
     return DateProgression
         .fromClosedRange(start, endInclusive, step)
         .toFlowable(coroutineContext)
@@ -59,8 +65,8 @@ fun DateRange.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutineCont
 
 @ExperimentalCoroutinesApi
 @JvmOverloads
-fun InstantRange.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutineContext,
-                            step: Duration = Duration.ofMillis(1)): Flowable<Instant> {
+suspend fun InstantRange.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutineContext,
+                                    step: Duration = Duration.ofMillis(1)): Flowable<Instant> {
     return InstantProgression
         .fromClosedRange(start, endInclusive, step)
         .toFlowable(coroutineContext)
@@ -68,8 +74,8 @@ fun InstantRange.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutineC
 
 @ExperimentalCoroutinesApi
 @JvmOverloads
-fun <T> TemporalRange<T>.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutineContext,
-                                    step: Duration = Duration.ofMillis(1)): Flowable<T>
+suspend fun <T> TemporalRange<T>.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutineContext,
+                                            step: Duration = Duration.ofMillis(1)): Flowable<T>
 where T : Temporal, T : Comparable<T> {
 
     return TemporalProgression

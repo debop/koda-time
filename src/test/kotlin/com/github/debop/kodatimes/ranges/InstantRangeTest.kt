@@ -20,11 +20,14 @@ import com.github.debop.kodatimes.days
 import com.github.debop.kodatimes.minus
 import com.github.debop.kodatimes.plus
 import com.github.debop.kodatimes.today
+import mu.KLogging
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class InstantRangeTest: AbstractKodaTimesTest() {
+
+    companion object : KLogging()
 
     @Test
     fun `simple creation`() {

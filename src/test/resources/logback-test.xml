@@ -20,12 +20,12 @@
         <withJansi>true</withJansi>
         <immediateFlush>true</immediateFlush>
         <encoder>
-            <pattern>%-5level %d{ISO8601} [%.16thread] %logger{36}: %m%n</pattern>
+            <pattern>%d{ISO8601} %highlight(%-5level) [%blue(%t)] %yellow(%logger): %msg%n%throwable</pattern>
             <charset>UTF-8</charset>
         </encoder>
     </appender>
 
-    <logger name="com.github.debop" level="DEBUG"/>
+    <logger name="com.github.debop" level="TRACE"/>
 
     <root level="INFO">
         <appender-ref ref="console"/>

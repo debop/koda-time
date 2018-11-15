@@ -21,6 +21,7 @@ import com.github.debop.javatimes.minus
 import com.github.debop.javatimes.plus
 import com.github.debop.javatimes.toLocalDateTime
 import com.github.debop.javatimes.with
+import mu.KLogging
 import org.junit.Test
 
 import java.time.Duration
@@ -29,7 +30,9 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertNotEquals
 
-class InstantProgressionTest: AbstractJavaTimesTest() {
+class InstantProgressionTest : AbstractJavaTimesTest() {
+
+    companion object : KLogging()
 
     @Test
     fun `create simple`() {
@@ -85,7 +88,7 @@ class InstantProgressionTest: AbstractJavaTimesTest() {
         val list: List<Instant> = progression.toList()
         assertEquals(5, list.count())
 
-        logger.debug { "$list" }
+        logger.debug { "list=$list" }
         assertEquals(listOf(0, 5, 10, 15, 20), list.map { it.toLocalDateTime().hour })
     }
 
@@ -103,6 +106,7 @@ class InstantProgressionTest: AbstractJavaTimesTest() {
         assertEquals("$start downTo $endInclusive step ${step.negated()}", progression.toString())
 
         val list = progression.toList()
+        logger.debug { "list=$list" }
         assertEquals(6, list.count())
         assertEquals(start, list.first())
         assertEquals(endInclusive, list.last())

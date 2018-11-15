@@ -18,12 +18,15 @@ package com.github.debop.kodatimes.ranges
 import com.github.debop.kodatimes.AbstractKodaTimesTest
 import com.github.debop.kodatimes.days
 import com.github.debop.kodatimes.today
+import mu.KLogging
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 
 class DateTimeRangeTest: AbstractKodaTimesTest() {
+    companion object : KLogging()
+
 
     @Test
     fun `simple creation`() {

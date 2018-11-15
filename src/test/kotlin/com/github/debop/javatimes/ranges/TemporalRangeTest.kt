@@ -16,6 +16,7 @@
 package com.github.debop.javatimes.ranges
 
 import com.github.debop.javatimes.AbstractJavaTimesTest
+import mu.KLogging
 import org.junit.Ignore
 import org.junit.Test
 import java.time.Duration
@@ -28,7 +29,9 @@ import java.time.temporal.Temporal
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-abstract class TemporalRangeTest<T>: AbstractJavaTimesTest() where T: Temporal, T: Comparable<T> {
+abstract class TemporalRangeTest<T> : AbstractJavaTimesTest() where T : Temporal, T : Comparable<T> {
+
+    companion object : KLogging()
 
     abstract val start: T
     @Suppress("UNCHECKED_CAST")
@@ -40,6 +43,7 @@ abstract class TemporalRangeTest<T>: AbstractJavaTimesTest() where T: Temporal, 
     fun `simple constructor`() {
         val range = TemporalRange.of(start, endInclusive)
 
+        logger.trace { "start=$start, endInclusive=$endInclusive, range=$range" }
         assertEquals(start, range.start)
         assertEquals(endInclusive, range.endInclusive)
         assertEquals(start, range.first)
@@ -62,29 +66,29 @@ abstract class TemporalRangeTest<T>: AbstractJavaTimesTest() where T: Temporal, 
     }
 }
 
-class LocalDateTimeRangeTest: TemporalRangeTest<LocalDateTime>() {
+class LocalDateTimeRangeTest : TemporalRangeTest<LocalDateTime>() {
     override val start: LocalDateTime = LocalDateTime.now()
     override val range: TemporalRange<LocalDateTime> = start..endInclusive
 }
 
-class OffsetDateTimeRangeTest: TemporalRangeTest<OffsetDateTime>() {
+class OffsetDateTimeRangeTest : TemporalRangeTest<OffsetDateTime>() {
     override val start: OffsetDateTime = OffsetDateTime.now()
     override val range: TemporalRange<OffsetDateTime> = start..endInclusive
 }
 
-class ZonedDateTimeRangeTest: TemporalRangeTest<ZonedDateTime>() {
+class ZonedDateTimeRangeTest : TemporalRangeTest<ZonedDateTime>() {
     override val start: ZonedDateTime = ZonedDateTime.now()
     override val range: TemporalRange<ZonedDateTime> = start..endInclusive
 }
 
 @Ignore("Cannot support range")
-class LocalDateRangeTest: TemporalRangeTest<LocalDate>() {
+class LocalDateRangeTest : TemporalRangeTest<LocalDate>() {
     override val start: LocalDate = LocalDate.now()
     override val range: TemporalRange<LocalDate> = start..endInclusive
 }
 
 @Ignore("Cannot support range")
-class LocalTimeRangeTest: TemporalRangeTest<LocalTime>() {
+class LocalTimeRangeTest : TemporalRangeTest<LocalTime>() {
     override val start: LocalTime = LocalTime.now()
     override val range: TemporalRange<LocalTime> = start..endInclusive
 }

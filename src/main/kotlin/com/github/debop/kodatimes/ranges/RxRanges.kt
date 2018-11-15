@@ -17,7 +17,7 @@ package com.github.debop.kodatimes.ranges
 
 import io.reactivex.Flowable
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.rx2.rxFlowable
 import org.joda.time.DateTime
 import org.joda.time.Duration
@@ -26,33 +26,29 @@ import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
 @ExperimentalCoroutinesApi
-fun DateTimeProgression.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutineContext): Flowable<DateTime> {
-    return GlobalScope.rxFlowable(coroutineContext) {
-        this@toFlowable.forEach { send(it) }
+suspend fun DateTimeProgression.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutineContext): Flowable<DateTime> {
+    return coroutineScope {
+        rxFlowable(coroutineContext) {
+            this@toFlowable.forEach { send(it) }
+        }
     }
 }
 
 @ExperimentalCoroutinesApi
-fun InstantProgression.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutineContext): Flowable<Instant> {
-    return GlobalScope.rxFlowable(coroutineContext) {
-        this@toFlowable.forEach { send(it) }
+suspend fun InstantProgression.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutineContext): Flowable<Instant> {
+    return coroutineScope {
+        rxFlowable(coroutineContext) {
+            this@toFlowable.forEach { send(it) }
+        }
     }
 }
 
 @ExperimentalCoroutinesApi
-fun DateTimeRange.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutineContext,
-                             step: Duration = Duration.millis(1L)): Flowable<DateTime> {
-
-    return DateTimeProgression
-        .fromClosedRange(start, endInclusive, step)
-        .toFlowable(coroutineContext)
-
+suspend fun DateTimeRange.toFlowable(step: Duration = Duration.millis(1L)): Flowable<DateTime> {
+    return DateTimeProgression.fromClosedRange(start, endInclusive, step).toFlowable()
 }
 
 @ExperimentalCoroutinesApi
-fun InstantRange.toFlowable(coroutineContext: CoroutineContext = EmptyCoroutineContext,
-                            step: Duration = Duration.millis(1L)): Flowable<Instant> {
-    return InstantProgression
-        .fromClosedRange(start, endInclusive, step)
-        .toFlowable(coroutineContext)
+suspend fun InstantRange.toFlowable(step: Duration = Duration.millis(1L)): Flowable<Instant> {
+    return InstantProgression.fromClosedRange(start, endInclusive, step).toFlowable()
 }

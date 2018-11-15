@@ -28,13 +28,16 @@ import com.github.debop.kodatimes.standardDays
 import com.github.debop.kodatimes.standardHours
 import com.github.debop.kodatimes.today
 import com.github.debop.kodatimes.unaryMinus
+import mu.KLogging
 import org.joda.time.Duration
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertNotEquals
 
-class InstantProgressionTest: AbstractKodaTimesTest() {
+class InstantProgressionTest : AbstractKodaTimesTest() {
+
+    companion object : KLogging()
 
     @Test
     fun `create simple`() {
@@ -73,6 +76,7 @@ class InstantProgressionTest: AbstractKodaTimesTest() {
         assertEquals(7.dayDuration(), progression.step)
 
         val list = progression.toList()
+        logger.debug { "list=$list" }
         assertEquals(1, list.count())
     }
 
@@ -90,6 +94,7 @@ class InstantProgressionTest: AbstractKodaTimesTest() {
         println("progression=$progression")
 
         val list = progression.toList()
+        logger.debug { "list=$list" }
         assertEquals(5, list.count())
 
         // Instant 는 GMT 기준이라 Local time과는 시간차가 있습니다. 그래서 해당 Timezone 으로 변경해야 합니다.
@@ -109,9 +114,9 @@ class InstantProgressionTest: AbstractKodaTimesTest() {
         assertEquals("$start downTo $endInclusive step ${-step}", progression.toString())
 
         val list = progression.toList()
+        logger.debug { "list=$list" }
         assertEquals(6, list.count())
         assertEquals(start, list.first())
         assertEquals(endInclusive, list.last())
     }
-
 }

@@ -26,6 +26,7 @@ import com.github.debop.kodatimes.standardDays
 import com.github.debop.kodatimes.standardHours
 import com.github.debop.kodatimes.today
 import com.github.debop.kodatimes.unaryMinus
+import mu.KLogging
 import org.joda.time.Duration
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -34,6 +35,8 @@ import kotlin.test.assertNotEquals
 
 
 class DateTimeProgressTest: AbstractKodaTimesTest() {
+
+    companion object : KLogging()
 
     @Test
     fun `create simple`() {
