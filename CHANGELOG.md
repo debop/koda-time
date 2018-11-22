@@ -4,7 +4,8 @@
 
 > not specified
 
-* Bump up kotlin-stdlib 1.2.31
+* Split koda-time (joda-time extensios), java-time (java.time extensions)
+* Bump up kotlin-stdlib 1.3.10
 
 # 1.2.2
 

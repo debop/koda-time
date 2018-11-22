@@ -62,8 +62,11 @@ class DateTimeRange(start: DateTime, endInclusive: DateTime)
 
     companion object {
 
-        /** Empty [DateTimeRange] */
-        @JvmField val EMPTY: DateTimeRange = DateTimeRange(dateTimeOf(1, 1, 1), dateTimeOf(0, 1, 1))
+        /**
+         * Empty [DateTimeRange]
+         */
+        @JvmField
+        val EMPTY: DateTimeRange = DateTimeRange(dateTimeOf(1, 1, 1), dateTimeOf(0, 1, 1))
     }
 }
 
@@ -95,7 +98,10 @@ class InstantRange(start: Instant, endInclusive: Instant)
     override fun toString(): String = "$first..$last"
 
     companion object {
-        /** Empty [Instant] */
-        @JvmField val EMPTY: InstantRange = InstantRange(Instant(1), Instant(0))
+        /**
+         * Empty [Instant]
+         */
+        @JvmField
+        val EMPTY: InstantRange = InstantRange(Instant(1), Instant(0))
     }
 }
