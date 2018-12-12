@@ -17,7 +17,7 @@ package com.github.debop.javatimes.ranges
 
 import com.github.debop.javatimes.AbstractJavaTimesTest
 import com.github.debop.javatimes.toDate
-import com.github.debop.kodatimes.today
+import com.github.debop.javatimes.today
 import org.junit.Test
 
 import java.time.Duration
@@ -29,7 +29,7 @@ class DateRangeTest: AbstractJavaTimesTest() {
     @Test
     fun `simple creation`() {
 
-        val start = today().toDate()
+        val start = today()
         val endInclusive = (start.toInstant() + Duration.ofDays(5)).toDate()
         val range = DateRange(start, endInclusive)
 
@@ -45,7 +45,7 @@ class DateRangeTest: AbstractJavaTimesTest() {
     @Test
     fun `empty range`() {
 
-        val start = today().toDate()
+        val start = today()
         val endInclusive = (start.toInstant() - Duration.ofDays(1)).toDate()
 
         val range = DateRange(start, endInclusive)

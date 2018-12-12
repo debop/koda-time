@@ -17,9 +17,8 @@
 
 package com.github.debop.javatimes
 
-import org.joda.time.DateTime
-import org.joda.time.Interval
-import java.sql.Timestamp
+//import org.joda.time.DateTime
+//import org.joda.time.Interval
 import java.time.Duration
 import java.time.Instant
 import java.time.LocalDate
@@ -32,6 +31,7 @@ import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoField
+import java.time.temporal.ChronoUnit
 import java.time.temporal.Temporal
 import java.time.temporal.TemporalAccessor
 import java.util.*
@@ -71,7 +71,7 @@ fun Temporal.toEhpochMillis(): Long {
 @JvmOverloads
 fun Instant.toLocalDateTime(zoneId: ZoneId = UTC): LocalDateTime = LocalDateTime.ofInstant(this, zoneId)
 
-fun Instant.toDateTime(): org.joda.time.DateTime = org.joda.time.DateTime(toEpochMilli())
+//fun Instant.toDateTime(): org.joda.time.DateTime = org.joda.time.DateTime(toEpochMilli())
 fun Instant.toDate(): Date = Date.from(this)
 
 fun dateOf(epochMilis: Long): Date = Date(epochMilis)
@@ -88,8 +88,8 @@ operator fun Date.minus(that: Date): Date = Date(this.time - that.time)
 /** minus operator for Date */
 operator fun Date.minus(millis: Long): Date = Date(this.time - millis)
 
-fun Date.toDateTime(): DateTime = DateTime(time)
-fun Timestamp.toDateTime(): DateTime = DateTime(time)
+//fun Date.toDateTime(): DateTime = DateTime(time)
+//fun Timestamp.toDateTime(): DateTime = DateTime(time)
 
 @JvmOverloads
 fun instantOf(epochMillis: Long = 0): Instant = Instant.ofEpochMilli(epochMillis)
@@ -100,6 +100,9 @@ val EPOCH: Instant get() = Instant.EPOCH
 val NowLocalDate: LocalDate get() = LocalDate.now()
 val NowLocalTime: LocalTime get() = LocalTime.now()
 val NowLocalDateTime: LocalDateTime get() = LocalDateTime.now()
+
+fun todayInstant(): Instant = Instant.now().truncatedTo(ChronoUnit.HOURS)
+fun today(): Date = Date()
 
 val Int.nanoseconds: Duration get() = Duration.ofNanos(this.toLong())
 val Int.microseconds: Duration get() = Duration.ofNanos(this.toLong() * 1000L)
@@ -215,47 +218,51 @@ infix fun Instant?.max(that: Instant?): Instant? = when {
     else         -> this
 }
 
-operator fun Instant.rangeTo(endExlusive: Instant): Interval = Interval(this.toEpochMilli(), endExlusive.toEpochMilli())
+//
+// TODO: Implement Custom Interval like joda-time Interval
+//
 
-/**
- * Year `Interval` at specified instatnt included
- */
-val Instant.yearInterval: Interval
-    get() {
-        val start = this.startOfYear
-        val endExclusive = start + 1.years
-        return start..endExclusive
-    }
+// operator fun Instant.rangeTo(endExlusive: Instant): Interval = Interval(this.toEpochMilli(), endExlusive.toEpochMilli())
 
-/**
- * Month `Interval` at specified instant included
- */
-val Instant.monthInterval: Interval
-    get() {
-        val start = this.startOfMonth
-        val endExclusive = start + 1.months
-        return start..endExclusive
-    }
-
-/**
- * Week `Interval` at specified instant included
- */
-val Instant.weekInterval: Interval
-    get() {
-        val start = this.startOfWeek
-        val endExclusive = start + 7.days
-        return start..endExclusive
-    }
-
-/**
- * Day `Interval` at specified instance included
- */
-val Instant.dayInterval: Interval
-    get() {
-        val start: Instant = this.startOfDay
-        val endExclusive = start + 1.days
-        return start..endExclusive
-    }
+///**
+// * Year `Interval` at specified instatnt included
+// */
+//val Instant.yearInterval: Interval
+//    get() {
+//        val start = this.startOfYear
+//        val endExclusive = start + 1.years
+//        return start..endExclusive
+//    }
+//
+///**
+// * Month `Interval` at specified instant included
+// */
+//val Instant.monthInterval: Interval
+//    get() {
+//        val start = this.startOfMonth
+//        val endExclusive = start + 1.months
+//        return start..endExclusive
+//    }
+//
+///**
+// * Week `Interval` at specified instant included
+// */
+//val Instant.weekInterval: Interval
+//    get() {
+//        val start = this.startOfWeek
+//        val endExclusive = start + 7.days
+//        return start..endExclusive
+//    }
+//
+///**
+// * Day `Interval` at specified instance included
+// */
+//val Instant.dayInterval: Interval
+//    get() {
+//        val start: Instant = this.startOfDay
+//        val endExclusive = start + 1.days
+//        return start..endExclusive
+//    }
 
 operator fun Period.unaryMinus(): Period = this.negated()
 
