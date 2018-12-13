@@ -1,5 +1,4 @@
 rootProject.name = "koda-time-parent"
 
-include 'java6-time'
-include 'java8-time'
+include 'java-time'
 include 'koda-time'

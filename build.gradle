@@ -41,10 +41,11 @@ subprojects {
 
     dependencies {
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version")
+        implementation "io.github.microutils:kotlin-logging:1.6.10"
 
         testImplementation "org.slf4j:slf4j-api:1.7.25"
         testImplementation "ch.qos.logback:logback-classic:1.2.3"
-        testImplementation "io.github.microutils:kotlin-logging:1.6.10"
+
 
         testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
         testImplementation "junit:junit:4.12"

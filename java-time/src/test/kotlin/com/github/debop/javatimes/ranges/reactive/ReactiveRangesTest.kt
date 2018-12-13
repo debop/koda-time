@@ -1,0 +1,62 @@
+package com.github.debop.javatimes.ranges.reactive
+
+
+import com.github.debop.javatimes.AbstractJavaTimesTest
+import com.github.debop.javatimes.nowInstant
+import com.github.debop.javatimes.plus
+import com.github.debop.javatimes.ranges.dateProgressionOf
+import com.github.debop.javatimes.ranges.temporalProgressionOf
+import com.github.debop.javatimes.seconds
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
+import mu.KLogging
+import org.junit.Test
+import java.util.*
+import kotlin.test.assertEquals
+
+/**
+ * ReactiveRangesTest
+ *
+ * @autor debop
+ * @since 18. 4. 17
+ */
+@Suppress("EXPERIMENTAL_API_USAGE")
+class ReactiveRangesTest : AbstractJavaTimesTest() {
+
+    companion object : KLogging()
+
+    @Test
+    fun `date progression to Flowable`() = runBlocking {
+        val start = Date()
+        val end = start + 42.seconds()
+        val progression = dateProgressionOf(start, end, 5.seconds())
+
+        val flow = withContext(Dispatchers.Default) { progression.toFlowable() }
+
+        flow.blockingSubscribe {
+            logger.debug { "produce date=$it" }
+        }
+
+        val count = flow.count().blockingGet()
+        assertEquals(9, count)
+    }
+
+    @Test
+    fun `TemporalProgress to Flowable`() = runBlocking {
+        val start = nowInstant()
+        val end = start + 42.seconds()
+
+        val progression = temporalProgressionOf(start, end, 5.seconds())
+
+        val flow = withContext(Dispatchers.Default) {
+            progression.toFlowable()
+        }
+
+        flow.blockingSubscribe {
+            logger.debug { "produce instant=$it" }
+        }
+        val count = flow.count().blockingGet()
+        assertEquals(9, count)
+    }
+}
