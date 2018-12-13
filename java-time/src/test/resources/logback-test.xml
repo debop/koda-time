@@ -25,7 +25,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.github.debop.java6times" level="TRACE"/>
+    <logger name="com.github.debop.javatimes" level="TRACE"/>
 
     <root level="INFO">
         <appender-ref ref="console"/>

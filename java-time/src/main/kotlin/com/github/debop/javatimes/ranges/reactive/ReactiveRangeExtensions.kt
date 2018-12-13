@@ -12,15 +12,16 @@ import java.util.*
 import kotlin.coroutines.CoroutineContext
 
 @ExperimentalCoroutinesApi
-suspend fun <T> TemporalProgression<T>.toFlowable(coroutineContext: CoroutineContext = Dispatchers.Default): Flowable<T>
+suspend fun <T : Date> DateProgression<T>.toFlowable(context: CoroutineContext = Dispatchers.Default): Flowable<T> =
+    GlobalScope.rxFlowable(context) {
+        this@toFlowable.forEach { send(it) }
+    }
+
+@ExperimentalCoroutinesApi
+suspend fun <T> TemporalProgression<T>.toFlowable(context: CoroutineContext = Dispatchers.Default): Flowable<T>
 where T : Temporal, T : Comparable<T> {
-    return GlobalScope.rxFlowable(coroutineContext) {
+    return GlobalScope.rxFlowable(context) {
         this@toFlowable.forEach { send(it) }
     }
 }
 
-@ExperimentalCoroutinesApi
-suspend fun <T : Date> DateProgression<T>.toFlowable(coroutineContext: CoroutineContext = Dispatchers.Default): Flowable<T> =
-    GlobalScope.rxFlowable(coroutineContext) {
-        this@toFlowable.forEach { send(it) }
-    }
