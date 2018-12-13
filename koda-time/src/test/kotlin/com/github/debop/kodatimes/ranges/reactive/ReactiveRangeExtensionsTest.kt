@@ -6,6 +6,7 @@ import com.github.debop.kodatimes.ranges.DateTimeProgression
 import com.github.debop.kodatimes.ranges.InstantProgression
 import com.github.debop.kodatimes.seconds
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import mu.KLogging
 import org.joda.time.DateTime
@@ -19,6 +20,7 @@ import kotlin.test.assertEquals
  * @author debop
  * @since 18. 12. 13
  */
+@ExperimentalCoroutinesApi
 class ReactiveRangeExtensionsTest : AbstractKodaTimesTest() {
 
     companion object : KLogging()

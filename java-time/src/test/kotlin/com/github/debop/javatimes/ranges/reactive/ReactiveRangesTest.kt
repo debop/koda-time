@@ -8,6 +8,7 @@ import com.github.debop.javatimes.ranges.dateProgressionOf
 import com.github.debop.javatimes.ranges.temporalProgressionOf
 import com.github.debop.javatimes.seconds
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import mu.KLogging
 import org.junit.Test
@@ -20,7 +21,7 @@ import kotlin.test.assertEquals
  * @autor debop
  * @since 18. 4. 17
  */
-@Suppress("EXPERIMENTAL_API_USAGE")
+@ExperimentalCoroutinesApi
 class ReactiveRangesTest : AbstractJavaTimesTest() {
 
     companion object : KLogging()
