@@ -99,7 +99,7 @@ subprojects {
         reportUndocumented = false
 
         sourceRoot {
-            path = "src/main/kotlin"
+            path = "$projectDir/src/main/kotlin"
             platforms = ["JVM"]
         }
 
@@ -108,7 +108,7 @@ subprojects {
         // Repeat for multiple mappings
         linkMapping {
             // Source directory
-            dir = "src/main/kotlin"
+            dir = "$projectDir/src/main/kotlin"
 
             // URL showing where the source code can be accessed through the web browser
             url = "https://github.com/debop/koda-time/blob/master/src/main/kotlin"
