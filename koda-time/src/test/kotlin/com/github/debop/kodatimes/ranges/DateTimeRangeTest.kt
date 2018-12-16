@@ -19,7 +19,7 @@ import com.github.debop.kodatimes.AbstractKodaTimesTest
 import com.github.debop.kodatimes.days
 import com.github.debop.kodatimes.today
 import mu.KLogging
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 

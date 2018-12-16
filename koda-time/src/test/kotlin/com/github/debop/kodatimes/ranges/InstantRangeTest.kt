@@ -21,7 +21,7 @@ import com.github.debop.kodatimes.minus
 import com.github.debop.kodatimes.plus
 import com.github.debop.kodatimes.today
 import mu.KLogging
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 

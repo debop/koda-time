@@ -17,7 +17,7 @@ package com.github.debop.javatimes.ranges
 
 import com.github.debop.javatimes.AbstractJavaTimesTest
 import com.github.debop.javatimes.toDate
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 import java.time.Duration
 import java.util.*

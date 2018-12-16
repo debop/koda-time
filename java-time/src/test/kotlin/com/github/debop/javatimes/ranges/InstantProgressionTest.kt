@@ -22,7 +22,7 @@
 //import com.github.debop.javatimes.toLocalDateTime
 //import com.github.debop.javatimes.with
 //import mu.KLogging
-//import org.junit.Test
+//import org.junit.jupiter.api.Test
 //
 //import java.time.Duration
 //import java.time.Instant

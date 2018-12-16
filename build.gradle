@@ -48,7 +48,8 @@ subprojects {
 
 
         testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
-        testImplementation "junit:junit:4.12"
+        testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_jupiter_version"
+        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_jupiter_version"
     }
 
     sourceCompatibility = JavaVersion.VERSION_1_8

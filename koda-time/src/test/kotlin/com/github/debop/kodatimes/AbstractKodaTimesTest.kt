@@ -16,7 +16,7 @@
 package com.github.debop.kodatimes
 
 import mu.KLogging
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 
 // kobalt test 에서 abstract class에 대해서도 test 를 만들려고 한다  

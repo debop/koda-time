@@ -17,8 +17,8 @@ package com.github.debop.javatimes.ranges
 
 import com.github.debop.javatimes.AbstractJavaTimesTest
 import com.github.debop.javatimes.hours
-import org.junit.Ignore
-import org.junit.Test
+import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.Test
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -106,12 +106,12 @@ class LocalDateTimeProgressionTest : TemporalProgressionTest<LocalDateTime>() {
     override val start: LocalDateTime = LocalDateTime.now()
 }
 
-@Ignore("Cannot support range")
+@Disabled("Cannot support range")
 class LocalDateProgressionTest : TemporalProgressionTest<LocalDate>() {
     override val start: LocalDate = LocalDate.now()
 }
 
-@Ignore("Cannot support range")
+@Disabled("Cannot support range")
 class LocalTimeProgressionTest : TemporalProgressionTest<LocalTime>() {
     override val start: LocalTime = LocalTime.now()
 }

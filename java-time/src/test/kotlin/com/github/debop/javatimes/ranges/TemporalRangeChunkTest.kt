@@ -14,8 +14,8 @@ import com.github.debop.javatimes.nowZonedDateTime
 import com.github.debop.javatimes.seconds
 import com.github.debop.javatimes.weeks
 import com.github.debop.javatimes.yearPeriod
-import org.junit.Ignore
-import org.junit.Test
+import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.Test
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -132,12 +132,12 @@ class ZonedDateTimeRangeChunkTest : TemporalRangeChunkTest<ZonedDateTime>() {
     override val start: ZonedDateTime = nowZonedDateTime()
 }
 
-@Ignore("Cannot support range")
+@Disabled("Cannot support range")
 class LocalTimeRangeChunkTest : TemporalRangeChunkTest<LocalTime>() {
     override val start: LocalTime = nowLocalTime()
 }
 
-@Ignore("Cannot support range")
+@Disabled("Cannot support range")
 class LocalDateRangeChunkTest : TemporalRangeChunkTest<LocalDate>() {
     override val start: LocalDate = nowLocalDate()
 }

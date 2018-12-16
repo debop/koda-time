@@ -18,7 +18,7 @@ package com.github.debop.kodatimes
 import org.joda.time.DateTime
 import org.joda.time.Interval
 import org.joda.time.LocalDate
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -54,7 +54,7 @@ class DateTimeTest: AbstractKodaTimesTest() {
     }
 
     @Test
-    fun builderPatternWithMillis() {
+    fun `date time builder pattern with millis`() {
         val actual =
             DateTime.parse("2014-01-01T01:01:01.123+0900")
                 .withYear(2013)

@@ -19,7 +19,7 @@ import com.github.debop.javatimes.AbstractJavaTimesTest
 import com.github.debop.javatimes.hours
 import com.github.debop.javatimes.minus
 import com.github.debop.javatimes.plus
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import java.time.Duration
 import java.util.*
 import kotlin.test.assertEquals

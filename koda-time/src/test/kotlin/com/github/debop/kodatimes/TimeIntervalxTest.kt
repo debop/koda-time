@@ -16,7 +16,7 @@
 package com.github.debop.kodatimes
 
 import org.joda.time.Interval
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 

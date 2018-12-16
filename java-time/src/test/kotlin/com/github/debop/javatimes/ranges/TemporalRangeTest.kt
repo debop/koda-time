@@ -17,8 +17,8 @@ package com.github.debop.javatimes.ranges
 
 import com.github.debop.javatimes.AbstractJavaTimesTest
 import mu.KLogging
-import org.junit.Ignore
-import org.junit.Test
+import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.Test
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -81,13 +81,13 @@ class ZonedDateTimeRangeTest : TemporalRangeTest<ZonedDateTime>() {
     override val range: TemporalRange<ZonedDateTime> = start..endInclusive
 }
 
-@Ignore("Cannot support range")
+@Disabled("Cannot support range")
 class LocalDateRangeTest : TemporalRangeTest<LocalDate>() {
     override val start: LocalDate = LocalDate.now()
     override val range: TemporalRange<LocalDate> = start..endInclusive
 }
 
-@Ignore("Cannot support range")
+@Disabled("Cannot support range")
 class LocalTimeRangeTest : TemporalRangeTest<LocalTime>() {
     override val start: LocalTime = LocalTime.now()
     override val range: TemporalRange<LocalTime> = start..endInclusive
