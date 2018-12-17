@@ -1,11 +1,12 @@
 # koda-times change Logs
 
-# 1.3.0
+# 2.0.0
 
 > not specified
 
 * Split koda-time (joda-time extensios), java-time (java.time extensions)
 * Bump up kotlin-stdlib 1.3.10
+* Bump up kotlinx-coroutines-core 1.0.1
 
 # 1.2.2
 
