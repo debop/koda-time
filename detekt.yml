@@ -7,6 +7,6 @@ complexity:
     ignoreDefaultParameters: true
 
   TooManyFunctions:
-    thresholdInFiles: 200
+    thresholdInFiles: 60
     thresholdInClasses: 20
 

@@ -10,19 +10,19 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
 
-        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.0.0-RC12"
         classpath 'com.palantir:jacoco-coverage:0.4.0'
     }
 }
 
 
 plugins {
-    id "com.jfrog.bintray" version "1.7.3"
+    id "com.jfrog.bintray" version "1.7.3" apply false
+    id "io.gitlab.arturbosch.detekt" version "1.0.0-RC12" apply false
 }
 
 allprojects {
     group = 'com.github.debop'
-    version = '2.0.0-SNAPSHOT'
+    version = "$koda_time_version" + "$snapshot_version"
 
     repositories {
         jcenter()
@@ -44,6 +44,8 @@ subprojects {
     apply plugin: 'jacoco'
     apply plugin: 'maven'
     apply plugin: 'maven-publish'
+
+    apply plugin: "com.jfrog.bintray"
 
 
     dependencies {
@@ -83,6 +85,10 @@ subprojects {
     compileTestKotlin {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    test {
+        useJUnitPlatform()
     }
 
     detekt {
