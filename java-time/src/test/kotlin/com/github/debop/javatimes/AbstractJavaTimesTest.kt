@@ -30,5 +30,4 @@ abstract class AbstractJavaTimesTest {
     companion object: KLogging()
 
     val chronoUnits = listOf(YEARS, MONTHS, WEEKS, DAYS, HOURS, MINUTES, SECONDS, MILLIS)
-
 }

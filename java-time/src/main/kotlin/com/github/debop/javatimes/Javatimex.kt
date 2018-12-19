@@ -128,7 +128,7 @@ fun TemporalAccessor.toIsoZonedDateTimeString(): String = DateTimeFormatter.ISO_
 /**
  * [Temporal] 을 Epoch 이후의 milli seconds 단위로 표현한 값 (기존 Date#time, Timestamp 와 같은 값을 나타낸다)
  */
-fun Temporal.toEpochMillis(): Long = when(this) {
+fun Temporal.toEpochMillis(): Long = when (this) {
     is Instant        -> toEpochMilli()
     is OffsetDateTime -> toInstant().toEpochMilli()
     is OffsetTime     -> toInstant().toEpochMilli()
@@ -136,7 +136,7 @@ fun Temporal.toEpochMillis(): Long = when(this) {
     else              -> {
         val days = try {
             getLong(ChronoField.EPOCH_DAY)
-        } catch(e: Exception) {
+        } catch (e: Exception) {
             0L
         }
         val millis = getLong(ChronoField.MILLI_OF_DAY)

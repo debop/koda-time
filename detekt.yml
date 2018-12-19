@@ -1,0 +1,12 @@
+complexity:
+  LongMethod:
+    threshold: 32
+
+  LongParameterList:
+    threshold: 6
+    ignoreDefaultParameters: true
+
+  TooManyFunctions:
+    thresholdInFiles: 200
+    thresholdInClasses: 20
+

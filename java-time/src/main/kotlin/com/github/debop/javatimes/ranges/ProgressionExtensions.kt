@@ -12,12 +12,12 @@ import java.util.*
 
 private fun mod(a: Int, b: Int): Int {
     val mod = a % b
-    return if(mod >= 0) mod else mod + b
+    return if (mod >= 0) mod else mod + b
 }
 
 private fun mod(a: Long, b: Long): Long {
     val mod = a % b
-    return if(mod >= 0) mod else mod + b
+    return if (mod >= 0) mod else mod + b
 }
 
 private fun differenceModulo(a: Int, b: Int, c: Int): Int =

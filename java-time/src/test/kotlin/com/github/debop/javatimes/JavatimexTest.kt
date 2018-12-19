@@ -25,7 +25,6 @@ import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-
 class JavatimexTest {
 
     companion object : KLogging()

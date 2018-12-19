@@ -10,9 +10,11 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
 
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.0.0-RC12"
         classpath 'com.palantir:jacoco-coverage:0.4.0'
     }
 }
+
 
 plugins {
     id "com.jfrog.bintray" version "1.7.3"
@@ -25,6 +27,10 @@ allprojects {
     repositories {
         jcenter()
     }
+
+    configurations {
+        published
+    }
 }
 
 subprojects {
@@ -34,6 +40,7 @@ subprojects {
     apply plugin: 'org.jetbrains.dokka'
     apply plugin: 'idea'
 
+    apply plugin: 'io.gitlab.arturbosch.detekt'
     apply plugin: 'jacoco'
     apply plugin: 'maven'
     apply plugin: 'maven-publish'
@@ -78,23 +85,18 @@ subprojects {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-    idea {
-        module {
-            downloadSources = false
-            downloadJavadoc = false
-        }
-    }
-
-    kotlin {
-        experimental {
-            coroutines "enable"
-        }
+    detekt {
+        toolVersion = "1.0.0-RC12"
+        input = files("src/main/kotlin")
+        parallel = true
+        config = files("../detekt.yml")
+        filters = ".*/resources/.*, .*/build/.*"
     }
 
     dokka {
         moduleName = 'koda-time'
         outputFormat = 'html'
-        outputDirectory = "$buildDir/dokka"
+        outputDirectory = "${buildDir}/dokka"
         jdkVersion = 8
 
         // Emit warnings about not documented members. Applies globally, also can be overridden by packageOptions
@@ -146,9 +148,6 @@ subprojects {
         archives dokkaJar
     }
 
-    configurations {
-        published
-    }
 
     def pomConfig = {
         licenses {

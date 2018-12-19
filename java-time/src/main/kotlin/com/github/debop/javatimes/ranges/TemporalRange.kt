@@ -9,6 +9,11 @@ import java.time.temporal.Temporal
 fun <T> temporalRangeOf(start: T, endInclusive: T): TemporalRange<T> where T : Temporal, T : Comparable<T> =
     TemporalRange.fromClosedRange(start, endInclusive)
 
+
+fun <T> TemporalRange.Companion.fromClosedRange(start: T, endInclusive: T): TemporalRange<T> where T : Temporal, T : Comparable<T> {
+    return TemporalRange(start, endInclusive)
+}
+
 /**
  * A range of [Temporal]
  *
@@ -23,9 +28,9 @@ where T : Temporal, T : Comparable<T> {
         @JvmField
         val EMPTY = TemporalRange<LocalDateTime>(LocalDateTime.MAX, LocalDateTime.MIN)
 
-        @JvmStatic
-        fun <T> fromClosedRange(start: T, endInclusive: T): TemporalRange<T> where T : Temporal, T : Comparable<T> =
-            TemporalRange(start, endInclusive)
+        //        @JvmStatic
+        //        fun <T> fromClosedRange(start: T, endInclusive: T): TemporalRange<T> where T : Temporal, T : Comparable<T> =
+        //            TemporalRange(start, endInclusive)
     }
 
     override val start: T get() = first

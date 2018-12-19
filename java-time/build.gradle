@@ -1,4 +1,3 @@
-
 dependencies {
 
     implementation "io.reactivex.rxjava2:rxjava:$rxjava2_version"

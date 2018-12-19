@@ -15,7 +15,7 @@
 
 package com.github.debop.kodatimes.ranges
 
-import com.github.debop.kodatimes.JodaTimeIterator
+import com.github.debop.kodatimes.ReadableInstantIterator
 import org.joda.time.DateTime
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -94,7 +94,9 @@ internal fun getProgressionLastElement(start: Instant, end: Instant, step: Reada
  * @property step  progression step
  */
 @Suppress("UNUSED_PARAMETER")
-abstract class JodaTimeProgression<out T: ReadableInstant>(start: T, endInclusive: T, val step: ReadableDuration): Iterable<T> {
+abstract class JodaTimeProgression<out T : ReadableInstant>(start: T,
+                                                            endInclusive: T,
+                                                            val step: ReadableDuration) : Iterable<T> {
     init {
         require(step.millis != 0L) { "step must be non-zero" }
     }
@@ -159,7 +161,9 @@ open class InstantProgression internal constructor(start: Instant, endInclusive:
  *
  * @property step the number by which the value is incremented on each step.
  */
-internal class DateTimeProgressionIterator(first: DateTime, last: DateTime, val step: ReadableDuration): JodaTimeIterator<DateTime>() {
+internal class DateTimeProgressionIterator(first: DateTime,
+                                           last: DateTime,
+                                           val step: ReadableDuration) : ReadableInstantIterator<DateTime>() {
 
     private val finalElement: DateTime = last
     private var hasNext: Boolean = if(step.millis > 0) first <= last else first >= last
@@ -184,7 +188,9 @@ internal class DateTimeProgressionIterator(first: DateTime, last: DateTime, val 
  *
  * @property step the number by which the value is incremented on each step.
  */
-internal class InstantProgressionIterator(first: Instant, last: Instant, val step: ReadableDuration): JodaTimeIterator<Instant>() {
+internal class InstantProgressionIterator(first: Instant,
+                                          last: Instant,
+                                          val step: ReadableDuration) : ReadableInstantIterator<Instant>() {
 
     private val finalElement: Instant = last
     private var hasNext: Boolean = if(step.millis > 0) first <= last else first >= last

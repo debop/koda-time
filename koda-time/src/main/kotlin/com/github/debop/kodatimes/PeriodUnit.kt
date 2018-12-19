@@ -32,5 +32,4 @@ enum class PeriodUnit {
     MONTH,
     QUARTER,
     YEAR
-
 }

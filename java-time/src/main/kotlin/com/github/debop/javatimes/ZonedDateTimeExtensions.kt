@@ -28,8 +28,9 @@ fun zonedDateTimeOf(year: Int,
 @JvmOverloads
 fun zonedDateTimeOf(localDate: LocalDate = LocalDate.ofEpochDay(0),
                     localTime: LocalTime = LocalTime.MIDNIGHT,
-                    zoned: ZoneId = SystemZoneId): ZonedDateTime =
-    ZonedDateTime.of(localDate, localTime, zoned)
+                    zoned: ZoneId = SystemZoneId): ZonedDateTime {
+    return ZonedDateTime.of(localDate, localTime, zoned)
+}
 
 operator fun ZonedDateTime.rangeTo(endExclusive: ZonedDateTime): ReadableTemporalInterval = temporalIntervalOf(this, endExclusive)
 

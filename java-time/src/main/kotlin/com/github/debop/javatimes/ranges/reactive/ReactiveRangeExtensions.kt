@@ -24,4 +24,3 @@ where T : Temporal, T : Comparable<T> {
         this@toFlowable.forEach { send(it) }
     }
 }
-
