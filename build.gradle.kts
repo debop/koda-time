@@ -2,22 +2,14 @@ import com.jfrog.bintray.gradle.BintrayExtension
 import io.gitlab.arturbosch.detekt.detekt
 import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformJvmPlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
-buildscript {
-    repositories {
-        jcenter()
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath(kotlin("gradle-plugin", extra.get("kotlin") as String))
-    }
-}
+import org.jetbrains.dokka.gradle.DokkaTask
 
 plugins {
-    id("com.jfrog.bintray") version ("1.8.4") apply (false)
-    id("org.jetbrains.dokka") version ("0.9.17") apply (false)
-    id("io.gitlab.arturbosch.detekt") version ("1.0.0-RC12") apply (false)
+    base
+    kotlin("jvm") version "1.3.11" apply false
+    id("com.jfrog.bintray") version "1.8.4" apply false
+    id("org.jetbrains.dokka") version "0.9.17" apply false
+    id("io.gitlab.arturbosch.detekt") version "1.0.0-RC12" apply false
 }
 
 allprojects {
@@ -30,6 +22,12 @@ allprojects {
     repositories {
         mavenCentral()
         jcenter()
+    }
+}
+
+dependencies {
+    subprojects.forEach {
+        archives(it)
     }
 }
 
@@ -47,21 +45,24 @@ subprojects {
 
     val sourceSets = project.the<SourceSetContainer>()
 
-    val sourcesJar by tasks.registering(Jar::class) {
+    val sourcesJar by tasks.creating(Jar::class) {
         from(sourceSets["main"].allSource)
         classifier = "sources"
     }
 
-    val doc by tasks.creating(Javadoc::class) {
-        isFailOnError = false
-        source = sourceSets["main"].allJava
+    // Configure existing Dokka task to output HTML to typical Javadoc directory
+    tasks.withType<DokkaTask> {
+        outputFormat = "html"
+        outputDirectory = "$buildDir/javadoc"
     }
 
-    val javadocJar by tasks.creating(Jar::class) {
-        dependsOn(doc)
-        from(doc)
-
+    // Create dokka Jar task from dokka task output
+    val dokkaJar by tasks.creating(Jar::class) {
+        group = JavaBasePlugin.DOCUMENTATION_GROUP
+        description = "Assembles Kotlin docs with Dokka"
         classifier = "javadoc"
+        // dependsOn(tasks.dokka) not needed; dependency automatically inferred by from(tasks.dokka)
+        from(tasks["dokka"])
     }
 
     tasks.withType<Test> {
@@ -85,8 +86,8 @@ subprojects {
         publications {
             register(project.name, MavenPublication::class) {
                 from(components["java"])
-                artifact(sourcesJar.get())
-                artifact(javadocJar)
+                artifact(sourcesJar)
+                artifact(dokkaJar)
                 groupId = project.group as String
                 artifactId = project.name
                 version = project.version as String
@@ -107,7 +108,7 @@ subprojects {
             userOrg = "debop"
             websiteUrl = "https://github.com/debop/koda-time"
             vcsUrl = "https://github.com/debop/koda-time"
-            setLicenses("Apache 2.0")
+            setLicenses("Apache-2.0")
             version.apply {
                 name = project.version as String
             }
@@ -125,5 +126,11 @@ subprojects {
             xml.isEnabled = true
             csv.isEnabled = false
         }
+    }
+
+    tasks["clean"].doLast {
+        delete("./.project")
+        delete("./out")
+        delete("./bin")
     }
 }
