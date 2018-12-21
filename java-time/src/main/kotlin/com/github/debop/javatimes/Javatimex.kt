@@ -243,8 +243,3 @@ fun monthDayOf(month: Month, dayOfMonth: Int): MonthDay = MonthDay.of(month, day
 val NowLocalDate: LocalDate get() = LocalDate.now()
 val NowLocalTime: LocalTime get() = LocalTime.now()
 val NowLocalDateTime: LocalDateTime get() = LocalDateTime.now()
-
-val Int.days: Period get() = Period.ofDays(this)
-val Int.weeks: Period get() = Period.ofWeeks(this)
-val Int.months: Period get() = Period.ofMonths(this)
-val Int.years: Period get() = Period.ofYears(this)

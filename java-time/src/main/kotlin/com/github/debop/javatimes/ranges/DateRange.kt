@@ -11,7 +11,7 @@ import java.util.*
  * @since 18. 4. 16
  */
 open class DateRange(start: Date, endInclusive: Date)
-    : DateProgression<Date>(start, endInclusive, Duration.ofMillis(1)), ClosedRange<Date> {
+    : DateProgression<Date>(start, endInclusive, Duration.ofDays(1)), ClosedRange<Date> {
 
     companion object : KLogging() {
         @JvmField

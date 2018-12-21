@@ -2,6 +2,7 @@ package com.github.debop.javatimes
 
 import mu.KLogging
 import org.junit.jupiter.api.Test
+import java.time.ZonedDateTime
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
@@ -132,12 +133,12 @@ class TemporalIntervalChunkTest : AbstractJavaTimesTest() {
 
     @Test
     fun `chunk week and aggregate`() {
-        val start = nowZonedDateTime().startOfWeek()
-        val endExclusive = start + 5.weekPeriod()
+        val start: ZonedDateTime = nowZonedDateTime().startOfWeek()
+        val endExclusive: ZonedDateTime = start + 5.weekPeriod()
 
-        val interval = start..endExclusive
+        val interval: ReadableTemporalInterval = start..endExclusive
 
-        val chunks = interval.chunkWeek(3)
+        val chunks: List<ReadableTemporalInterval> = interval.chunkWeek(3)
             .map { weeks -> weeks.first()..weeks.last() }
             .toList()
 

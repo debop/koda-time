@@ -48,7 +48,9 @@ class DateRangeTest: AbstractJavaTimesTest() {
         val start = Date()
         val endInclusive = (start.toInstant() - Duration.ofDays(1)).toDate()
 
-        val range = DateRange(start, endInclusive)
+        val range = DateRange.fromClosedRange(start, endInclusive)
+
+        val range2 = start..endInclusive
 
         assertTrue { range.isEmpty() }
         assertEquals(DateRange.EMPTY, range)

@@ -16,8 +16,8 @@
 package com.github.debop.javatimes.ranges
 
 import com.github.debop.javatimes.AbstractJavaTimesTest
+import com.github.debop.javatimes.days
 import org.junit.jupiter.api.Test
-import java.time.Duration
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -25,14 +25,14 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 
-class InstantRangeTest: AbstractJavaTimesTest() {
+class InstantRangeTest : AbstractJavaTimesTest() {
 
     @Test
     fun `simple creation`() {
 
         val start = Instant.ofEpochSecond(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC))
 
-        val endInclusive = start + Duration.ofDays(5)
+        val endInclusive = start + 5.days()
         val range = InstantRange(start, endInclusive)
 
         assertEquals(start, range.start)
@@ -48,12 +48,15 @@ class InstantRangeTest: AbstractJavaTimesTest() {
     fun `empty range`() {
 
         val start = Instant.ofEpochSecond(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC))
-        val endInclusive = start - Duration.ofDays(1)
+        val endInclusive = start - 1.days()
 
-        val range = InstantRange(start, endInclusive)
+        val range = InstantRange.fromClosedRange(start, endInclusive)
 
         assertTrue { range.isEmpty() }
         // assertEquals(InstantRange.EMPTY, range)
+
+        val range2 = start..endInclusive
+        assertTrue { range.isEmpty() }
     }
 
 }

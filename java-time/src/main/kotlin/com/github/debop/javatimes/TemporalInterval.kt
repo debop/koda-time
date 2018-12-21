@@ -43,7 +43,6 @@ class TemporalInterval @JvmOverloads constructor(
 
             return temporalIntervalOf(start, end)
         }
-
     }
 
     @JvmOverloads
