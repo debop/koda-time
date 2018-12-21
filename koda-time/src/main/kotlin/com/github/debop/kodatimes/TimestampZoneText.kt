@@ -21,7 +21,7 @@ import org.joda.time.DateTimeZone
 /**
  * [DateTime] 의 TimeZone 정보를 제공합니다
  *
- * @author sunghyouk.bae@gmail.com
+ * @author debop
  */
 open class TimestampZoneText(val datetime: DateTime?) {
 

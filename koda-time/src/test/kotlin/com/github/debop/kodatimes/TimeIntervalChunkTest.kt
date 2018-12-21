@@ -15,15 +15,16 @@
 
 package com.github.debop.kodatimes
 
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
-class TimeIntervalChunkTest: AbstractKodaTimesTest() {
+class TimeIntervalChunkTest : AbstractKodaTimesTest() {
 
     @Test
-    fun `chunk years`() {
+    fun `chunk years`() = runBlocking<Unit> {
         val start = now().startOfYear()
         val endExclusive = start + 5.years()
         logger.debug { "start=$start, end=$endExclusive" }
@@ -41,17 +42,17 @@ class TimeIntervalChunkTest: AbstractKodaTimesTest() {
             assertTrue { chunk.last() in interval }
         }
 
-        assertFailsWith(IllegalArgumentException::class) {
-            interval.chunkYear(0)
+        assertFailsWith<IllegalArgumentException> {
+            runBlocking { interval.chunkYear(0) }
         }
 
-        assertFailsWith(IllegalArgumentException::class) {
-            interval.chunkYear(-1)
+        assertFailsWith<IllegalArgumentException> {
+            runBlocking { interval.chunkYear(-1) }
         }
     }
 
     @Test
-    fun `chunk year and aggregate`() {
+    fun `chunk year and aggregate`() = runBlocking {
         val start = now().startOfYear()
         val endExclusive = start + 5.years()
         logger.debug("start=$start, end=$endExclusive")
@@ -61,13 +62,13 @@ class TimeIntervalChunkTest: AbstractKodaTimesTest() {
 
         assertEquals(2, intervals.size)
 
-        intervals.forEach { _ ->
+        intervals.forEach {
             assertTrue { interval.contains(interval) }
         }
     }
 
     @Test
-    fun `chunk months`() {
+    fun `chunk months`() = runBlocking<Unit> {
         val start = now().startOfMonth()
         val endExclusive = start + 13.months()
         logger.debug("start=$start, end=$endExclusive")
@@ -85,17 +86,17 @@ class TimeIntervalChunkTest: AbstractKodaTimesTest() {
             assertTrue { it.last() in interval }
         }
 
-        assertFailsWith(IllegalArgumentException::class) {
-            interval.chunkMonth(0)
+        assertFailsWith<IllegalArgumentException> {
+            runBlocking { interval.chunkMonth(0) }
         }
 
-        assertFailsWith(IllegalArgumentException::class) {
-            interval.chunkMonth(-1)
+        assertFailsWith<IllegalArgumentException> {
+            runBlocking { interval.chunkMonth(-1) }
         }
     }
 
     @Test
-    fun `chunk month and aggregate`() {
+    fun `chunk month and aggregate`() = runBlocking {
         val start = now().startOfMonth()
         val endExclusive = start + 13.months()
         logger.debug("start=$start, end=$endExclusive")
@@ -105,13 +106,13 @@ class TimeIntervalChunkTest: AbstractKodaTimesTest() {
 
         assertEquals(3, intervals.size)
 
-        intervals.forEach { _ ->
+        intervals.forEach {
             assertTrue { interval.contains(interval) }
         }
     }
 
     @Test
-    fun `chunk week`() {
+    fun `chunk week`() = runBlocking<Unit> {
         val start = now().startOfWeek()
         val endExclusive = start + 5.weeks()
         logger.debug("start=$start, end=$endExclusive")
@@ -129,18 +130,18 @@ class TimeIntervalChunkTest: AbstractKodaTimesTest() {
             assertTrue { it.last() in interval }
         }
 
-        assertFailsWith(IllegalArgumentException::class) {
-            interval.chunkWeek(0)
+        assertFailsWith<IllegalArgumentException> {
+            runBlocking { interval.chunkWeek(0) }
         }
 
-        assertFailsWith(IllegalArgumentException::class) {
-            interval.chunkWeek(-1)
+        assertFailsWith<IllegalArgumentException> {
+            runBlocking { interval.chunkWeek(-1) }
         }
 
     }
 
     @Test
-    fun `chunk week and aggregate`() {
+    fun `chunk week and aggregate`() = runBlocking {
         val start = now().startOfWeek()
         val endExclusive = start + 5.weeks()
         logger.debug("start=$start, end=$endExclusive")
@@ -157,7 +158,7 @@ class TimeIntervalChunkTest: AbstractKodaTimesTest() {
     }
 
     @Test
-    fun `chunk days`() {
+    fun `chunk days`() = runBlocking<Unit> {
         val start = now().startOfDay()
         val endExclusive = start + 66.days()
         logger.debug("start=$start, end=$endExclusive")
@@ -175,18 +176,17 @@ class TimeIntervalChunkTest: AbstractKodaTimesTest() {
             assertTrue { it.last() in interval }
         }
 
-        assertFailsWith(IllegalArgumentException::class) {
-            interval.chunkDay(0)
+        assertFailsWith<IllegalArgumentException> {
+            runBlocking { interval.chunkDay(0) }
         }
 
-        assertFailsWith(IllegalArgumentException::class) {
-            interval.chunkDay(-1)
+        assertFailsWith<IllegalArgumentException> {
+            runBlocking { interval.chunkDay(-1) }
         }
-
     }
 
     @Test
-    fun `chunk day and aggregate`() {
+    fun `chunk day and aggregate`() = runBlocking {
         val start = now().startOfDay()
         val endExclusive = start + 66.days()
         logger.debug("start=$start, end=$endExclusive")
@@ -203,7 +203,7 @@ class TimeIntervalChunkTest: AbstractKodaTimesTest() {
     }
 
     @Test
-    fun `chunk hours`() {
+    fun `chunk hours`() = runBlocking<Unit> {
         val start = now().trimToHour()
         val endExclusive = start + 66.hours()
         logger.debug("start=$start, end=$endExclusive")
@@ -221,18 +221,17 @@ class TimeIntervalChunkTest: AbstractKodaTimesTest() {
             assertTrue { it.last() in interval }
         }
 
-        assertFailsWith(IllegalArgumentException::class) {
-            interval.chunkHour(0)
+        assertFailsWith<IllegalArgumentException> {
+            runBlocking { interval.chunkHour(0) }
         }
 
-        assertFailsWith(IllegalArgumentException::class) {
-            interval.chunkHour(-1)
+        assertFailsWith<IllegalArgumentException> {
+            runBlocking { interval.chunkHour(-1) }
         }
-
     }
 
     @Test
-    fun `chunk hour and aggregate`() {
+    fun `chunk hour and aggregate`() = runBlocking {
         val start = now().trimToHour()
         val endExclusive = start + 66.hours()
         logger.debug("start=$start, end=$endExclusive")
@@ -249,7 +248,7 @@ class TimeIntervalChunkTest: AbstractKodaTimesTest() {
     }
 
     @Test
-    fun `chunk minute`() {
+    fun `chunk minute`() = runBlocking<Unit> {
         val start = now().trimToMinute()
         val endExclusive = start + 33.minutes()
         logger.debug("start=$start, end=$endExclusive")
@@ -267,18 +266,18 @@ class TimeIntervalChunkTest: AbstractKodaTimesTest() {
             assertTrue { it.last() in interval }
         }
 
-        assertFailsWith(IllegalArgumentException::class) {
-            interval.chunkMinute(0)
+        assertFailsWith<IllegalArgumentException> {
+            runBlocking { interval.chunkMinute(0) }
         }
 
-        assertFailsWith(IllegalArgumentException::class) {
-            interval.chunkMinute(-1)
+        assertFailsWith<IllegalArgumentException> {
+            runBlocking { interval.chunkMinute(-1) }
         }
 
     }
 
     @Test
-    fun `chunk minute and aggregate`() {
+    fun `chunk minute and aggregate`() = runBlocking {
         val start = now().trimToMinute()
         val endExclusive = start + 33.minutes()
         logger.debug("start=$start, end=$endExclusive")
@@ -289,13 +288,13 @@ class TimeIntervalChunkTest: AbstractKodaTimesTest() {
         intervals.forEach(::println)
         assertEquals(4, intervals.size)
 
-        intervals.forEach { _ ->
+        intervals.forEach {
             assertTrue { interval.contains(interval) }
         }
     }
 
     @Test
-    fun `chunk second`() {
+    fun `chunk second`() = runBlocking<Unit> {
         val start = now().trimToSecond()
         val endExclusive = start + 33.seconds()
         logger.debug("start=$start, end=$endExclusive")
@@ -313,17 +312,17 @@ class TimeIntervalChunkTest: AbstractKodaTimesTest() {
             assertTrue { it.last() in interval }
         }
 
-        assertFailsWith(IllegalArgumentException::class) {
-            interval.chunkSecond(0)
+        assertFailsWith<IllegalArgumentException> {
+            runBlocking { interval.chunkSecond(0) }
         }
 
-        assertFailsWith(IllegalArgumentException::class) {
-            interval.chunkSecond(-1)
+        assertFailsWith<IllegalArgumentException> {
+            runBlocking { interval.chunkSecond(-1) }
         }
     }
 
     @Test
-    fun `chunk second and aggregate`() {
+    fun `chunk second and aggregate`() = runBlocking {
         val start = now().trimToSecond()
         val endExclusive = start + 33.seconds()
         logger.debug("start=$start, end=$endExclusive")
@@ -334,7 +333,7 @@ class TimeIntervalChunkTest: AbstractKodaTimesTest() {
         intervals.forEach(::println)
         assertEquals(4, intervals.size)
 
-        intervals.forEach { _ ->
+        intervals.forEach {
             assertTrue { interval.contains(interval) }
         }
     }

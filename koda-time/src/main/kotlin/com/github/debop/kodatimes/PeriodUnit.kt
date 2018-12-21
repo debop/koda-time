@@ -22,7 +22,6 @@ package com.github.debop.kodatimes
  * @since 2017. 8. 16.
  */
 enum class PeriodUnit {
-
     MILLISECOND,
     SECOND,
     MINUTE,

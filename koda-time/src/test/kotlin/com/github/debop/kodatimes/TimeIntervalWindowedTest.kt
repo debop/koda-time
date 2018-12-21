@@ -15,16 +15,20 @@
 
 package com.github.debop.kodatimes
 
+import kotlinx.coroutines.runBlocking
+import mu.KLogging
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
 
-class TimeIntervalWindowedTest: AbstractKodaTimesTest() {
+class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
+
+    companion object : KLogging()
 
     @Test
-    fun `windowed year`() {
+    fun `windowed year`() = runBlocking<Unit> {
         val start = now().startOfYear()
         val endExclusive = start + 5.years()
         val interval = start..endExclusive
@@ -38,16 +42,16 @@ class TimeIntervalWindowedTest: AbstractKodaTimesTest() {
         }
         assertEquals(3, windowed.count())
 
-        assertFailsWith(IllegalArgumentException::class) {
-            interval.windowedYear(-1, 2)
+        assertFailsWith<IllegalArgumentException> {
+            runBlocking { interval.windowedYear(-1, 2) }
         }
-        assertFailsWith(IllegalArgumentException::class) {
-            interval.windowedYear(2, -2)
+        assertFailsWith<IllegalArgumentException> {
+            runBlocking { interval.windowedYear(2, -2) }
         }
     }
 
     @Test
-    fun `windowed month`() {
+    fun `windowed month`() = runBlocking<Unit> {
         val start = now().startOfMonth()
         val endExclusive = start + 5.months()
         val interval = start..endExclusive
@@ -60,16 +64,16 @@ class TimeIntervalWindowedTest: AbstractKodaTimesTest() {
         }
         assertEquals(3, windowed.count())
 
-        assertFailsWith(IllegalArgumentException::class) {
-            interval.windowedMonth(-1, 2)
+        assertFailsWith<IllegalArgumentException> {
+            runBlocking { interval.windowedMonth(-1, 2) }
         }
-        assertFailsWith(IllegalArgumentException::class) {
-            interval.windowedMonth(2, -2)
+        assertFailsWith<IllegalArgumentException> {
+            runBlocking { interval.windowedMonth(2, -2) }
         }
     }
 
     @Test
-    fun `windowed week`() {
+    fun `windowed week`() = runBlocking<Unit> {
         val start = now().startOfWeek()
         val endExclusive = start + 5.weeks()
         val interval = start..endExclusive
@@ -82,16 +86,16 @@ class TimeIntervalWindowedTest: AbstractKodaTimesTest() {
         }
         assertEquals(3, windowed.count())
 
-        assertFailsWith(IllegalArgumentException::class) {
-            interval.windowedWeek(-1, 2)
+        assertFailsWith<IllegalArgumentException> {
+            runBlocking { interval.windowedWeek(-1, 2) }
         }
-        assertFailsWith(IllegalArgumentException::class) {
-            interval.windowedWeek(2, -2)
+        assertFailsWith<IllegalArgumentException> {
+            runBlocking { interval.windowedWeek(2, -2) }
         }
     }
 
     @Test
-    fun `windowed day`() {
+    fun `windowed day`() = runBlocking<Unit> {
         val start = now().startOfDay()
         val endExclusive = start + 5.days()
         val interval = start..endExclusive
@@ -104,16 +108,16 @@ class TimeIntervalWindowedTest: AbstractKodaTimesTest() {
         }
         assertEquals(3, windowed.count())
 
-        assertFailsWith(IllegalArgumentException::class) {
-            interval.windowedDay(-1, 2)
+        assertFailsWith<IllegalArgumentException> {
+            runBlocking { interval.windowedDay(-1, 2) }
         }
-        assertFailsWith(IllegalArgumentException::class) {
-            interval.windowedDay(2, -2)
+        assertFailsWith<IllegalArgumentException> {
+            runBlocking { interval.windowedDay(2, -2) }
         }
     }
 
     @Test
-    fun `windowed hour`() {
+    fun `windowed hour`() = runBlocking<Unit> {
         val start = now().trimToHour()
         val endExclusive = start + 5.hours()
         val interval = start..endExclusive
@@ -126,16 +130,16 @@ class TimeIntervalWindowedTest: AbstractKodaTimesTest() {
         }
         assertEquals(3, windowed.count())
 
-        assertFailsWith(IllegalArgumentException::class) {
-            interval.windowedHour(-1, 2)
+        assertFailsWith<IllegalArgumentException> {
+            runBlocking { interval.windowedHour(-1, 2) }
         }
-        assertFailsWith(IllegalArgumentException::class) {
-            interval.windowedHour(2, -2)
+        assertFailsWith<IllegalArgumentException> {
+            runBlocking { interval.windowedHour(2, -2) }
         }
     }
 
     @Test
-    fun `windowed minute`() {
+    fun `windowed minute`() = runBlocking<Unit> {
         val start = now().trimToMinute()
         val endExclusive = start + 5.minutes()
         val interval = start..endExclusive
@@ -148,16 +152,16 @@ class TimeIntervalWindowedTest: AbstractKodaTimesTest() {
         }
         assertEquals(3, windowed.count())
 
-        assertFailsWith(IllegalArgumentException::class) {
-            interval.windowedMinute(-1, 2)
+        assertFailsWith<IllegalArgumentException> {
+            runBlocking { interval.windowedMinute(-1, 2) }
         }
-        assertFailsWith(IllegalArgumentException::class) {
-            interval.windowedMinute(2, -2)
+        assertFailsWith<IllegalArgumentException> {
+            runBlocking { interval.windowedMinute(2, -2) }
         }
     }
 
     @Test
-    fun `windowed second`() {
+    fun `windowed second`() = runBlocking<Unit> {
         val start = now().trimToSecond()
         val endExclusive = start + 5.seconds()
         val interval = start..endExclusive
@@ -170,16 +174,16 @@ class TimeIntervalWindowedTest: AbstractKodaTimesTest() {
         }
         assertEquals(3, windowed.count())
 
-        assertFailsWith(IllegalArgumentException::class) {
-            interval.windowedSecond(-1, 2)
+        assertFailsWith<IllegalArgumentException> {
+            runBlocking { interval.windowedSecond(-1, 2) }
         }
-        assertFailsWith(IllegalArgumentException::class) {
-            interval.windowedSecond(2, -2)
+        assertFailsWith<IllegalArgumentException> {
+            runBlocking { interval.windowedSecond(2, -2) }
         }
     }
 
     @Test
-    fun `zipWithNext years`() {
+    fun `zipWithNext years`() = runBlocking {
         val start = now().startOfYear()
         val endExclusive = start + 5.years()
         val interval = start..endExclusive
@@ -196,7 +200,7 @@ class TimeIntervalWindowedTest: AbstractKodaTimesTest() {
     }
 
     @Test
-    fun `zipWithNext months`() {
+    fun `zipWithNext months`() = runBlocking {
         val start = now().startOfMonth()
         val endExclusive = start + 5.months()
         val interval = start..endExclusive
@@ -213,7 +217,7 @@ class TimeIntervalWindowedTest: AbstractKodaTimesTest() {
     }
 
     @Test
-    fun `zipWithNext weeks`() {
+    fun `zipWithNext weeks`() = runBlocking {
         val start = now().startOfWeek()
         val endExclusive = start + 5.weeks()
         val interval = start..endExclusive
@@ -230,7 +234,7 @@ class TimeIntervalWindowedTest: AbstractKodaTimesTest() {
     }
 
     @Test
-    fun `zipWithNext days`() {
+    fun `zipWithNext days`() = runBlocking {
         val start = now().startOfDay()
         val endExclusive = start + 5.days()
         val interval = start..endExclusive
@@ -247,7 +251,7 @@ class TimeIntervalWindowedTest: AbstractKodaTimesTest() {
     }
 
     @Test
-    fun `zipWithNext hours`() {
+    fun `zipWithNext hours`() = runBlocking {
         val start = now().trimToHour()
         val endExclusive = start + 5.hours()
         val interval = start..endExclusive
@@ -264,7 +268,7 @@ class TimeIntervalWindowedTest: AbstractKodaTimesTest() {
     }
 
     @Test
-    fun `zipWithNext minutes`() {
+    fun `zipWithNext minutes`() = runBlocking {
         val start = now().trimToMinute()
         val endExclusive = start + 5.minutes()
         val interval = start..endExclusive
@@ -281,7 +285,7 @@ class TimeIntervalWindowedTest: AbstractKodaTimesTest() {
     }
 
     @Test
-    fun `zipWithNext seconds`() {
+    fun `zipWithNext seconds`() = runBlocking {
         val start = now().trimToSecond()
         val endExclusive = start + 5.seconds()
         val interval = start..endExclusive
