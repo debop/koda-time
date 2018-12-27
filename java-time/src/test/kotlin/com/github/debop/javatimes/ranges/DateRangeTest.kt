@@ -18,9 +18,8 @@ package com.github.debop.javatimes.ranges
 import com.github.debop.javatimes.AbstractJavaTimesTest
 import com.github.debop.javatimes.toDate
 import org.junit.jupiter.api.Test
-
 import java.time.Duration
-import java.util.*
+import java.util.Date
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -50,9 +49,12 @@ class DateRangeTest: AbstractJavaTimesTest() {
 
         val range = DateRange.fromClosedRange(start, endInclusive)
 
-        val range2 = start..endInclusive
-
         assertTrue { range.isEmpty() }
         assertEquals(DateRange.EMPTY, range)
+
+        val range2 = start..endInclusive
+
+        assertTrue { range2.isEmpty() }
+        assertEquals(DateRange.EMPTY, range2)
     }
 }

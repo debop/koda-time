@@ -56,7 +56,7 @@ class InstantRangeTest : AbstractJavaTimesTest() {
         // assertEquals(InstantRange.EMPTY, range)
 
         val range2 = start..endInclusive
-        assertTrue { range.isEmpty() }
+        assertTrue { range2.isEmpty() }
     }
 
 }
