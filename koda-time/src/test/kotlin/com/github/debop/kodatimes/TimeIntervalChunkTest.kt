@@ -16,10 +16,10 @@
 package com.github.debop.kodatimes
 
 import kotlinx.coroutines.runBlocking
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
-import kotlin.test.assertTrue
 
 class TimeIntervalChunkTest : AbstractKodaTimesTest() {
 
@@ -42,11 +42,11 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
             assertTrue { chunk.last() in interval }
         }
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows(IllegalArgumentException::class.java) {
             runBlocking { interval.chunkYear(0) }
         }
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows(IllegalArgumentException::class.java) {
             runBlocking { interval.chunkYear(-1) }
         }
     }
@@ -86,11 +86,11 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
             assertTrue { it.last() in interval }
         }
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows(IllegalArgumentException::class.java) {
             runBlocking { interval.chunkMonth(0) }
         }
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows(IllegalArgumentException::class.java) {
             runBlocking { interval.chunkMonth(-1) }
         }
     }
@@ -130,11 +130,11 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
             assertTrue { it.last() in interval }
         }
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows(IllegalArgumentException::class.java) {
             runBlocking { interval.chunkWeek(0) }
         }
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows(IllegalArgumentException::class.java) {
             runBlocking { interval.chunkWeek(-1) }
         }
 
@@ -176,11 +176,11 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
             assertTrue { it.last() in interval }
         }
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows(IllegalArgumentException::class.java) {
             runBlocking { interval.chunkDay(0) }
         }
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows(IllegalArgumentException::class.java) {
             runBlocking { interval.chunkDay(-1) }
         }
     }
@@ -221,11 +221,11 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
             assertTrue { it.last() in interval }
         }
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows(IllegalArgumentException::class.java) {
             runBlocking { interval.chunkHour(0) }
         }
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows(IllegalArgumentException::class.java) {
             runBlocking { interval.chunkHour(-1) }
         }
     }
@@ -266,11 +266,11 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
             assertTrue { it.last() in interval }
         }
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows(IllegalArgumentException::class.java) {
             runBlocking { interval.chunkMinute(0) }
         }
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows(IllegalArgumentException::class.java) {
             runBlocking { interval.chunkMinute(-1) }
         }
 
@@ -312,11 +312,11 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
             assertTrue { it.last() in interval }
         }
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows(IllegalArgumentException::class.java) {
             runBlocking { interval.chunkSecond(0) }
         }
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows(IllegalArgumentException::class.java) {
             runBlocking { interval.chunkSecond(-1) }
         }
     }

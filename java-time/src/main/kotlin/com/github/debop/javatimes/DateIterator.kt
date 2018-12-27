@@ -1,6 +1,6 @@
 package com.github.debop.javatimes
 
-import java.util.*
+import java.util.Date
 
 /**
  * An iterator over a sequence of values of type `java.util.Date`.

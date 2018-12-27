@@ -8,7 +8,6 @@ tasks.withType<KotlinCompile> {
 dependencies {
 
     implementation(kotlin("stdlib"))
-    testImplementation(kotlin("test"))
 
     implementation("io.reactivex.rxjava2:rxjava:${extra.get("rxjava2")}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-rx2:${extra.get("coroutines")}")

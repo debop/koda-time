@@ -11,16 +11,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import mu.KLogging
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import java.util.*
-import kotlin.test.assertEquals
+import java.util.Date
 
-/**
- * ReactiveRangesTest
- *
- * @autor debop
- * @since 18. 4. 17
- */
 @ExperimentalCoroutinesApi
 class ReactiveRangesTest : AbstractJavaTimesTest() {
 

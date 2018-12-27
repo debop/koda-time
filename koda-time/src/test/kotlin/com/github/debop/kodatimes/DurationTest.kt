@@ -17,11 +17,10 @@ package com.github.debop.kodatimes
 
 import org.joda.time.DateTime
 import org.joda.time.Duration
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
 
-
-class DurationTest: AbstractKodaTimesTest() {
+class DurationTest : AbstractKodaTimesTest() {
 
     @Test
     fun makeDuration() {

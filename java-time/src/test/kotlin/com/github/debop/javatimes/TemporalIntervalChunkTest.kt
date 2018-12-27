@@ -1,17 +1,12 @@
 package com.github.debop.javatimes
 
 import mu.KLogging
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import java.time.ZonedDateTime
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
-import kotlin.test.assertTrue
 
-/**
- * TemporalIntervalChunkTest
- *
- * @author debop
- */
 class TemporalIntervalChunkTest : AbstractJavaTimesTest() {
 
     companion object : KLogging()
@@ -35,10 +30,10 @@ class TemporalIntervalChunkTest : AbstractJavaTimesTest() {
         assertEquals(4, chunks[0].size)
         assertEquals(1, chunks[1].size)
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             interval.chunkYear(0)
         }
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             interval.chunkYear(-1)
         }
     }
@@ -79,10 +74,10 @@ class TemporalIntervalChunkTest : AbstractJavaTimesTest() {
         assertEquals(4, chunks[0].size)
         assertEquals(1, chunks[1].size)
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             interval.chunkMonth(0)
         }
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             interval.chunkMonth(-1)
         }
     }
@@ -123,10 +118,10 @@ class TemporalIntervalChunkTest : AbstractJavaTimesTest() {
         assertEquals(4, chunks[0].size)
         assertEquals(1, chunks[1].size)
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             interval.chunkWeek(0)
         }
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             interval.chunkWeek(-1)
         }
     }
@@ -167,10 +162,10 @@ class TemporalIntervalChunkTest : AbstractJavaTimesTest() {
         assertEquals(4, chunks[0].size)
         assertEquals(1, chunks[1].size)
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             interval.chunkDay(0)
         }
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             interval.chunkDay(-1)
         }
     }
@@ -211,10 +206,10 @@ class TemporalIntervalChunkTest : AbstractJavaTimesTest() {
         assertEquals(4, chunks[0].size)
         assertEquals(1, chunks[1].size)
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             interval.chunkHour(0)
         }
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             interval.chunkHour(-1)
         }
     }
@@ -255,10 +250,10 @@ class TemporalIntervalChunkTest : AbstractJavaTimesTest() {
         assertEquals(4, chunks[0].size)
         assertEquals(1, chunks[1].size)
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             interval.chunkMinute(0)
         }
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             interval.chunkMinute(-1)
         }
     }
@@ -299,10 +294,10 @@ class TemporalIntervalChunkTest : AbstractJavaTimesTest() {
         assertEquals(4, chunks[0].size)
         assertEquals(1, chunks[1].size)
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             interval.chunkSecond(0)
         }
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             interval.chunkSecond(-1)
         }
     }
@@ -344,10 +339,10 @@ class TemporalIntervalChunkTest : AbstractJavaTimesTest() {
         assertEquals(4, chunks[0].size)
         assertEquals(1, chunks[1].size)
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             interval.chunkMilli(0)
         }
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             interval.chunkMilli(-1)
         }
     }

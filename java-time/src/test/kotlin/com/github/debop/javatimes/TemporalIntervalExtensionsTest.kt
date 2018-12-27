@@ -2,15 +2,9 @@ package com.github.debop.javatimes
 
 import kotlinx.coroutines.runBlocking
 import mu.KLogging
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
 
-/**
- * TemporalIntervalExtensionsTest
- *
- * @autor debop
- * @since 18. 4. 17
- */
 class TemporalIntervalExtensionsTest : AbstractJavaTimesTest() {
 
     companion object : KLogging()

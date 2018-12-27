@@ -17,8 +17,11 @@ package com.github.debop.javatimes.ranges
 
 import com.github.debop.javatimes.AbstractJavaTimesTest
 import com.github.debop.javatimes.hours
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -26,9 +29,7 @@ import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.ZonedDateTime
 import java.time.temporal.Temporal
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
-import kotlin.test.assertNotEquals
+
 
 abstract class TemporalProgressionTest<T> : AbstractJavaTimesTest() where T : Temporal, T : Comparable<T> {
 
@@ -55,7 +56,7 @@ abstract class TemporalProgressionTest<T> : AbstractJavaTimesTest() where T : Te
     fun `zero step`() {
         val temporal = start
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             TemporalProgression.fromClosedRange(temporal, temporal, Duration.ZERO)
         }
     }

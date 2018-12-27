@@ -8,7 +8,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.rx2.rxFlowable
 import java.time.temporal.Temporal
-import java.util.*
+import java.util.Date
 import kotlin.coroutines.CoroutineContext
 
 @ExperimentalCoroutinesApi

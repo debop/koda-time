@@ -1,13 +1,8 @@
 package com.github.debop.javatimes
 
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import kotlin.test.assertTrue
 
-/**
- * TemporalIntervalZipWithNextTest
- *
- * @author debop
- */
 class TemporalIntervalZipWithNextTest : AbstractJavaTimesTest() {
 
     @Test

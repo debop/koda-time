@@ -2,7 +2,7 @@ package com.github.debop.javatimes.ranges
 
 import mu.KLogging
 import java.time.Duration
-import java.util.*
+import java.util.Date
 
 /**
  * A range of `java.util.Date`

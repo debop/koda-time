@@ -19,12 +19,13 @@ import com.github.debop.javatimes.AbstractJavaTimesTest
 import com.github.debop.javatimes.hours
 import com.github.debop.javatimes.minus
 import com.github.debop.javatimes.plus
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import java.time.Duration
-import java.util.*
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
-import kotlin.test.assertNotEquals
+import java.util.Date
+
 
 class DateProgressionTest : AbstractJavaTimesTest() {
 
@@ -47,7 +48,7 @@ class DateProgressionTest : AbstractJavaTimesTest() {
     fun `zero step`() {
         val instant = Date()
 
-        assertFailsWith(IllegalArgumentException::class) {
+        assertThrows<IllegalArgumentException> {
             DateProgression.fromClosedRange(instant, instant, Duration.ZERO)
         }
     }

@@ -12,7 +12,7 @@ import java.time.Period
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
-import java.util.*
+import java.util.Date
 
 @JvmOverloads
 fun localDateTimeOf(year: Int,

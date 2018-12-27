@@ -11,15 +11,9 @@ import kotlinx.coroutines.runBlocking
 import mu.KLogging
 import org.joda.time.DateTime
 import org.joda.time.Duration
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
 
-/**
- * ReactiveRangeExtensionsTest
- *
- * @author debop
- * @since 18. 12. 13
- */
 @ExperimentalCoroutinesApi
 class ReactiveRangeExtensionsTest : AbstractKodaTimesTest() {
 

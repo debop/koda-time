@@ -18,11 +18,11 @@ package com.github.debop.kodatimes
 import org.joda.time.DateTime
 import org.joda.time.Interval
 import org.joda.time.LocalDate
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
-class DateTimeTest: AbstractKodaTimesTest() {
+class DateTimeTest : AbstractKodaTimesTest() {
     companion object {
         private const val EXPECTED_DATETIME_STR = "2013-03-02T07:08:09.123+0900"
     }

@@ -8,7 +8,6 @@ tasks.withType<KotlinCompile> {
 dependencies {
 
     implementation(kotlin("stdlib"))
-    testImplementation(kotlin("test"))
 
     implementation("joda-time:joda-time:${extra.get("jodatime")}")
 

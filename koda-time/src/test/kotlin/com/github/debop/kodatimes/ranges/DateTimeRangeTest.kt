@@ -19,12 +19,11 @@ import com.github.debop.kodatimes.AbstractKodaTimesTest
 import com.github.debop.kodatimes.days
 import com.github.debop.kodatimes.today
 import mu.KLogging
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
-
-class DateTimeRangeTest: AbstractKodaTimesTest() {
+class DateTimeRangeTest : AbstractKodaTimesTest() {
     companion object : KLogging()
 
 
@@ -55,5 +54,4 @@ class DateTimeRangeTest: AbstractKodaTimesTest() {
         assertTrue { range.isEmpty() }
         assertEquals(DateTimeRange.EMPTY, range)
     }
-
 }

@@ -11,7 +11,7 @@ import java.time.Year
 import java.time.YearMonth
 import java.time.ZonedDateTime
 import java.time.temporal.Temporal
-import java.util.*
+import java.util.Date
 
 typealias YearRange = TemporalRange<Year>
 typealias YearMonthRange = TemporalRange<YearMonth>

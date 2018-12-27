@@ -36,7 +36,7 @@ import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
 import org.joda.time.format.ISODateTimeFormat
 import java.sql.Timestamp
-import java.util.*
+import java.util.Date
 
 @JvmField
 val EPOCH = DateTime(0)

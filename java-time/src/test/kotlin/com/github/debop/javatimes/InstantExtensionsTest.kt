@@ -1,8 +1,8 @@
 package com.github.debop.javatimes
 
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.time.DayOfWeek
-import kotlin.test.assertEquals
 
 class InstantExtensionsTest : AbstractJavaTimesTest() {
 

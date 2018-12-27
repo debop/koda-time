@@ -21,8 +21,7 @@ import org.joda.time.Duration
 import org.joda.time.Instant
 import org.joda.time.ReadableDuration
 import org.joda.time.ReadableInstant
-import java.util.*
-import kotlin.NoSuchElementException
+import java.util.Objects
 
 // a mod b (in arithmetical sense)
 private fun mod(a: Int, b: Int): Int {

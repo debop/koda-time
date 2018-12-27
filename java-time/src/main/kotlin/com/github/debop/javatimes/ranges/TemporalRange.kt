@@ -6,12 +6,17 @@ import java.time.Duration
 import java.time.LocalDateTime
 import java.time.temporal.Temporal
 
-fun <T> temporalRangeOf(start: T, endInclusive: T): TemporalRange<T> where T : Temporal, T : Comparable<T> =
-    TemporalRange.fromClosedRange(start, endInclusive)
 
+fun <T> temporalRangeOf(start: Temporal, endInclusive: Temporal): TemporalRange<T>
+where T : Temporal, T : Comparable<T> {
+    return TemporalRange.fromClosedRange(start, endInclusive)
+}
 
-fun <T> TemporalRange.Companion.fromClosedRange(start: T, endInclusive: T): TemporalRange<T> where T : Temporal, T : Comparable<T> {
-    return TemporalRange(start, endInclusive)
+@Suppress("UNCHECKED_CAST")
+fun <T> TemporalRange.Companion.fromClosedRange(start: Temporal,
+                                                endInclusive: Temporal): TemporalRange<T>
+where T : Temporal, T : Comparable<T> {
+    return TemporalRange(start as T, endInclusive as T)
 }
 
 /**

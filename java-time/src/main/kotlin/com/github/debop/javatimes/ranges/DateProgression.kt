@@ -4,7 +4,9 @@ import com.github.debop.javatimes.DateIterator
 import com.github.debop.javatimes.isPositive
 import com.github.debop.javatimes.plus
 import java.time.Duration
-import java.util.*
+import java.util.Date
+import java.util.NoSuchElementException
+import java.util.Objects
 
 /**
  * Create [DateProgression] instance

@@ -28,13 +28,12 @@ import com.github.debop.kodatimes.today
 import com.github.debop.kodatimes.unaryMinus
 import mu.KLogging
 import org.joda.time.Duration
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotEquals
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
-import kotlin.test.assertNotEquals
 
-
-class DateTimeProgressTest: AbstractKodaTimesTest() {
+class DateTimeProgressTest : AbstractKodaTimesTest() {
 
     companion object : KLogging()
 
@@ -57,7 +56,7 @@ class DateTimeProgressTest: AbstractKodaTimesTest() {
     fun `zero step`() {
         val instant = now()
 
-        assertFailsWith(IllegalArgumentException::class) {
+        assertThrows(IllegalArgumentException::class.java) {
             DateTimeProgression.fromClosedRange(instant, instant, Duration(0))
         }
     }
@@ -112,5 +111,4 @@ class DateTimeProgressTest: AbstractKodaTimesTest() {
         assertEquals(start, list.first())
         assertEquals(endInclusive, list.last())
     }
-
 }

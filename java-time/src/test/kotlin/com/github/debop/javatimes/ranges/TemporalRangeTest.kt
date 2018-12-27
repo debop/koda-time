@@ -17,6 +17,8 @@ package com.github.debop.javatimes.ranges
 
 import com.github.debop.javatimes.AbstractJavaTimesTest
 import mu.KLogging
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import java.time.Duration
@@ -26,22 +28,23 @@ import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.ZonedDateTime
 import java.time.temporal.Temporal
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
+
 
 abstract class TemporalRangeTest<T> : AbstractJavaTimesTest() where T : Temporal, T : Comparable<T> {
 
     companion object : KLogging()
 
     abstract val start: T
+
     @Suppress("UNCHECKED_CAST")
     val endInclusive: T
         get() = (start + Duration.ofDays(1)) as T
+
     abstract val range: TemporalRange<T>
 
     @Test
     fun `simple constructor`() {
-        val range = temporalRangeOf(start, endInclusive)
+        val range = temporalRangeOf<T>(start, endInclusive)
 
         logger.trace { "start=$start, endInclusive=$endInclusive, range=$range" }
         assertEquals(start, range.start)
@@ -52,16 +55,16 @@ abstract class TemporalRangeTest<T> : AbstractJavaTimesTest() where T : Temporal
 
     @Test
     fun `empty range`() {
-        val range = temporalRangeOf(endInclusive, start)
+        val range = temporalRangeOf<T>(endInclusive, start)
 
         assertTrue { range.isEmpty() }
-        assertEquals<TemporalRange<*>>(TemporalRange.EMPTY, range)
+        assertEquals(TemporalRange.EMPTY, range)
     }
 
     @Test
     fun `create by rangeTo`() {
         val range1 = range
-        val range2 = temporalRangeOf(start, endInclusive)
+        val range2 = temporalRangeOf<T>(start, endInclusive)
         assertEquals(range2, range1)
     }
 }

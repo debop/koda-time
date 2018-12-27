@@ -17,13 +17,12 @@ package com.github.debop.javatimes.ranges
 
 import com.github.debop.javatimes.AbstractJavaTimesTest
 import com.github.debop.javatimes.days
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneOffset
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
-
 
 class InstantRangeTest : AbstractJavaTimesTest() {
 
@@ -50,7 +49,7 @@ class InstantRangeTest : AbstractJavaTimesTest() {
         val start = Instant.ofEpochSecond(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC))
         val endInclusive = start - 1.days()
 
-        val range = InstantRange.fromClosedRange(start, endInclusive)
+        val range = InstantRange.fromClosedRange<Instant>(start, endInclusive)
 
         assertTrue { range.isEmpty() }
         // assertEquals(InstantRange.EMPTY, range)

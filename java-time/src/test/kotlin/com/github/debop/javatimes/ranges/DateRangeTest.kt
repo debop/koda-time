@@ -17,13 +17,13 @@ package com.github.debop.javatimes.ranges
 
 import com.github.debop.javatimes.AbstractJavaTimesTest
 import com.github.debop.javatimes.toDate
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import java.time.Duration
 import java.util.Date
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
-class DateRangeTest: AbstractJavaTimesTest() {
+class DateRangeTest : AbstractJavaTimesTest() {
 
     @Test
     fun `simple creation`() {
@@ -56,5 +56,7 @@ class DateRangeTest: AbstractJavaTimesTest() {
 
         assertTrue { range2.isEmpty() }
         assertEquals(DateRange.EMPTY, range2)
+
+        assertEquals(range, range2)
     }
 }

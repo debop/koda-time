@@ -16,14 +16,15 @@
 package com.github.debop.javatimes
 
 import mu.KLogging
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
-import java.util.*
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
+import java.util.Calendar
+import java.util.TimeZone
 
 class JavatimexTest {
 

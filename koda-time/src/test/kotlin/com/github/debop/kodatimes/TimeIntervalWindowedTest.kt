@@ -17,10 +17,10 @@ package com.github.debop.kodatimes
 
 import kotlinx.coroutines.runBlocking
 import mu.KLogging
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
-import kotlin.test.assertTrue
 
 
 class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
@@ -42,10 +42,10 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
         }
         assertEquals(3, windowed.count())
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows(IllegalArgumentException::class.java) {
             runBlocking { interval.windowedYear(-1, 2) }
         }
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows(IllegalArgumentException::class.java) {
             runBlocking { interval.windowedYear(2, -2) }
         }
     }
@@ -64,10 +64,10 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
         }
         assertEquals(3, windowed.count())
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows(IllegalArgumentException::class.java) {
             runBlocking { interval.windowedMonth(-1, 2) }
         }
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows(IllegalArgumentException::class.java) {
             runBlocking { interval.windowedMonth(2, -2) }
         }
     }
@@ -86,10 +86,10 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
         }
         assertEquals(3, windowed.count())
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows(IllegalArgumentException::class.java) {
             runBlocking { interval.windowedWeek(-1, 2) }
         }
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows(IllegalArgumentException::class.java) {
             runBlocking { interval.windowedWeek(2, -2) }
         }
     }
@@ -108,10 +108,10 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
         }
         assertEquals(3, windowed.count())
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows(IllegalArgumentException::class.java) {
             runBlocking { interval.windowedDay(-1, 2) }
         }
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows(IllegalArgumentException::class.java) {
             runBlocking { interval.windowedDay(2, -2) }
         }
     }
@@ -130,10 +130,10 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
         }
         assertEquals(3, windowed.count())
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows(IllegalArgumentException::class.java) {
             runBlocking { interval.windowedHour(-1, 2) }
         }
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows(IllegalArgumentException::class.java) {
             runBlocking { interval.windowedHour(2, -2) }
         }
     }
@@ -152,10 +152,10 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
         }
         assertEquals(3, windowed.count())
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows(IllegalArgumentException::class.java) {
             runBlocking { interval.windowedMinute(-1, 2) }
         }
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows(IllegalArgumentException::class.java) {
             runBlocking { interval.windowedMinute(2, -2) }
         }
     }
@@ -174,10 +174,10 @@ class TimeIntervalWindowedTest : AbstractKodaTimesTest() {
         }
         assertEquals(3, windowed.count())
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows(IllegalArgumentException::class.java) {
             runBlocking { interval.windowedSecond(-1, 2) }
         }
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows(IllegalArgumentException::class.java) {
             runBlocking { interval.windowedSecond(2, -2) }
         }
     }

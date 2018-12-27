@@ -16,11 +16,11 @@
 package com.github.debop.kodatimes
 
 import org.joda.time.Interval
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
-class TimeIntervalxTest: AbstractKodaTimesTest() {
+class TimeIntervalxTest : AbstractKodaTimesTest() {
 
     @Test
     fun rangeTest() {

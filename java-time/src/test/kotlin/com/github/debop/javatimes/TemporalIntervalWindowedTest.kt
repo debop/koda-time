@@ -1,18 +1,12 @@
 package com.github.debop.javatimes
 
 import mu.KLogging
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
+import org.junit.jupiter.api.assertThrows
 
 
-import kotlin.test.assertTrue
-
-/**
- * TemporalIntervalWindowedTest
- *
- * @author debop
- */
 class TemporalIntervalWindowedTest : AbstractJavaTimesTest() {
 
     companion object : KLogging()
@@ -34,10 +28,10 @@ class TemporalIntervalWindowedTest : AbstractJavaTimesTest() {
         }
         assertEquals(3, windowed.count())
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             interval.windowedYear(-1, 2)
         }
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             interval.windowedYear(1, -2)
         }
     }
@@ -59,10 +53,10 @@ class TemporalIntervalWindowedTest : AbstractJavaTimesTest() {
         }
         assertEquals(3, windowed.count())
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             interval.windowedMonth(-1, 2)
         }
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             interval.windowedMonth(1, -2)
         }
     }
@@ -84,10 +78,10 @@ class TemporalIntervalWindowedTest : AbstractJavaTimesTest() {
         }
         assertEquals(3, windowed.count())
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             interval.windowedWeek(-1, 2)
         }
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             interval.windowedWeek(1, -2)
         }
     }
@@ -109,10 +103,10 @@ class TemporalIntervalWindowedTest : AbstractJavaTimesTest() {
         }
         assertEquals(3, windowed.count())
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             interval.windowedDay(-1, 2)
         }
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             interval.windowedDay(1, -2)
         }
     }
@@ -134,10 +128,10 @@ class TemporalIntervalWindowedTest : AbstractJavaTimesTest() {
         }
         assertEquals(3, windowed.count())
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             interval.windowedHour(-1, 2)
         }
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             interval.windowedHour(1, -2)
         }
     }
@@ -159,10 +153,10 @@ class TemporalIntervalWindowedTest : AbstractJavaTimesTest() {
         }
         assertEquals(3, windowed.count())
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             interval.windowedMinute(-1, 2)
         }
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             interval.windowedMinute(1, -2)
         }
     }
@@ -184,10 +178,10 @@ class TemporalIntervalWindowedTest : AbstractJavaTimesTest() {
         }
         assertEquals(3, windowed.count())
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             interval.windowedSecond(-1, 2)
         }
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             interval.windowedSecond(1, -2)
         }
     }
@@ -209,10 +203,10 @@ class TemporalIntervalWindowedTest : AbstractJavaTimesTest() {
         }
         assertEquals(3, windowed.count())
 
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             interval.windowedMilli(-1, 2)
         }
-        assertFailsWith<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             interval.windowedMilli(1, -2)
         }
     }

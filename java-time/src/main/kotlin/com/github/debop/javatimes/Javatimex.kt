@@ -14,8 +14,6 @@
  */
 package com.github.debop.javatimes
 
-//import org.joda.time.DateTime
-//import org.joda.time.Interval
 import java.time.Clock
 import java.time.Duration
 import java.time.Instant
@@ -37,7 +35,8 @@ import java.time.temporal.ChronoField
 import java.time.temporal.ChronoUnit
 import java.time.temporal.Temporal
 import java.time.temporal.TemporalAccessor
-import java.util.*
+import java.util.Date
+import java.util.TimeZone
 
 const val NANO_PER_MILLIS: Long = 1_000_000L
 const val NANO_PER_SECOND: Long = 1_000_000_000L
@@ -239,7 +238,3 @@ fun yearMonthOf(year: Int, monthOfYear: Int): YearMonth = YearMonth.of(year, mon
 
 fun monthDayOf(monthOfYear: Int, dayOfMonth: Int): MonthDay = MonthDay.of(monthOfYear, dayOfMonth)
 fun monthDayOf(month: Month, dayOfMonth: Int): MonthDay = MonthDay.of(month, dayOfMonth)
-
-val NowLocalDate: LocalDate get() = LocalDate.now()
-val NowLocalTime: LocalTime get() = LocalTime.now()
-val NowLocalDateTime: LocalDateTime get() = LocalDateTime.now()

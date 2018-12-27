@@ -5,8 +5,7 @@ import com.github.debop.javatimes.isPositive
 import java.io.Serializable
 import java.time.Duration
 import java.time.temporal.Temporal
-import java.util.*
-import kotlin.NoSuchElementException
+import java.util.Objects
 
 fun <T> temporalProgressionOf(start: T, endInclusive: T, step: Duration = Duration.ofMillis(1)): TemporalProgression<T>
 where T : Temporal, T : Comparable<T> {

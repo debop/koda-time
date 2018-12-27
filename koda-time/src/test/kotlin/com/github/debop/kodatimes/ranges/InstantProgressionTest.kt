@@ -30,10 +30,10 @@ import com.github.debop.kodatimes.today
 import com.github.debop.kodatimes.unaryMinus
 import mu.KLogging
 import org.joda.time.Duration
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotEquals
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
-import kotlin.test.assertNotEquals
 
 class InstantProgressionTest : AbstractKodaTimesTest() {
 
@@ -58,7 +58,7 @@ class InstantProgressionTest : AbstractKodaTimesTest() {
     fun `zero step`() {
         val instant = now().toInstant()
 
-        assertFailsWith(IllegalArgumentException::class) {
+        assertThrows(IllegalArgumentException::class.java) {
             InstantProgression.fromClosedRange(instant, instant, Duration(0))
         }
     }

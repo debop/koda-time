@@ -14,6 +14,8 @@ import com.github.debop.javatimes.nowZonedDateTime
 import com.github.debop.javatimes.seconds
 import com.github.debop.javatimes.weeks
 import com.github.debop.javatimes.yearPeriod
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import java.time.Instant
@@ -23,14 +25,8 @@ import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.ZonedDateTime
 import java.time.temporal.Temporal
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
-/**
- * TemporalRangeChunkTest
- *
- * @author debop
- */
+
 @Suppress("UNCHECKED_CAST")
 abstract class TemporalRangeChunkTest<T> : AbstractJavaTimesTest() where T : Temporal, T : Comparable<T> {
 
@@ -38,7 +34,7 @@ abstract class TemporalRangeChunkTest<T> : AbstractJavaTimesTest() where T : Tem
 
     @Test
     open fun `chunk in year`() {
-        val range = temporalRangeOf(start, (start + 5.yearPeriod()) as T)
+        val range = temporalRangeOf<T>(start, (start + 5.yearPeriod()))
 
         val chunks = range.chunkYear(3).toList()
         assertEquals(2, chunks.size)
@@ -47,7 +43,7 @@ abstract class TemporalRangeChunkTest<T> : AbstractJavaTimesTest() where T : Tem
 
     @Test
     open fun `chunk in month`() {
-        val range = temporalRangeOf(start, (start + 5.monthPeriod()) as T)
+        val range = temporalRangeOf<T>(start, (start + 5.monthPeriod()))
 
         val chunks = range.chunkMonth(3).toList()
         assertEquals(2, chunks.size)
@@ -56,7 +52,7 @@ abstract class TemporalRangeChunkTest<T> : AbstractJavaTimesTest() where T : Tem
 
     @Test
     open fun `chunk in week`() {
-        val range = temporalRangeOf(start, (start + 5.weeks()) as T)
+        val range = temporalRangeOf<T>(start, (start + 5.weeks()))
 
         val chunks = range.chunkWeek(3).toList()
         assertEquals(2, chunks.size)
@@ -65,7 +61,7 @@ abstract class TemporalRangeChunkTest<T> : AbstractJavaTimesTest() where T : Tem
 
     @Test
     fun `chunk in day`() {
-        val range = temporalRangeOf(start, (start + 5.days()) as T)
+        val range = temporalRangeOf<T>(start, (start + 5.days()))
 
         val chunks = range.chunkDay(3).toList()
         assertEquals(2, chunks.size)
@@ -74,7 +70,7 @@ abstract class TemporalRangeChunkTest<T> : AbstractJavaTimesTest() where T : Tem
 
     @Test
     fun `chunk in hour`() {
-        val range = temporalRangeOf(start, (start + 5.hours()) as T)
+        val range = temporalRangeOf<T>(start, (start + 5.hours()))
 
         val chunks = range.chunkHour(3).toList()
         assertEquals(2, chunks.size)
@@ -83,7 +79,7 @@ abstract class TemporalRangeChunkTest<T> : AbstractJavaTimesTest() where T : Tem
 
     @Test
     fun `chunk in minute`() {
-        val range = temporalRangeOf(start, (start + 5.minutes()) as T)
+        val range = temporalRangeOf<T>(start, (start + 5.minutes()))
 
         val chunks = range.chunkMinute(3).toList()
         assertEquals(2, chunks.size)
@@ -92,7 +88,7 @@ abstract class TemporalRangeChunkTest<T> : AbstractJavaTimesTest() where T : Tem
 
     @Test
     fun `chunk in second`() {
-        val range = temporalRangeOf(start, (start + 5.seconds()) as T)
+        val range = temporalRangeOf<T>(start, (start + 5.seconds()))
 
         val chunks = range.chunkSecond(3).toList()
         assertEquals(2, chunks.size)
