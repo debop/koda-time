@@ -32,7 +32,7 @@ class TemporalIntervalExtensionsTest : AbstractJavaTimesTest() {
 
     @Test
     fun `build month sequece`() {
-        val start = nowZonedDateTime()
+        val start = nowZonedDateTime().startOfYear()
         val end = start + 42.monthPeriod()
 
         val interval = temporalIntervalOf(start, end)
@@ -53,7 +53,7 @@ class TemporalIntervalExtensionsTest : AbstractJavaTimesTest() {
 
     @Test
     fun `build day sequence`() {
-        val start = nowZonedDateTime()
+        val start = nowZonedDateTime().startOfYear()
         val end = start + 42.days()
 
         val interval = temporalIntervalOf(start, end)
