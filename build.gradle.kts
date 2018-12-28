@@ -22,9 +22,10 @@ import org.jetbrains.dokka.gradle.DokkaTask
 plugins {
     base
     kotlin("jvm") version "1.3.11" apply false
-    id("com.jfrog.bintray") version "1.8.4" apply false
-    id("org.jetbrains.dokka") version "0.9.17" apply false
     id("io.gitlab.arturbosch.detekt") version "1.0.0-RC12" apply false
+
+    id("org.jetbrains.dokka") version "0.9.17" apply false
+    id("com.jfrog.bintray") version "1.8.4" apply false
 }
 
 allprojects {
@@ -48,8 +49,7 @@ dependencies {
 
 subprojects {
     apply {
-        plugin<KotlinPlatformJvmPlugin>()
-
+        plugin("kotlin")
         plugin("io.gitlab.arturbosch.detekt")
         plugin("jacoco")
 

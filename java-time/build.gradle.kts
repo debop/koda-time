@@ -9,8 +9,11 @@ dependencies {
 
     implementation(kotlin("stdlib"))
 
-    implementation("io.reactivex.rxjava2:rxjava:${extra.get("rxjava2")}")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-rx2:${extra.get("coroutines")}")
+    compileOnly("io.reactivex.rxjava2:rxjava:${extra.get("rxjava2")}")
+    compileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-rx2:${extra.get("coroutines")}")
+
+    testImplementation("io.reactivex.rxjava2:rxjava:${extra.get("rxjava2")}")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-rx2:${extra.get("coroutines")}")
 
     implementation("io.github.microutils:kotlin-logging:1.6.22")
     implementation("org.slf4j:slf4j-api:1.7.25")
