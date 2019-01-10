@@ -11,7 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import mu.KLogging
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.amshove.kluent.shouldEqualTo
 import org.junit.jupiter.api.Test
 import java.util.Date
 
@@ -21,7 +21,7 @@ class ReactiveRangesTest : AbstractJavaTimesTest() {
     companion object : KLogging()
 
     @Test
-    fun `date progression to Flowable`() = runBlocking(Dispatchers.Default) {
+    fun `date progression to Flowable`() = runBlocking<Unit>(Dispatchers.Default) {
 
         val start = Date()
         val end = start + 42.seconds()
@@ -34,11 +34,11 @@ class ReactiveRangesTest : AbstractJavaTimesTest() {
         }
 
         val count = flow.count().blockingGet()
-        assertEquals(42 / 5 + 1, count)
+        count shouldEqualTo 42 / 5 + 1
     }
 
     @Test
-    fun `TemporalProgress to Flowable`() = runBlocking(Dispatchers.Default) {
+    fun `TemporalProgress to Flowable`() = runBlocking<Unit>(Dispatchers.Default) {
 
         val start = nowInstant()
         val end = start + 42.seconds()
@@ -50,6 +50,6 @@ class ReactiveRangesTest : AbstractJavaTimesTest() {
             logger.debug { "produce instant=$it" }
         }
         val count = flow.count().blockingGet()
-        assertEquals(42 / 5 + 1, count)
+        count shouldEqualTo 42 / 5 + 1
     }
 }
