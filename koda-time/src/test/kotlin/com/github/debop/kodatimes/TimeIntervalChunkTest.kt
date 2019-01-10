@@ -16,6 +16,10 @@
 package com.github.debop.kodatimes
 
 import kotlinx.coroutines.runBlocking
+import org.amshove.kluent.shouldBeLessOrEqualTo
+import org.amshove.kluent.shouldBeTrue
+import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldEqualTo
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -33,11 +37,10 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
         val chunks = interval.chunkYear(4).toList()
         chunks.forEach(::println)
 
-        assertEquals(2, chunks.size)
+        chunks.size shouldEqualTo 2
 
         chunks.forEach { chunk ->
-            logger.debug { "chunk=$chunk" }
-            assertTrue { chunk.size <= 4 }
+            chunk.size shouldBeLessOrEqualTo 4
             assertTrue { chunk.first() in interval }
             assertTrue { chunk.last() in interval }
         }
@@ -52,7 +55,7 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
     }
 
     @Test
-    fun `chunk year and aggregate`() = runBlocking {
+    fun `chunk year and aggregate`() = runBlocking<Unit> {
         val start = now().startOfYear()
         val endExclusive = start + 5.years()
         logger.debug("start=$start, end=$endExclusive")
@@ -60,11 +63,8 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
 
         val intervals = interval.chunkYear(3).map { years -> years.first()..years.last() }.toList()
 
-        assertEquals(2, intervals.size)
-
-        intervals.forEach {
-            assertTrue { interval.contains(interval) }
-        }
+        intervals.size shouldEqualTo 2
+        intervals.all { it in interval }.shouldBeTrue()
     }
 
     @Test
@@ -77,11 +77,10 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
         val chunks = interval.chunkMonth(5).toList()
 
         chunks.forEach(::println)
-        assertEquals(3, chunks.size)
+        chunks.size shouldEqualTo 3
 
         chunks.forEach {
-            logger.debug("chunk=$it")
-            assertTrue { it.size <= 5 }
+            it.size shouldBeLessOrEqualTo 5
             assertTrue { it.first() in interval }
             assertTrue { it.last() in interval }
         }
@@ -104,11 +103,8 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
 
         val intervals = interval.chunkMonth(5).map { months -> months.first()..months.last() }.toList()
 
-        assertEquals(3, intervals.size)
-
-        intervals.forEach {
-            assertTrue { interval.contains(interval) }
-        }
+        intervals.size shouldEqualTo 3
+        intervals.all { it in interval }.shouldBeTrue()
     }
 
     @Test
@@ -121,11 +117,10 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
         val chunks = interval.chunkWeek(2).toList()
 
         chunks.forEach(::println)
-        assertEquals(3, chunks.size)
+        chunks.size shouldEqualTo 3
 
         chunks.forEach {
-            logger.debug("chunk=$it")
-            assertTrue { it.size <= 2 }
+            it.size shouldBeLessOrEqualTo 2
             assertTrue { it.first() in interval }
             assertTrue { it.last() in interval }
         }
@@ -141,7 +136,7 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
     }
 
     @Test
-    fun `chunk week and aggregate`() = runBlocking {
+    fun `chunk week and aggregate`() = runBlocking<Unit> {
         val start = now().startOfWeek()
         val endExclusive = start + 5.weeks()
         logger.debug("start=$start, end=$endExclusive")
@@ -149,12 +144,8 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
 
         val intervals = interval.chunkWeek(2).map { it.first()..it.last() }.toList()
 
-        intervals.forEach(::println)
-        assertEquals(3, intervals.size)
-
-        intervals.forEach {
-            assertTrue { interval.contains(interval) }
-        }
+        intervals.size shouldEqual 3
+        intervals.all { it in interval }.shouldBeTrue()
     }
 
     @Test
@@ -186,7 +177,7 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
     }
 
     @Test
-    fun `chunk day and aggregate`() = runBlocking {
+    fun `chunk day and aggregate`() = runBlocking<Unit> {
         val start = now().startOfDay()
         val endExclusive = start + 66.days()
         logger.debug("start=$start, end=$endExclusive")
@@ -195,11 +186,8 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
         val intervals = interval.chunkDay(30).map { days -> days.first()..days.last() }.toList()
 
         intervals.forEach(::println)
-        assertEquals(3, intervals.size)
-
-        intervals.forEach {
-            assertTrue { interval.contains(interval) }
-        }
+        intervals.size shouldEqualTo 3
+        intervals.all { it in interval }.shouldBeTrue()
     }
 
     @Test
@@ -212,11 +200,10 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
         val chunks = interval.chunkHour(20).toList()
 
         chunks.forEach(::println)
-        assertEquals(4, chunks.size)
+        chunks.size shouldEqualTo 4
 
         chunks.forEach {
-            logger.debug("chunk=$it")
-            assertTrue { it.size <= 20 }
+            it.size shouldBeLessOrEqualTo 20
             assertTrue { it.first() in interval }
             assertTrue { it.last() in interval }
         }
@@ -240,11 +227,8 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
         val intervals = interval.chunkHour(20).map { it.first()..it.last() }.toList()
 
         intervals.forEach(::println)
-        assertEquals(4, intervals.size)
-
-        intervals.forEach {
-            assertTrue { interval.contains(interval) }
-        }
+        intervals.size shouldEqualTo 4
+        intervals.all { it in interval }.shouldBeTrue()
     }
 
     @Test
@@ -257,10 +241,9 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
         val chunks = interval.chunkMinute(10).toList()
 
         chunks.forEach(::println)
-        assertEquals(4, chunks.size)
+        chunks.size shouldEqualTo 4
 
         chunks.forEach {
-            logger.debug("chunk=$it")
             assertTrue { it.size <= 10 }
             assertTrue { it.first() in interval }
             assertTrue { it.last() in interval }
@@ -273,7 +256,6 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
         assertThrows(IllegalArgumentException::class.java) {
             runBlocking { interval.chunkMinute(-1) }
         }
-
     }
 
     @Test
@@ -286,11 +268,8 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
         val intervals = interval.chunkMinute(10).map { it.first()..it.last() }.toList()
 
         intervals.forEach(::println)
-        assertEquals(4, intervals.size)
-
-        intervals.forEach {
-            assertTrue { interval.contains(interval) }
-        }
+        intervals.size shouldEqualTo 4
+        intervals.all { it in interval }.shouldBeTrue()
     }
 
     @Test
@@ -302,12 +281,10 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
 
         val chunks = interval.chunkSecond(10).toList()
 
-        chunks.forEach(::println)
-        assertEquals(4, chunks.size)
+        chunks.size shouldEqualTo 4
 
         chunks.forEach {
-            logger.debug("chunk=$it")
-            assertTrue { it.size <= 10 }
+            it.size shouldBeLessOrEqualTo 10
             assertTrue { it.first() in interval }
             assertTrue { it.last() in interval }
         }
@@ -331,10 +308,7 @@ class TimeIntervalChunkTest : AbstractKodaTimesTest() {
         val intervals = interval.chunkSecond(10).map { it.first()..it.last() }.toList()
 
         intervals.forEach(::println)
-        assertEquals(4, intervals.size)
-
-        intervals.forEach {
-            assertTrue { interval.contains(interval) }
-        }
+        intervals.size shouldEqualTo 4
+        intervals.all { it in interval }.shouldBeTrue()
     }
 }

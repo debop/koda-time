@@ -15,9 +15,9 @@
 
 package com.github.debop.kodatimes
 
+import org.amshove.kluent.shouldBeTrue
+import org.amshove.kluent.shouldEqual
 import org.joda.time.Interval
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 class TimeIntervalxTest : AbstractKodaTimesTest() {
@@ -29,23 +29,21 @@ class TimeIntervalxTest : AbstractKodaTimesTest() {
 
         val range: Interval = start..end
 
-        assertTrue {
-            range.days().all { it in start.startOfDay()..end }
-        }
-        assertEquals(range.days().last(), end.startOfDay())
+        range.days().all { it in start.startOfDay()..end }.shouldBeTrue()
+        range.days().last() shouldEqual end.startOfDay()
     }
 
     @Test
     fun rangeStepTest() {
         val start = now()
         val end = start + 1.days() + 1.millis()
+        val interval = start..end
 
         // range contains is start <= x && x < end
-        (start..end step 1.hours().toPeriod()).forEach {
-            assertTrue { it in start..end }
-        }
+        (start..end step 1.hours().toPeriod()).all {
+            it in interval
+        }.shouldBeTrue()
 
-        assertTrue((start..end).hours().all { it in start..end })
+        (start..end).hours().all { it in interval }.shouldBeTrue()
     }
-
 }

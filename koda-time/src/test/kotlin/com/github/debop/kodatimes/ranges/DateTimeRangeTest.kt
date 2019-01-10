@@ -19,8 +19,8 @@ import com.github.debop.kodatimes.AbstractKodaTimesTest
 import com.github.debop.kodatimes.days
 import com.github.debop.kodatimes.today
 import mu.KLogging
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.amshove.kluent.shouldBeTrue
+import org.amshove.kluent.shouldEqual
 import org.junit.jupiter.api.Test
 
 class DateTimeRangeTest : AbstractKodaTimesTest() {
@@ -34,13 +34,12 @@ class DateTimeRangeTest : AbstractKodaTimesTest() {
         val endInclusive = start + 5.days()
         val range = DateTimeRange(start, endInclusive)
 
-        assertEquals(start, range.start)
-        assertEquals(endInclusive, range.endInclusive)
+        range.start shouldEqual start
+        range.endInclusive shouldEqual endInclusive
+        range.first shouldEqual start
+        range.last shouldEqual endInclusive
 
-        assertEquals(start, range.first)
-        assertEquals(endInclusive, range.last)
-
-        assertEquals("$start..$endInclusive", range.toString())
+        range.toString() shouldEqual "$start..$endInclusive"
     }
 
     @Test
@@ -51,7 +50,7 @@ class DateTimeRangeTest : AbstractKodaTimesTest() {
 
         val range = DateTimeRange(start, endInclusive)
 
-        assertTrue { range.isEmpty() }
-        assertEquals(DateTimeRange.EMPTY, range)
+        range.isEmpty().shouldBeTrue()
+        range shouldEqual DateTimeRange.EMPTY
     }
 }
