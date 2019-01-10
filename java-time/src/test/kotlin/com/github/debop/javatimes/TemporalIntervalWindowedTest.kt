@@ -19,7 +19,7 @@ class TemporalIntervalWindowedTest : AbstractJavaTimesTest() {
 
         val windowed = interval.windowedYear(3, 2)
 
-        windowed.forEachIndexed { index, items ->
+        windowed.forEach { items ->
             assertTrue { items.first() in interval }
             assertTrue { items.last() in interval }
         }
@@ -41,7 +41,7 @@ class TemporalIntervalWindowedTest : AbstractJavaTimesTest() {
 
         val windowed = interval.windowedMonth(3, 2)
 
-        windowed.forEachIndexed { index, items ->
+        windowed.forEach { items ->
             assertTrue { items.first() in interval }
             assertTrue { items.last() in interval }
         }
@@ -63,7 +63,7 @@ class TemporalIntervalWindowedTest : AbstractJavaTimesTest() {
 
         val windowed = interval.windowedWeek(3, 2)
 
-        windowed.forEachIndexed { index, items ->
+        windowed.forEach { items ->
             assertTrue { items.first() in interval }
             assertTrue { items.last() in interval }
         }
@@ -85,7 +85,7 @@ class TemporalIntervalWindowedTest : AbstractJavaTimesTest() {
 
         val windowed = interval.windowedDay(3, 2)
 
-        windowed.forEachIndexed { index, items ->
+        windowed.forEach { items ->
             assertTrue { items.first() in interval }
             assertTrue { items.last() in interval }
         }
@@ -107,7 +107,7 @@ class TemporalIntervalWindowedTest : AbstractJavaTimesTest() {
 
         val windowed = interval.windowedHour(3, 2)
 
-        windowed.forEachIndexed { index, items ->
+        windowed.forEach { items ->
             assertTrue { items.first() in interval }
             assertTrue { items.last() in interval }
         }
@@ -129,7 +129,7 @@ class TemporalIntervalWindowedTest : AbstractJavaTimesTest() {
 
         val windowed = interval.windowedMinute(3, 2)
 
-        windowed.forEachIndexed { index, items ->
+        windowed.forEach { items ->
             assertTrue { items.first() in interval }
             assertTrue { items.last() in interval }
         }
@@ -151,7 +151,7 @@ class TemporalIntervalWindowedTest : AbstractJavaTimesTest() {
 
         val windowed = interval.windowedSecond(3, 2)
 
-        windowed.forEachIndexed { index, items ->
+        windowed.forEach { items ->
             assertTrue { items.first() in interval }
             assertTrue { items.last() in interval }
         }
@@ -173,7 +173,7 @@ class TemporalIntervalWindowedTest : AbstractJavaTimesTest() {
 
         val windowed = interval.windowedMilli(3, 2)
 
-        windowed.forEachIndexed { index, items ->
+        windowed.forEach { items ->
             assertTrue { items.first() in interval }
             assertTrue { items.last() in interval }
         }

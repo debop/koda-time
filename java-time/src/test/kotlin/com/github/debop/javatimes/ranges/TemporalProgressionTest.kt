@@ -17,8 +17,9 @@ package com.github.debop.javatimes.ranges
 
 import com.github.debop.javatimes.AbstractJavaTimesTest
 import com.github.debop.javatimes.hours
+import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldNotEqual
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -44,12 +45,13 @@ abstract class TemporalProgressionTest<T> : AbstractJavaTimesTest() where T : Te
 
         val progression = TemporalProgression.fromClosedRange(start, endInclusive, 1.hours())
 
-        assertEquals(start, progression.first)
-        assertEquals(endInclusive, progression.last)
-        assertEquals(1.hours(), progression.step)
+        with(progression) {
+            first shouldEqual start
+            last shouldEqual endInclusive
+            step shouldEqual 1.hours()
 
-        val elements = progression.toList()
-        assertEquals(25, elements.count())
+            toList().size shouldEqual 25
+        }
     }
 
     @Test
@@ -77,12 +79,14 @@ abstract class TemporalProgressionTest<T> : AbstractJavaTimesTest() where T : Te
     fun `stepping not exact endInclusive`() {
         val progression = TemporalProgression.fromClosedRange(start, endInclusive, Duration.ofHours(5))
 
-        assertEquals(start, progression.first)
-        assertEquals(start + Duration.ofHours(20), progression.last)
-        assertNotEquals(endInclusive, progression.last)
+        with(progression) {
+            first shouldEqual start
+            last shouldEqual start + 20.hours()
+            last shouldNotEqual endInclusive
+            step shouldEqual 5.hours()
 
-        val elements = progression.toList()
-        assertEquals(5, elements.size)
+            toList().size shouldEqual 5
+        }
     }
 
     @Test
@@ -91,15 +95,19 @@ abstract class TemporalProgressionTest<T> : AbstractJavaTimesTest() where T : Te
         val step = Duration.ofHours(-1)
         val progression = TemporalProgression.fromClosedRange(endInclusive, start, step)
 
-        assertEquals(endInclusive, progression.first)
-        assertEquals(start, progression.last)
+        with(progression) {
+            first shouldEqual endInclusive
+            last shouldEqual start
+            step shouldEqual (-1).hours()
 
-        assertEquals("$endInclusive downTo $start step ${step.negated()}", progression.toString())
+            toString() shouldEqual "$endInclusive downTo $start step ${step.negated()}"
 
-        val elements = progression.toList()
-        assertEquals(25, elements.size)
-        assertEquals(endInclusive, elements.first())
-        assertEquals(start, elements.last())
+            with(toList()) {
+                size shouldEqual 25
+                first() shouldEqual endInclusive
+                last() shouldEqual start
+            }
+        }
     }
 }
 

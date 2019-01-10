@@ -27,7 +27,7 @@ import java.time.temporal.ChronoUnit.YEARS
 
 abstract class AbstractJavaTimesTest {
 
-    companion object: KLogging()
+    companion object : KLogging()
 
     val chronoUnits = listOf(YEARS, MONTHS, WEEKS, DAYS, HOURS, MINUTES, SECONDS, MILLIS)
 }

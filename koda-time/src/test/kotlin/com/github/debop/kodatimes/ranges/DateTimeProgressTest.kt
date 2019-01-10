@@ -27,9 +27,10 @@ import com.github.debop.kodatimes.standardHours
 import com.github.debop.kodatimes.today
 import com.github.debop.kodatimes.unaryMinus
 import mu.KLogging
+import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldNotEqual
 import org.joda.time.Duration
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 
@@ -44,12 +45,13 @@ class DateTimeProgressTest : AbstractKodaTimesTest() {
 
         val progression = DateTimeProgression.fromClosedRange(start, endInclusive, standardHours(1))
 
-        assertEquals(start, progression.first)
-        assertEquals(endInclusive, progression.last)
-        assertEquals(standardHours(1), progression.step)
+        with(progression) {
+            first shouldEqual start
+            last shouldEqual endInclusive
+            step shouldEqual 1.hourDuration()
+        }
 
-        val list = progression.toList()
-        assertEquals(25, list.count())
+        progression.toList().size shouldEqualTo 25
     }
 
     @Test
@@ -68,13 +70,14 @@ class DateTimeProgressTest : AbstractKodaTimesTest() {
 
         val progression = DateTimeProgression.fromClosedRange(start, endInclusive, standardDays(7))
 
-        assertEquals(start, progression.first)
-        // last is not endInclusive, step over endInclusive, so last is equal to start
-        assertEquals(start, progression.last)
-        assertEquals(7.dayDuration(), progression.step)
+        with(progression) {
+            first shouldEqual start
+            // last is not endInclusive, step over endInclusive, so last is equal to start
+            last shouldEqual start
+            step shouldEqual 7.dayDuration()
+        }
 
-        val list = progression.toList()
-        assertEquals(1, list.count())
+        progression.toList().size shouldEqualTo 1
     }
 
     @Test
@@ -84,13 +87,15 @@ class DateTimeProgressTest : AbstractKodaTimesTest() {
 
         val progression = DateTimeProgression.fromClosedRange(start, endInclusive, 5.hourDuration())
 
-        assertEquals(start, progression.first)
-        assertEquals(start + 20.hours(), progression.last)
-        assertNotEquals(endInclusive, progression.last)
-
-        val list = progression.toList()
-        assertEquals(5, list.count())
-        assertEquals(listOf(0, 5, 10, 15, 20), list.map { it.hourOfDay })
+        with(progression) {
+            first shouldEqual start
+            last shouldEqual start + 20.hours()
+            last shouldNotEqual endInclusive
+        }
+        with(progression.toList()) {
+            size shouldEqualTo 5
+            map { it.hourOfDay } shouldEqual listOf(0, 5, 10, 15, 20)
+        }
     }
 
     @Test
@@ -101,14 +106,15 @@ class DateTimeProgressTest : AbstractKodaTimesTest() {
 
         val progression = DateTimeProgression.fromClosedRange(start, endInclusive, step)
 
-        assertEquals(start, progression.first)
-        assertEquals(endInclusive, progression.last)
+        progression.first shouldEqual start
+        progression.last shouldEqual endInclusive
 
-        assertEquals("$start downTo $endInclusive step ${-step}", progression.toString())
+        progression.toString() shouldEqual "$start downTo $endInclusive step ${-step}"
 
-        val list = progression.toList()
-        assertEquals(6, list.count())
-        assertEquals(start, list.first())
-        assertEquals(endInclusive, list.last())
+        with(progression.toList()) {
+            size shouldEqualTo 6
+            first() shouldEqual start
+            last() shouldEqual endInclusive
+        }
     }
 }

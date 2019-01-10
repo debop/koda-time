@@ -55,17 +55,17 @@ class TemporalInterval @JvmOverloads constructor(
     }
 
     @JvmOverloads
-    constructor(start: Instant, duration: TemporalAmount, zoneId: ZoneId = UtcZoneId) : this(start, start + duration, zoneId)
+    constructor(start: Instant, amount: TemporalAmount, zoneId: ZoneId = UtcZoneId) : this(start, start + amount, zoneId)
 
     @JvmOverloads
-    constructor(duration: TemporalAmount, end: Instant, zoneId: ZoneId = UtcZoneId) : this(end - duration, end, zoneId)
+    constructor(amount: TemporalAmount, end: Instant, zoneId: ZoneId = UtcZoneId) : this(end - amount, end, zoneId)
 
 
-    fun withAmountAfterStart(duration: TemporalAmount): TemporalInterval {
-        return temporalIntervalOf(start, start + duration, zoneId)
+    fun withAmountAfterStart(amount: TemporalAmount): TemporalInterval {
+        return temporalIntervalOf(start, start + amount, zoneId)
     }
 
-    fun withAmountBeforeEnd(duration: TemporalAmount): TemporalInterval {
-        return temporalIntervalOf(end - duration, end, zoneId)
+    fun withAmountBeforeEnd(amount: TemporalAmount): TemporalInterval {
+        return temporalIntervalOf(end - amount, end, zoneId)
     }
 }

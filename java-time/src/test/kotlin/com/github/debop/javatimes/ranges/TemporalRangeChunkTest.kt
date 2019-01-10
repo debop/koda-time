@@ -14,8 +14,8 @@ import com.github.debop.javatimes.nowZonedDateTime
 import com.github.debop.javatimes.seconds
 import com.github.debop.javatimes.weeks
 import com.github.debop.javatimes.yearPeriod
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.amshove.kluent.shouldBeTrue
+import org.amshove.kluent.shouldEqualTo
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import java.time.Instant
@@ -34,72 +34,70 @@ abstract class TemporalRangeChunkTest<T> : AbstractJavaTimesTest() where T : Tem
 
     @Test
     open fun `chunk in year`() {
-        val range = temporalRangeOf<T>(start, (start + 5.yearPeriod()) as T)
-
+        val range = temporalRangeOf(start, (start + 5.yearPeriod()) as T)
         val chunks = range.chunkYear(3).toList()
-        assertEquals(2, chunks.size)
+
+        chunks.size shouldEqualTo 2
         assertChunkInRange(range, chunks)
     }
 
     @Test
     open fun `chunk in month`() {
         val range = temporalRangeOf(start, (start + 5.monthPeriod()) as T)
-
         val chunks = range.chunkMonth(3).toList()
-        assertEquals(2, chunks.size)
+
+        chunks.size shouldEqualTo 2
         assertChunkInRange(range, chunks)
     }
 
     @Test
     open fun `chunk in week`() {
         val range = temporalRangeOf(start, (start + 5.weeks()) as T)
-
         val chunks = range.chunkWeek(3).toList()
-        assertEquals(2, chunks.size)
+
+        chunks.size shouldEqualTo 2
         assertChunkInRange(range, chunks)
     }
 
     @Test
     fun `chunk in day`() {
         val range = temporalRangeOf(start, (start + 5.days()) as T)
-
         val chunks = range.chunkDay(3).toList()
-        assertEquals(2, chunks.size)
+
+        chunks.size shouldEqualTo 2
         assertChunkInRange(range, chunks)
     }
 
     @Test
     fun `chunk in hour`() {
         val range = temporalRangeOf(start, (start + 5.hours()) as T)
-
         val chunks = range.chunkHour(3).toList()
-        assertEquals(2, chunks.size)
+
+        chunks.size shouldEqualTo 2
         assertChunkInRange(range, chunks)
     }
 
     @Test
     fun `chunk in minute`() {
         val range = temporalRangeOf(start, (start + 5.minutes()) as T)
-
         val chunks = range.chunkMinute(3).toList()
-        assertEquals(2, chunks.size)
+
+        chunks.size shouldEqualTo 2
         assertChunkInRange(range, chunks)
     }
 
     @Test
     fun `chunk in second`() {
         val range = temporalRangeOf(start, (start + 5.seconds()) as T)
-
         val chunks = range.chunkSecond(3).toList()
-        assertEquals(2, chunks.size)
+
+        chunks.size shouldEqualTo 2
         assertChunkInRange(range, chunks)
     }
 
     private fun assertChunkInRange(range: TemporalRange<T>, chunks: List<List<T>>) {
         chunks.forEach { chunk ->
-            assertTrue {
-                chunk.all { it in range }
-            }
+            chunk.all { it in range }.shouldBeTrue()
         }
     }
 }
