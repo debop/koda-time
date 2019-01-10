@@ -16,10 +16,11 @@
 package com.github.debop.javatimes
 
 import mu.KLogging
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertNull
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.amshove.kluent.shouldBeFalse
+import org.amshove.kluent.shouldBeNull
+import org.amshove.kluent.shouldBeTrue
+import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldEqualTo
 import org.junit.jupiter.api.Test
 import java.time.OffsetDateTime
 import java.time.Period
@@ -32,92 +33,92 @@ class TemporalIntervalTest : AbstractJavaTimesTest() {
     fun `constructor by millis`() {
         val interval = temporalIntervalOf(0, 100)
 
-        assertEquals(0, interval.startEpochMillis)
-        assertEquals(100, interval.endEpochMillis)
-        assertEquals(UtcZoneId, interval.zoneId)
-
-        assertEquals(100, interval.toDurationMillis())
+        interval.startEpochMillis shouldEqualTo 0
+        interval.endEpochMillis shouldEqualTo 100
+        interval.zoneId shouldEqual UtcZoneId
+        interval.toDurationMillis() shouldEqualTo 100
     }
 
     @Test
     fun `construct invalid range`() {
         val interval = temporalIntervalOf(100, 0)
 
-        assertEquals(0, interval.startEpochMillis)
-        assertEquals(100, interval.endEpochMillis)
-        assertEquals(UtcZoneId, interval.zoneId)
-        assertEquals(100, interval.toDurationMillis())
+        interval.startEpochMillis shouldEqualTo 0
+        interval.endEpochMillis shouldEqualTo 100
+        interval.zoneId shouldEqual UtcZoneId
+        interval.toDurationMillis() shouldEqualTo 100
     }
 
     @Test
     fun `constructor by ZonedDateTime`() {
-        val startDateTime = nowZonedDateTime()
-        val end = startDateTime + 5.days()
-        val interval = temporalIntervalOf(startDateTime, end)
+        val start = nowZonedDateTime()
+        val end = start + 5.days()
+        val interval = temporalIntervalOf(start, end)
 
-        assertEquals(startDateTime, interval.startDateTime)
-        assertEquals(end, interval.endDateTime)
-        assertEquals(SystemZoneId, interval.zoneId)
-
-        logger.debug { "SystemTimeZone=$SystemTimeZone" }
-
-        assertEquals(Period.ofDays(5), interval.toPeriod())
+        with(interval) {
+            startDateTime shouldEqual start
+            endDateTime shouldEqual end
+            zoneId shouldEqual SystemZoneId
+        }
+        logger.debug { "SystemTimeZone=${SystemTimeZone.id}" }
+        interval.toPeriod() shouldEqual Period.ofDays(5)
     }
 
     @Test
     fun `constructor by start with period`() {
-        val startDateTime = nowZonedDateTime(UtcZoneId)
+        val start = nowZonedDateTime(UtcZoneId)
         val period = Period.ofDays(5)
+        val interval = temporalIntervalOf(start, period)
 
-        val interval = temporalIntervalOf(startDateTime, period)
-
-        assertEquals(startDateTime, interval.startDateTime)
-        assertEquals(startDateTime + period, interval.endDateTime)
-        assertEquals(UtcZoneId, interval.zoneId)
-
-        assertEquals(period, interval.toPeriod())
+        with(interval) {
+            startDateTime shouldEqual start
+            endDateTime shouldEqual start + period
+            zoneId shouldEqual UtcZoneId
+            toPeriod() shouldEqual period
+        }
     }
 
     @Test
     fun `constructor by start with duration`() {
-        val startDateTime = nowZonedDateTime(UtcZoneId)
+        val start = nowZonedDateTime(UtcZoneId)
         val duration = 10.hours() + 5.seconds()
+        val interval = temporalIntervalOf(start, duration)
 
-        val interval = temporalIntervalOf(startDateTime, duration)
-
-        assertEquals(startDateTime, interval.startDateTime)
-        assertEquals(startDateTime + duration, interval.endDateTime)
-        assertEquals(UtcZoneId, interval.zoneId)
-
-        assertEquals(duration, interval.toDuration())
+        with(interval) {
+            startDateTime shouldEqual start
+            endDateTime shouldEqual start + duration
+            zoneId shouldEqual UtcZoneId
+            toDuration() shouldEqual duration
+        }
     }
 
     @Test
     fun `constructor by end with period`() {
-        val endDateTime = nowZonedDateTime(UtcZoneId)
+        val end = nowZonedDateTime(UtcZoneId)
         val period = Period.ofDays(5)
+        val interval = temporalIntervalOf(period, end)
 
-        val interval = temporalIntervalOf(period, endDateTime)
-
-        assertEquals(endDateTime - period, interval.startDateTime)
-        assertEquals(endDateTime, interval.endDateTime)
-        assertEquals(UtcZoneId, interval.zoneId)
-
-        assertEquals(period, interval.toPeriod())
+        with(interval) {
+            startDateTime shouldEqual end - period
+            endDateTime shouldEqual end
+            zoneId shouldEqual UtcZoneId
+            toPeriod() shouldEqual period
+        }
     }
 
     @Test
     fun `constructor by end with duration`() {
-        val endDateTime = nowZonedDateTime(UtcZoneId)
+        val end = nowZonedDateTime(UtcZoneId)
         val duration = 10.hours() + 5.seconds()
 
-        val interval = temporalIntervalOf(duration, endDateTime)
+        val interval = temporalIntervalOf(duration, end)
 
-        assertEquals(endDateTime - duration, interval.startDateTime)
-        assertEquals(endDateTime, interval.endDateTime)
-        assertEquals(UtcZoneId, interval.zoneId)
-
-        assertEquals(duration, interval.toDuration())
+        with(interval) {
+            startDateTime shouldEqual end - duration
+            endDateTime shouldEqual end
+            zoneId shouldEqual UtcZoneId
+            toDuration() shouldEqual duration
+        }
     }
 
     @Test
@@ -126,11 +127,11 @@ class TemporalIntervalTest : AbstractJavaTimesTest() {
         val interval2 = TemporalInterval(50, 150)
         val interval3 = TemporalInterval(200, 300)
 
-        assertTrue(interval1.overlaps(interval2))
-        assertFalse(interval1.overlaps(interval3))
+        interval1.overlaps(interval2).shouldBeTrue()
+        interval1.overlap(interval2) shouldEqual TemporalInterval(50, 100)
 
-        assertEquals(TemporalInterval(50, 100), interval1.overlap(interval2))
-        assertNull(interval1.overlap(interval3))
+        interval1.overlaps(interval3).shouldBeFalse()
+        interval1.overlap(interval3).shouldBeNull()
     }
 
     @Test
@@ -139,8 +140,8 @@ class TemporalIntervalTest : AbstractJavaTimesTest() {
         val interval2 = TemporalInterval(50, 150)
         val interval3 = TemporalInterval(200, 300)
 
-        assertNull(interval1.gap(interval2))
-        assertEquals(TemporalInterval(100, 200), interval1.gap(interval3))
+        interval1.gap(interval2).shouldBeNull()
+        interval1.gap(interval3) shouldEqual TemporalInterval(100, 200)
     }
 
     @Test
@@ -151,11 +152,13 @@ class TemporalIntervalTest : AbstractJavaTimesTest() {
         val interval4 = TemporalInterval(100, 200)
         val interval5 = TemporalInterval(100, 300)
 
-        assertFalse(interval1.abuts(interval2))
-        assertFalse(interval1.abuts(interval3))
-        assertTrue(interval1.abuts(interval4))
-        assertTrue(interval3.abuts(interval4))
-        assertFalse(interval4.abuts(interval5))    // 연속하는 것이 아니라 start 가 같다
+        interval1.abuts(interval2).shouldBeFalse()
+        interval1.abuts(interval3).shouldBeFalse()
+
+        interval1.abuts(interval4).shouldBeTrue()
+        interval3.abuts(interval4).shouldBeTrue()
+
+        interval4.abuts(interval5).shouldBeFalse()    // 연속하는 것이 아니라 start 가 같다
     }
 
     @Test
@@ -165,9 +168,9 @@ class TemporalIntervalTest : AbstractJavaTimesTest() {
         val interval3 = TemporalInterval(0, 200)
         val interval4 = TemporalInterval(50, 200)
 
-        assertEquals(interval2, interval1.withStartMillis(50))
-        assertEquals(interval3, interval1.withEndMillis(200))
-        assertEquals(interval4, interval1.withStartMillis(50).withEndMillis(200))
+        interval1.withStartMillis(50) shouldEqual interval2
+        interval1.withEndMillis(200) shouldEqual interval3
+        interval1.withStartMillis(50).withEndMillis(200) shouldEqual interval4
     }
 
     @Test
@@ -177,9 +180,9 @@ class TemporalIntervalTest : AbstractJavaTimesTest() {
         val interval3 = TemporalInterval(0, 200)
         val interval4 = TemporalInterval(50, 200)
 
-        assertEquals(interval2, interval1.withAmountBeforeEnd(50.millis()))
-        assertEquals(interval3, interval1.withAmountAfterStart(200.millis()))
-        assertEquals(interval4, interval3.withAmountBeforeEnd(150.millis()))
+        interval1.withAmountBeforeEnd(50.millis()) shouldEqual interval2
+        interval1.withAmountAfterStart(200.millis()) shouldEqual interval3
+        interval3.withAmountBeforeEnd(150.millis()) shouldEqual interval4
     }
 
     @Test
@@ -191,9 +194,9 @@ class TemporalIntervalTest : AbstractJavaTimesTest() {
         val interval3 = TemporalInterval(start, start + 200.days())
         val interval4 = TemporalInterval(start + 50.days(), start + 200.days())
 
-        assertEquals(interval2, interval1.withAmountBeforeEnd(50.dayPeriod()))
-        assertEquals(interval3, interval1.withAmountAfterStart(200.dayPeriod()))
-        assertEquals(interval4, interval3.withAmountBeforeEnd(150.dayPeriod()))
+        interval1.withAmountBeforeEnd(50.dayPeriod()) shouldEqual interval2
+        interval1.withAmountAfterStart(200.dayPeriod()) shouldEqual interval3
+        interval3.withAmountBeforeEnd(150.dayPeriod()) shouldEqual interval4
     }
 
     @Test
@@ -202,8 +205,7 @@ class TemporalIntervalTest : AbstractJavaTimesTest() {
 
         val interval1 = TemporalInterval(start, start + 100.days())
 
-        val parsed = TemporalInterval.parse(interval1.toString())
-        assertEquals(interval1, parsed)
+        TemporalInterval.parse(interval1.toString()) shouldEqual interval1
     }
 
     @Test
@@ -215,9 +217,9 @@ class TemporalIntervalTest : AbstractJavaTimesTest() {
 
         val parsed = TemporalInterval.parseWithOffset(text)
 
-        println("text=$text")
-        println("parsed=$parsed")
-        assertEquals(start, parsed.start.toOffsetDateTime())
-        assertEquals(end, parsed.end.toOffsetDateTime())
+        logger.trace { "text=$text, parsed=$parsed" }
+
+        parsed.start.toOffsetDateTime() shouldEqual start
+        parsed.end.toOffsetDateTime() shouldEqual end
     }
 }

@@ -16,6 +16,8 @@
 package com.github.debop.javatimes
 
 import mu.KLogging
+import org.amshove.kluent.shouldContain
+import org.amshove.kluent.shouldEqual
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -52,31 +54,33 @@ class JavatimexTest {
         val now = nowLocalDateTime()
         val today = now.startOfDay()
 
-        logger.debug { "now=${now.toIsoString()}" }
-        logger.debug { "today=${today.toIsoString()}" }
-        logger.debug { "today=${today.toIsoDateString()}" }
+        logger.trace { "now=${now.toIsoString()}" }
+        logger.trace { "today=${today.toIsoString()}" }
+        logger.trace { "today=${today.toIsoDateString()}" }
 
         assertTrue(today.toIsoString().contains("T00:00:00"))
+        today.toIsoString() shouldContain "T00:00:00"
 
         val parsedToday = LocalDate.parse(today.toIsoDateString())
-        assertEquals(today.toLocalDate(), parsedToday)
+        parsedToday shouldEqual today.toLocalDate()
 
         val parsedNow = LocalDateTime.parse(now.toIsoString())
-        assertEquals(now, parsedNow)
+
+        parsedNow shouldEqual now
     }
 
     @Test
     fun `now and today`() {
-        assertEquals(nowInstant().truncatedTo(ChronoUnit.DAYS), todayInstant())
+        val nowToSecond = nowInstant(UtcZoneId).truncatedTo(ChronoUnit.SECONDS)
 
-        val today = nowInstant(UtcZoneId).truncatedTo(ChronoUnit.SECONDS)
+        nowLocalDateTime().trimToSecond().toInstant() shouldEqual nowToSecond
+        nowOffsetDateTime().trimToSecond().toInstant() shouldEqual nowToSecond
+        nowZonedDateTime().trimToSecond().toInstant() shouldEqual nowToSecond
 
-        assertEquals(today, nowLocalDateTime().trimToSecond().toInstant())
-        assertEquals(today, nowOffsetDateTime().trimToSecond().toInstant())
-        assertEquals(today, nowZonedDateTime().trimToSecond().toInstant())
+        todayInstant() shouldEqual nowInstant().truncatedTo(ChronoUnit.DAYS)
 
-        assertEquals(todayOffsetDateTime().toInstant(), todayZonedDateTime().toOffsetDateTime().toInstant())
-        assertEquals(todayZonedDateTime().toInstant(), todayOffsetDateTime().toZonedDateTime().toInstant())
+        todayZonedDateTime().toOffsetDateTime() shouldEqual todayOffsetDateTime()
+        todayOffsetDateTime().toZonedDateTime().toOffsetDateTime() shouldEqual todayZonedDateTime().toOffsetDateTime()
     }
 
     @Test
@@ -96,14 +100,14 @@ class JavatimexTest {
             """.trimMargin()
         }
 
-        assertEquals(nowInstant, nowInstant.toLocalDateTime().toInstant())
-        assertEquals(nowInstant, nowInstant.toOffsetDateTime().toInstant())
-        assertEquals(nowInstant, nowInstant.toZonedDateTime().toInstant())
+        nowInstant.toLocalDateTime().toInstant() shouldEqual nowInstant
+        nowInstant.toOffsetDateTime().toInstant() shouldEqual nowInstant
+        nowInstant.toZonedDateTime().toInstant() shouldEqual nowInstant
     }
 
     @Test
     fun `check constant variables`() {
-        assertEquals(LocalDate.now(), nowLocalDate())
+        nowLocalDate() shouldEqual LocalDate.now()
     }
 
     @Test

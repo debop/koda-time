@@ -17,8 +17,8 @@ package com.github.debop.javatimes.ranges
 
 import com.github.debop.javatimes.AbstractJavaTimesTest
 import com.github.debop.javatimes.toDate
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.amshove.kluent.shouldBeTrue
+import org.amshove.kluent.shouldEqual
 import org.junit.jupiter.api.Test
 import java.time.Duration
 import java.util.Date
@@ -27,18 +27,18 @@ class DateRangeTest : AbstractJavaTimesTest() {
 
     @Test
     fun `simple creation`() {
-
         val start = Date()
         val endInclusive = (start.toInstant() + Duration.ofDays(5)).toDate()
+
         val range = DateRange(start, endInclusive)
 
-        assertEquals(start, range.start)
-        assertEquals(endInclusive, range.endInclusive)
+        range.start shouldEqual start
+        range.endInclusive shouldEqual endInclusive
 
-        assertEquals(start, range.first)
-        assertEquals(endInclusive, range.last)
+        range.first shouldEqual start
+        range.last shouldEqual endInclusive
 
-        assertEquals("$start..$endInclusive", range.toString())
+        range.toString() shouldEqual "$start..$endInclusive"
     }
 
     @Test
@@ -49,14 +49,14 @@ class DateRangeTest : AbstractJavaTimesTest() {
 
         val range = DateRange.fromClosedRange(start, endInclusive)
 
-        assertTrue { range.isEmpty() }
-        assertEquals(DateRange.EMPTY, range)
+        range.isEmpty().shouldBeTrue()
+        range shouldEqual DateRange.EMPTY
 
         val range2 = start..endInclusive
 
-        assertTrue { range2.isEmpty() }
-        assertEquals(DateRange.EMPTY, range2)
+        range2.isEmpty().shouldBeTrue()
+        range2 shouldEqual DateRange.EMPTY
 
-        assertEquals(range, range2)
+        range2 shouldEqual range
     }
 }

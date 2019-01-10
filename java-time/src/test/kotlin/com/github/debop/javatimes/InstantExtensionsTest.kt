@@ -1,5 +1,7 @@
 package com.github.debop.javatimes
 
+import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldEqualTo
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.time.DayOfWeek
@@ -15,12 +17,14 @@ class InstantExtensionsTest : AbstractJavaTimesTest() {
 
         logger.debug { "utc start of year=$utcStart" }
 
-        assertEquals(1, utcStart.monthValue)
-        assertEquals(1, utcStart.dayOfMonth)
-        assertEquals(0, utcStart.hour)
-        assertEquals(0, utcStart.minute)
-        assertEquals(0, utcStart.second)
-        assertEquals(0, utcStart.nano)
+        with(utcStart) {
+            monthValue shouldEqualTo 1
+            dayOfMonth shouldEqualTo 1
+            hour shouldEqualTo 0
+            minute shouldEqualTo 0
+            second shouldEqualTo 0
+            nano shouldEqualTo 0
+        }
     }
 
     @Test
@@ -32,11 +36,13 @@ class InstantExtensionsTest : AbstractJavaTimesTest() {
 
         logger.debug { "utc start of year=$utcStart" }
 
-        assertEquals(1, utcStart.dayOfMonth)
-        assertEquals(0, utcStart.hour)
-        assertEquals(0, utcStart.minute)
-        assertEquals(0, utcStart.second)
-        assertEquals(0, utcStart.nano)
+        with(utcStart) {
+            dayOfMonth shouldEqualTo 1
+            hour shouldEqualTo 0
+            minute shouldEqualTo 0
+            second shouldEqualTo 0
+            nano shouldEqualTo 0
+        }
     }
 
     @Test
@@ -48,11 +54,13 @@ class InstantExtensionsTest : AbstractJavaTimesTest() {
 
         logger.debug { "utc start of year=$utcStart" }
 
-        assertEquals(DayOfWeek.MONDAY, utcStart.dayOfWeek)
-        assertEquals(0, utcStart.hour)
-        assertEquals(0, utcStart.minute)
-        assertEquals(0, utcStart.second)
-        assertEquals(0, utcStart.nano)
+        with(utcStart) {
+            dayOfWeek shouldEqual DayOfWeek.MONDAY
+            hour shouldEqualTo 0
+            minute shouldEqualTo 0
+            second shouldEqualTo 0
+            nano shouldEqualTo 0
+        }
     }
 
     @Test
@@ -62,11 +70,13 @@ class InstantExtensionsTest : AbstractJavaTimesTest() {
         val start = instant.startOfDay()
         val utcStart = start.toZonedDateTime(UtcZoneId)
 
-        assertEquals(start.toZonedDateTime(UtcZoneId).dayOfMonth, utcStart.dayOfMonth)
-        assertEquals(0, utcStart.hour)
-        assertEquals(0, utcStart.minute)
-        assertEquals(0, utcStart.second)
-        assertEquals(0, utcStart.nano)
+        with(utcStart) {
+            dayOfMonth shouldEqual start.toZonedDateTime(UtcZoneId).dayOfMonth
+            hour shouldEqualTo 0
+            minute shouldEqualTo 0
+            second shouldEqualTo 0
+            nano shouldEqualTo 0
+        }
     }
 
     @Test
@@ -80,6 +90,13 @@ class InstantExtensionsTest : AbstractJavaTimesTest() {
         assertEquals(0, utcStart.minute)
         assertEquals(0, utcStart.second)
         assertEquals(0, utcStart.nano)
+
+        with(utcStart) {
+            hour shouldEqualTo start.toZonedDateTime(UtcZoneId).hour
+            minute shouldEqualTo 0
+            second shouldEqualTo 0
+            nano shouldEqualTo 0
+        }
     }
 
     @Test
@@ -89,9 +106,11 @@ class InstantExtensionsTest : AbstractJavaTimesTest() {
         val start = instant.startOfMinute()
         val utcStart = start.toZonedDateTime(UtcZoneId)
 
-        assertEquals(start.toZonedDateTime(UtcZoneId).minute, utcStart.minute)
-        assertEquals(0, utcStart.second)
-        assertEquals(0, utcStart.nano)
+        with(utcStart) {
+            minute shouldEqualTo start.toZonedDateTime(UtcZoneId).minute
+            second shouldEqualTo 0
+            nano shouldEqualTo 0
+        }
     }
 
     @Test
@@ -101,7 +120,9 @@ class InstantExtensionsTest : AbstractJavaTimesTest() {
         val start = instant.startOfSecond()
         val utcStart = start.toZonedDateTime(UtcZoneId)
 
-        assertEquals(start.toZonedDateTime(UtcZoneId).second, utcStart.second)
-        assertEquals(0, utcStart.nano)
+        with(utcStart) {
+            second shouldEqualTo start.toZonedDateTime(UtcZoneId).second
+            nano shouldEqualTo 0
+        }
     }
 }

@@ -7,16 +7,16 @@ import java.time.LocalDateTime
 import java.time.temporal.Temporal
 
 
-fun <T> temporalRangeOf(start: Temporal, endInclusive: Temporal): TemporalRange<T>
+fun <T> temporalRangeOf(start: T, endInclusive: T): TemporalRange<T>
 where T : Temporal, T : Comparable<T> {
     return TemporalRange.fromClosedRange(start, endInclusive)
 }
 
 @Suppress("UNCHECKED_CAST")
-fun <T> TemporalRange.Companion.fromClosedRange(start: Temporal,
-                                                endInclusive: Temporal): TemporalRange<T>
+fun <T> TemporalRange.Companion.fromClosedRange(start: T,
+                                                endInclusive: T): TemporalRange<T>
 where T : Temporal, T : Comparable<T> {
-    return TemporalRange(start as T, endInclusive as T)
+    return TemporalRange(start, endInclusive)
 }
 
 /**
@@ -32,10 +32,6 @@ where T : Temporal, T : Comparable<T> {
     companion object : KLogging() {
         @JvmField
         val EMPTY = TemporalRange<LocalDateTime>(LocalDateTime.MAX, LocalDateTime.MIN)
-
-        //        @JvmStatic
-        //        fun <T> fromClosedRange(start: T, endInclusive: T): TemporalRange<T> where T : Temporal, T : Comparable<T> =
-        //            TemporalRange(start, endInclusive)
     }
 
     override val start: T get() = first

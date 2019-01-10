@@ -1,7 +1,9 @@
 package com.github.debop.javatimes
 
 import mu.KLogging
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.amshove.kluent.shouldBeLessOrEqualTo
+import org.amshove.kluent.shouldBeTrue
+import org.amshove.kluent.shouldEqualTo
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -26,9 +28,9 @@ class TemporalIntervalChunkTest : AbstractJavaTimesTest() {
             assertTrue(chunk.last() in interval)
         }
 
-        assertEquals(2, chunks.size)
-        assertEquals(4, chunks[0].size)
-        assertEquals(1, chunks[1].size)
+        chunks.size shouldEqualTo 2
+        chunks[0].size shouldEqualTo 4
+        chunks[1].size shouldEqualTo 1
 
         assertThrows<IllegalArgumentException> {
             interval.chunkYear(0)
@@ -42,17 +44,14 @@ class TemporalIntervalChunkTest : AbstractJavaTimesTest() {
     fun `chunk year and aggregate`() {
         val start = nowZonedDateTime().startOfYear()
         val endExclusive = start + 5.yearPeriod()
-
         val interval = start..endExclusive
 
         val chunks = interval.chunkYear(3)
             .map { years -> years.first()..years.last() }
             .toList()
 
-        assertEquals(2, chunks.size)
-        chunks.forEach {
-            assertTrue(it in interval)
-        }
+        chunks.size shouldEqualTo 2
+        chunks.all { it in interval }.shouldBeTrue()
     }
 
     @Test
@@ -65,14 +64,14 @@ class TemporalIntervalChunkTest : AbstractJavaTimesTest() {
 
         chunks.forEachIndexed { index, chunk ->
             logger.debug { "chunks[$index] = $chunk" }
-            assertTrue(chunk.size <= 4)
-            assertTrue(chunk.first() in interval)
-            assertTrue(chunk.last() in interval)
+            chunk.size shouldBeLessOrEqualTo 4
+            assertTrue { chunk.first() in interval }
+            assertTrue { chunk.last() in interval }
         }
 
-        assertEquals(2, chunks.size)
-        assertEquals(4, chunks[0].size)
-        assertEquals(1, chunks[1].size)
+        chunks.size shouldEqualTo 2
+        chunks[0].size shouldEqualTo 4
+        chunks[1].size shouldEqualTo 1
 
         assertThrows<IllegalArgumentException> {
             interval.chunkMonth(0)
@@ -93,10 +92,8 @@ class TemporalIntervalChunkTest : AbstractJavaTimesTest() {
             .map { months -> months.first()..months.last() }
             .toList()
 
-        assertEquals(2, chunks.size)
-        chunks.forEach {
-            assertTrue(it in interval)
-        }
+        chunks.size shouldEqualTo 2
+        chunks.all { it in interval }.shouldBeTrue()
     }
 
     @Test
@@ -109,14 +106,14 @@ class TemporalIntervalChunkTest : AbstractJavaTimesTest() {
 
         chunks.forEachIndexed { index, chunk ->
             logger.debug { "chunks[$index] = $chunk" }
-            assertTrue(chunk.size <= 4)
-            assertTrue(chunk.first() in interval)
-            assertTrue(chunk.last() in interval)
+            chunk.size shouldBeLessOrEqualTo 4
+            assertTrue { chunk.first() in interval }
+            assertTrue { chunk.last() in interval }
         }
 
-        assertEquals(2, chunks.size)
-        assertEquals(4, chunks[0].size)
-        assertEquals(1, chunks[1].size)
+        chunks.size shouldEqualTo 2
+        chunks[0].size shouldEqualTo 4
+        chunks[1].size shouldEqualTo 1
 
         assertThrows<IllegalArgumentException> {
             interval.chunkWeek(0)
@@ -137,10 +134,8 @@ class TemporalIntervalChunkTest : AbstractJavaTimesTest() {
             .map { weeks -> weeks.first()..weeks.last() }
             .toList()
 
-        assertEquals(2, chunks.size)
-        chunks.forEach {
-            assertTrue(it in interval)
-        }
+        chunks.size shouldEqualTo 2
+        chunks.all { it in interval }.shouldBeTrue()
     }
 
     @Test
@@ -153,14 +148,14 @@ class TemporalIntervalChunkTest : AbstractJavaTimesTest() {
 
         chunks.forEachIndexed { index, chunk ->
             logger.debug { "chunks[$index] = $chunk" }
-            assertTrue(chunk.size <= 4)
-            assertTrue(chunk.first() in interval)
-            assertTrue(chunk.last() in interval)
+            chunk.size shouldBeLessOrEqualTo 4
+            assertTrue { chunk.first() in interval }
+            assertTrue { chunk.last() in interval }
         }
 
-        assertEquals(2, chunks.size)
-        assertEquals(4, chunks[0].size)
-        assertEquals(1, chunks[1].size)
+        chunks.size shouldEqualTo 2
+        chunks[0].size shouldEqualTo 4
+        chunks[1].size shouldEqualTo 1
 
         assertThrows<IllegalArgumentException> {
             interval.chunkDay(0)
@@ -181,10 +176,8 @@ class TemporalIntervalChunkTest : AbstractJavaTimesTest() {
             .map { days -> days.first()..days.last() }
             .toList()
 
-        assertEquals(2, chunks.size)
-        chunks.forEach {
-            assertTrue(it in interval)
-        }
+        chunks.size shouldEqualTo 2
+        chunks.all { it in interval }.shouldBeTrue()
     }
 
     @Test
@@ -197,14 +190,14 @@ class TemporalIntervalChunkTest : AbstractJavaTimesTest() {
 
         chunks.forEachIndexed { index, chunk ->
             logger.debug { "chunks[$index] = $chunk" }
-            assertTrue(chunk.size <= 4)
-            assertTrue(chunk.first() in interval)
-            assertTrue(chunk.last() in interval)
+            chunk.size shouldBeLessOrEqualTo 4
+            assertTrue { chunk.first() in interval }
+            assertTrue { chunk.last() in interval }
         }
 
-        assertEquals(2, chunks.size)
-        assertEquals(4, chunks[0].size)
-        assertEquals(1, chunks[1].size)
+        chunks.size shouldEqualTo 2
+        chunks[0].size shouldEqualTo 4
+        chunks[1].size shouldEqualTo 1
 
         assertThrows<IllegalArgumentException> {
             interval.chunkHour(0)
@@ -225,10 +218,8 @@ class TemporalIntervalChunkTest : AbstractJavaTimesTest() {
             .map { hours -> hours.first()..hours.last() }
             .toList()
 
-        assertEquals(2, chunks.size)
-        chunks.forEach {
-            assertTrue(it in interval)
-        }
+        chunks.size shouldEqualTo 2
+        chunks.all { it in interval }.shouldBeTrue()
     }
 
     @Test
@@ -241,14 +232,14 @@ class TemporalIntervalChunkTest : AbstractJavaTimesTest() {
 
         chunks.forEachIndexed { index, chunk ->
             logger.debug { "chunks[$index] = $chunk" }
-            assertTrue(chunk.size <= 4)
-            assertTrue(chunk.first() in interval)
-            assertTrue(chunk.last() in interval)
+            chunk.size shouldBeLessOrEqualTo 4
+            assertTrue { chunk.first() in interval }
+            assertTrue { chunk.last() in interval }
         }
 
-        assertEquals(2, chunks.size)
-        assertEquals(4, chunks[0].size)
-        assertEquals(1, chunks[1].size)
+        chunks.size shouldEqualTo 2
+        chunks[0].size shouldEqualTo 4
+        chunks[1].size shouldEqualTo 1
 
         assertThrows<IllegalArgumentException> {
             interval.chunkMinute(0)
@@ -269,10 +260,8 @@ class TemporalIntervalChunkTest : AbstractJavaTimesTest() {
             .map { minutes -> minutes.first()..minutes.last() }
             .toList()
 
-        assertEquals(2, chunks.size)
-        chunks.forEach {
-            assertTrue(it in interval)
-        }
+        chunks.size shouldEqualTo 2
+        chunks.all { it in interval }.shouldBeTrue()
     }
 
     @Test
@@ -285,14 +274,14 @@ class TemporalIntervalChunkTest : AbstractJavaTimesTest() {
 
         chunks.forEachIndexed { index, chunk ->
             logger.debug { "chunks[$index] = $chunk" }
-            assertTrue(chunk.size <= 4)
-            assertTrue(chunk.first() in interval)
-            assertTrue(chunk.last() in interval)
+            chunk.size shouldBeLessOrEqualTo 4
+            assertTrue { chunk.first() in interval }
+            assertTrue { chunk.last() in interval }
         }
 
-        assertEquals(2, chunks.size)
-        assertEquals(4, chunks[0].size)
-        assertEquals(1, chunks[1].size)
+        chunks.size shouldEqualTo 2
+        chunks[0].size shouldEqualTo 4
+        chunks[1].size shouldEqualTo 1
 
         assertThrows<IllegalArgumentException> {
             interval.chunkSecond(0)
@@ -313,10 +302,8 @@ class TemporalIntervalChunkTest : AbstractJavaTimesTest() {
             .map { seconds -> seconds.first()..seconds.last() }
             .toList()
 
-        assertEquals(2, chunks.size)
-        chunks.forEach {
-            assertTrue(it in interval)
-        }
+        chunks.size shouldEqualTo 2
+        chunks.all { it in interval }.shouldBeTrue()
     }
 
     @Test
@@ -330,14 +317,14 @@ class TemporalIntervalChunkTest : AbstractJavaTimesTest() {
 
         chunks.forEachIndexed { index, chunk ->
             logger.debug { "chunks[$index] = $chunk" }
-            assertTrue(chunk.size <= 4)
-            assertTrue(chunk.first() in interval)
-            assertTrue(chunk.last() in interval)
+            chunk.size shouldBeLessOrEqualTo 4
+            assertTrue { chunk.first() in interval }
+            assertTrue { chunk.last() in interval }
         }
 
-        assertEquals(2, chunks.size)
-        assertEquals(4, chunks[0].size)
-        assertEquals(1, chunks[1].size)
+        chunks.size shouldEqualTo 2
+        chunks[0].size shouldEqualTo 4
+        chunks[1].size shouldEqualTo 1
 
         assertThrows<IllegalArgumentException> {
             interval.chunkMilli(0)
@@ -358,9 +345,8 @@ class TemporalIntervalChunkTest : AbstractJavaTimesTest() {
             .map { millis -> millis.first()..millis.last() }
             .toList()
 
-        assertEquals(2, chunks.size)
-        chunks.forEach {
-            assertTrue(it in interval)
-        }
+        chunks.size shouldEqualTo 2
+
+        chunks.all { it in interval }.shouldBeTrue()
     }
 }

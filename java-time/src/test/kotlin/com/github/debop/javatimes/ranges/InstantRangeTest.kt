@@ -17,8 +17,8 @@ package com.github.debop.javatimes.ranges
 
 import com.github.debop.javatimes.AbstractJavaTimesTest
 import com.github.debop.javatimes.days
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.amshove.kluent.shouldBeTrue
+import org.amshove.kluent.shouldEqual
 import org.junit.jupiter.api.Test
 import java.time.Instant
 import java.time.LocalDateTime
@@ -34,13 +34,13 @@ class InstantRangeTest : AbstractJavaTimesTest() {
         val endInclusive = start + 5.days()
         val range = InstantRange(start, endInclusive)
 
-        assertEquals(start, range.start)
-        assertEquals(endInclusive, range.endInclusive)
+        range.start shouldEqual start
+        range.endInclusive shouldEqual endInclusive
 
-        assertEquals(start, range.first)
-        assertEquals(endInclusive, range.last)
+        range.first shouldEqual start
+        range.last shouldEqual endInclusive
 
-        assertEquals("$start..$endInclusive", range.toString())
+        range.toString() shouldEqual "$start..$endInclusive"
     }
 
     @Test
@@ -51,11 +51,14 @@ class InstantRangeTest : AbstractJavaTimesTest() {
 
         val range = InstantRange.fromClosedRange<Instant>(start, endInclusive)
 
-        assertTrue { range.isEmpty() }
-        // assertEquals(InstantRange.EMPTY, range)
+        range.isEmpty().shouldBeTrue()
+        range shouldEqual TemporalRange.EMPTY
 
         val range2 = start..endInclusive
-        assertTrue { range2.isEmpty() }
-    }
+        range2.isEmpty().shouldBeTrue()
+        range2 shouldEqual TemporalRange.EMPTY
 
+        // all EMPTY
+        range2 shouldEqual range
+    }
 }

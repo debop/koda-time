@@ -23,5 +23,7 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${extra.get("junitJupiter")}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${extra.get("junitJupiter")}")
+
+    testImplementation("org.amshove.kluent:kluent:1.45")
 }
 
