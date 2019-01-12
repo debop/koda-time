@@ -1,9 +1,9 @@
-# java-time
+# kava-time
 
 [![Build Status](https://travis-ci.org/debop/koda-time.png)](https://travis-ci.org/debop/koda-time) 
 [![Download](https://api.bintray.com/packages/debop/maven/joda-time/images/download.svg)](https://bintray.com/debop/maven/joda-time/_latestVersion)
 
-Extension methods for Java 8 time.
+Extension methods for [Joda-time](https://www.joda.org/joda-time/) support JVM 1.6
 
 ## Features
 
@@ -148,7 +148,7 @@ repository {
     jcenter()     
 }
 dependencies {
-    compile "com.github.debop:java-time:2.0.0"
+    compile "com.github.debop:koda-time:2.0.0"
 }
 ``` 
 
@@ -170,7 +170,7 @@ add dependency
 ```xml
 <dependency>
   <groupId>com.github.debop</groupId>
-  <artifactId>java-time</artifactId>
+  <artifactId>koda-time</artifactId>
   <version>2.0.0</version>
 </dependency>
 ```
