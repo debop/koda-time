@@ -1,9 +1,14 @@
 # koda-times change Logs
 
-# 1.2.3
+# 2.0.0
 
-> not specified
+> release 2019-01-12
 
+* Split two module 
+    * koda-time (joda-time extensios) support JVM 6 or higher 
+    * java-time (java.time extensions) support JVM 8 or higher
+* Bump up kotlin-stdlib 1.3.11
+* Bump up kotlinx-coroutines-core 1.1.0
 
 # 1.2.2
 
