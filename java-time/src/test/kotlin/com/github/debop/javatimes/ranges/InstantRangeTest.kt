@@ -17,8 +17,9 @@ package com.github.debop.javatimes.ranges
 
 import com.github.debop.javatimes.AbstractJavaTimesTest
 import com.github.debop.javatimes.days
-import org.amshove.kluent.shouldBeTrue
+import org.amshove.kluent.shouldBeFalse
 import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldNotEqual
 import org.junit.jupiter.api.Test
 import java.time.Instant
 import java.time.LocalDateTime
@@ -51,14 +52,13 @@ class InstantRangeTest : AbstractJavaTimesTest() {
 
         val range = InstantRange.fromClosedRange<Instant>(start, endInclusive)
 
-        range.isEmpty().shouldBeTrue()
-        range shouldEqual TemporalRange.EMPTY
+        range.isEmpty().shouldBeFalse()
+        range shouldNotEqual TemporalRange.EMPTY
 
         val range2 = start..endInclusive
-        range2.isEmpty().shouldBeTrue()
-        range2 shouldEqual TemporalRange.EMPTY
+        range2.isEmpty().shouldBeFalse()
+        range2 shouldNotEqual TemporalRange.EMPTY
 
-        // all EMPTY
         range2 shouldEqual range
     }
 }

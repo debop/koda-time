@@ -34,7 +34,6 @@ import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoField
 import java.time.temporal.ChronoUnit
 import java.time.temporal.Temporal
-import java.time.temporal.TemporalAccessor
 import java.util.Date
 import java.util.TimeZone
 
@@ -78,53 +77,6 @@ val SystemZoneId: ZoneId = ZoneId.systemDefault()
 val SystemOffset: ZoneOffset = ZoneOffset.ofTotalSeconds(SystemTimeZone.rawOffset / 1000)
 
 /**
- * 날짜를 ISO 형식의 문자열로 만듭니다.
- * 예: DateTime : '2011-12-03T10:15:30',
- *     OffsetDateTime:'2011-12-03T10:15:30+01:00',
- *     ZonedDateTime: '2011-12-03T10:15:30+01:00[Europe/Paris]'.
- */
-fun TemporalAccessor.toIsoString(): String = DateTimeFormatter.ISO_DATE_TIME.format(this)
-
-/**
- * 일자를 ISO 형식의 문자열로 만듭니다.
- * 예: Date: '2011-12-03', OffsetDate: '2011-12-03+01:00'.
- */
-fun TemporalAccessor.toIsoDateString(): String = DateTimeFormatter.ISO_DATE.format(this)
-
-/**
- * 시각을 ISO 형식의 문자열로 만듭니다.
- * 예: '10:15', '10:15:30', OffsetTime: '10:15:30+01:00'.
- */
-fun TemporalAccessor.toIsoTimeString(): String = DateTimeFormatter.ISO_TIME.format(this)
-
-/**
- * 날짜를 ISO 형식의 로컬형식으로 표현합니다.
- * 예: '2011-12-03T10:15:30'
- */
-fun TemporalAccessor.toLocalIsoString(): String = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(this)
-
-/**
- * 일자을 ISO 형식의 로컬형식으로 표현합니다.
- * 예: Date: '2011-12-03'
- */
-fun TemporalAccessor.toIsoLocalDateString(): String = DateTimeFormatter.ISO_LOCAL_DATE.format(this)
-
-/**
- * 시각을 ISO 형식의 로컬형식으로 표현합니다.
- * 예: '10:15', '10:15:30'
- */
-fun TemporalAccessor.toIsoLocalTimeString(): String = DateTimeFormatter.ISO_LOCAL_TIME.format(this)
-
-
-fun TemporalAccessor.toIsoOffsetDateTimeString(): String = DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(this)
-
-fun TemporalAccessor.toIsoOffsetDateString(): String = DateTimeFormatter.ISO_OFFSET_DATE.format(this)
-
-fun TemporalAccessor.toIsoOffsetTimeString(): String = DateTimeFormatter.ISO_OFFSET_TIME.format(this)
-
-fun TemporalAccessor.toIsoZonedDateTimeString(): String = DateTimeFormatter.ISO_ZONED_DATE_TIME.format(this)
-
-/**
  * [Temporal] 을 Epoch 이후의 milli seconds 단위로 표현한 값 (기존 Date#time, Timestamp 와 같은 값을 나타낸다)
  */
 fun Temporal.toEpochMillis(): Long = when (this) {
@@ -160,6 +112,7 @@ fun nowInstant(zoneId: ZoneId = SystemZoneId): Instant = Instant.now(Clock.syste
 fun nowLocalTime(zoneId: ZoneId = SystemZoneId): LocalTime = LocalTime.now(zoneId)
 fun nowLocalDate(zoneId: ZoneId = SystemZoneId): LocalDate = LocalDate.now(zoneId)
 fun nowLocalDateTime(zoneId: ZoneId = SystemZoneId): LocalDateTime = LocalDateTime.now(zoneId)
+fun nowOffsetTime(zoneId: ZoneId = SystemZoneId): OffsetTime = OffsetTime.now(zoneId)
 fun nowOffsetDateTime(zoneId: ZoneId = SystemZoneId): OffsetDateTime = OffsetDateTime.now(zoneId)
 fun nowZonedDateTime(zoneId: ZoneId = SystemZoneId): ZonedDateTime = ZonedDateTime.now(zoneId)
 

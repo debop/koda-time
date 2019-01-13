@@ -17,8 +17,9 @@ package com.github.debop.javatimes.ranges
 
 import com.github.debop.javatimes.AbstractJavaTimesTest
 import mu.KLogging
-import org.amshove.kluent.shouldBeTrue
+import org.amshove.kluent.shouldBeFalse
 import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldNotEqual
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import java.time.Duration
@@ -53,11 +54,11 @@ abstract class TemporalRangeTest<T> : AbstractJavaTimesTest() where T : Temporal
     }
 
     @Test
-    fun `empty range`() {
+    fun `start is after from end`() {
         val range = temporalRangeOf(endInclusive, start)
 
-        range.isEmpty().shouldBeTrue()
-        range shouldEqual TemporalRange.EMPTY
+        range.isEmpty().shouldBeFalse()
+        range shouldNotEqual TemporalRange.EMPTY
     }
 
     @Test

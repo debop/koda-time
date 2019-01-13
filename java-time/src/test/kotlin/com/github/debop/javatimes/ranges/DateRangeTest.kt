@@ -17,8 +17,9 @@ package com.github.debop.javatimes.ranges
 
 import com.github.debop.javatimes.AbstractJavaTimesTest
 import com.github.debop.javatimes.toDate
-import org.amshove.kluent.shouldBeTrue
+import org.amshove.kluent.shouldBeFalse
 import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldNotEqual
 import org.junit.jupiter.api.Test
 import java.time.Duration
 import java.util.Date
@@ -30,7 +31,7 @@ class DateRangeTest : AbstractJavaTimesTest() {
         val start = Date()
         val endInclusive = (start.toInstant() + Duration.ofDays(5)).toDate()
 
-        val range = DateRange(start, endInclusive)
+        val range = DateRange.fromClosedRange(start, endInclusive)
 
         range.start shouldEqual start
         range.endInclusive shouldEqual endInclusive
@@ -42,20 +43,20 @@ class DateRangeTest : AbstractJavaTimesTest() {
     }
 
     @Test
-    fun `empty range`() {
+    fun `when start is after from endInclusive`() {
 
         val start = Date()
         val endInclusive = (start.toInstant() - Duration.ofDays(1)).toDate()
 
         val range = DateRange.fromClosedRange(start, endInclusive)
 
-        range.isEmpty().shouldBeTrue()
-        range shouldEqual DateRange.EMPTY
+        range.isEmpty().shouldBeFalse()
+        range shouldNotEqual DateRange.EMPTY
 
         val range2 = start..endInclusive
 
-        range2.isEmpty().shouldBeTrue()
-        range2 shouldEqual DateRange.EMPTY
+        range2.isEmpty().shouldBeFalse()
+        range2 shouldNotEqual DateRange.EMPTY
 
         range2 shouldEqual range
     }

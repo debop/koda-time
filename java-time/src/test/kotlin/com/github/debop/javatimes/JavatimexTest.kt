@@ -16,14 +16,11 @@
 package com.github.debop.javatimes
 
 import mu.KLogging
-import org.amshove.kluent.shouldContain
 import org.amshove.kluent.shouldEqual
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import java.time.Instant
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 import java.util.Calendar
 import java.util.TimeZone
@@ -49,25 +46,7 @@ class JavatimexTest {
         }
     }
 
-    @Test
-    fun `print ISO format`() {
-        val now = nowLocalDateTime()
-        val today = now.startOfDay()
 
-        logger.trace { "now=${now.toIsoString()}" }
-        logger.trace { "today=${today.toIsoString()}" }
-        logger.trace { "today=${today.toIsoDateString()}" }
-
-        assertTrue(today.toIsoString().contains("T00:00:00"))
-        today.toIsoString() shouldContain "T00:00:00"
-
-        val parsedToday = LocalDate.parse(today.toIsoDateString())
-        parsedToday shouldEqual today.toLocalDate()
-
-        val parsedNow = LocalDateTime.parse(now.toIsoString())
-
-        parsedNow shouldEqual now
-    }
 
     @Test
     fun `now and today`() {
