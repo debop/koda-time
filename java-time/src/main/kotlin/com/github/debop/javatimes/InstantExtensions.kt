@@ -1,3 +1,18 @@
+/*
+ * Copyright (c) 2016. Sunghyouk Bae <sunghyouk.bae@gmail.com>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.github.debop.javatimes
 
 import java.time.Duration
@@ -62,9 +77,9 @@ fun Instant.with(year: Int,
         .with(ChronoField.MILLI_OF_SECOND, millisOfSecond.toLong())
         .toInstant(zoneOffset)
 
-fun Instant.startOfYear(): Instant = toLocalDateTime(UtcZoneId).startOfYear().toInstant(UtcOffset)
-fun Instant.startOfMonth(): Instant = toLocalDateTime(UtcZoneId).startOfMonth().toInstant(UtcOffset)
-fun Instant.startOfWeek(): Instant = toLocalDateTime(UtcZoneId).startOfWeek().toInstant(UtcOffset)
+fun Instant.startOfYear(): Instant = toLocalDateTime(UtcZoneId).startOfYear().toInstant(ZoneOffset.UTC)
+fun Instant.startOfMonth(): Instant = toLocalDateTime(UtcZoneId).startOfMonth().toInstant(ZoneOffset.UTC)
+fun Instant.startOfWeek(): Instant = toLocalDateTime(UtcZoneId).startOfWeek().toInstant(ZoneOffset.UTC)
 fun Instant.startOfDay(): Instant = truncatedTo(ChronoUnit.DAYS)
 fun Instant.startOfHour(): Instant = truncatedTo(ChronoUnit.HOURS)
 fun Instant.startOfMinute(): Instant = truncatedTo(ChronoUnit.MINUTES)
@@ -91,17 +106,17 @@ infix fun Instant?.max(that: Instant?): Instant? = when {
 val Instant.yearInterval: ReadableTemporalInterval
     get() {
         val start = startOfYear()
-        return start..(start + 1.yearPeriod())
+        return start..(start.toLocalDateTime().plusYears(1).minusNanos(1).toInstant())
     }
 
 val Instant.monthInterval: ReadableTemporalInterval
     get() {
         val start = startOfMonth()
-        return start..(start + 1.monthPeriod())
+        return start..(start.toLocalDateTime().plusMonths(1).minusNanos(1).toInstant())
     }
 
 val Instant.dayInterval: ReadableTemporalInterval
     get() {
         val start = this.startOfDay()
-        return start..(start + 1.days())
+        return start..(start + 1.days().minusNanos(1))
     }
