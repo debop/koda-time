@@ -15,8 +15,6 @@
 
 import com.jfrog.bintray.gradle.BintrayExtension
 import io.gitlab.arturbosch.detekt.detekt
-import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformJvmPlugin
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.dokka.gradle.DokkaTask
 
 plugins {
@@ -139,7 +137,6 @@ subprojects {
 
     // jacoco
     configure<JacocoPluginExtension> {
-        toolVersion = extra.get("jacoco") as String
     }
 
     tasks.withType<JacocoReport> {
