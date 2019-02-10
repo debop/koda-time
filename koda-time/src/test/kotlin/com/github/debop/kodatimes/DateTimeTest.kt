@@ -15,6 +15,7 @@
 
 package com.github.debop.kodatimes
 
+import mu.KLogging
 import org.amshove.kluent.shouldBeFalse
 import org.amshove.kluent.shouldBeTrue
 import org.amshove.kluent.shouldEqual
@@ -26,7 +27,7 @@ import org.junit.jupiter.api.Test
 
 class DateTimeTest : AbstractKodaTimesTest() {
 
-    companion object {
+    companion object : KLogging() {
         private const val EXPECTED_DATETIME_STR = "2013-03-02T07:08:09.123+0900"
     }
 

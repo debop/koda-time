@@ -15,6 +15,7 @@
 
 package com.github.debop.kodatimes
 
+import mu.KLogging
 import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldEqualTo
 import org.joda.time.DateTime
@@ -23,6 +24,8 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class DurationTest : AbstractKodaTimesTest() {
+
+    companion object : KLogging()
 
     @Test
     fun makeDuration() {

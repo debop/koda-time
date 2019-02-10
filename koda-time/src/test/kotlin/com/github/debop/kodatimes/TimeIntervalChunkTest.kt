@@ -16,6 +16,7 @@
 package com.github.debop.kodatimes
 
 import kotlinx.coroutines.runBlocking
+import mu.KLogging
 import org.amshove.kluent.shouldBeLessOrEqualTo
 import org.amshove.kluent.shouldBeTrue
 import org.amshove.kluent.shouldEqual
@@ -26,6 +27,8 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 class TimeIntervalChunkTest : AbstractKodaTimesTest() {
+
+    companion object : KLogging()
 
     @Test
     fun `chunk years`() = runBlocking<Unit> {

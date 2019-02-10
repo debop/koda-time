@@ -15,12 +15,15 @@
 
 package com.github.debop.kodatimes
 
+import mu.KLogging
 import org.amshove.kluent.shouldBeTrue
 import org.amshove.kluent.shouldEqual
 import org.joda.time.Interval
 import org.junit.jupiter.api.Test
 
 class TimeIntervalxTest : AbstractKodaTimesTest() {
+
+    companion object : KLogging()
 
     @Test
     fun rangeTest() {
