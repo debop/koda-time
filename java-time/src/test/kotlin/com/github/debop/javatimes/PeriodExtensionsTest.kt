@@ -16,6 +16,7 @@
 package com.github.debop.javatimes
 
 import kotlinx.coroutines.runBlocking
+import mu.KLogging
 import org.amshove.kluent.shouldEqualTo
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
@@ -28,6 +29,8 @@ import kotlin.math.absoluteValue
  * @since 19. 1. 14
  */
 class PeriodExtensionsTest {
+
+    companion object : KLogging()
 
     @ParameterizedTest
     @ValueSource(ints = [-42, -1, 0, 1, 42])

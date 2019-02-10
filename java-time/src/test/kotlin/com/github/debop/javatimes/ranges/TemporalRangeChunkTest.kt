@@ -14,6 +14,7 @@ import com.github.debop.javatimes.nowZonedDateTime
 import com.github.debop.javatimes.seconds
 import com.github.debop.javatimes.weeks
 import com.github.debop.javatimes.yearPeriod
+import mu.KLogging
 import org.amshove.kluent.shouldBeTrue
 import org.amshove.kluent.shouldEqualTo
 import org.junit.jupiter.api.Disabled
@@ -29,6 +30,8 @@ import java.time.temporal.Temporal
 
 @Suppress("UNCHECKED_CAST")
 abstract class TemporalRangeChunkTest<T> : AbstractJavaTimesTest() where T : Temporal, T : Comparable<T> {
+
+    companion object : KLogging()
 
     abstract val start: T
 

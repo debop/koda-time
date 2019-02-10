@@ -15,6 +15,7 @@
 
 package com.github.debop.javatimes
 
+import mu.KLogging
 import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldEqualTo
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -23,6 +24,8 @@ import org.junit.jupiter.api.Test
 import java.time.DayOfWeek
 
 class InstantExtensionsTest : AbstractJavaTimesTest() {
+
+    companion object : KLogging()
 
     @Nested
     inner class IntervalOfInstant {

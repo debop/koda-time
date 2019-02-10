@@ -17,6 +17,7 @@ package com.github.debop.javatimes.ranges
 
 import com.github.debop.javatimes.AbstractJavaTimesTest
 import com.github.debop.javatimes.hours
+import mu.KLogging
 import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldNotEqual
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -33,6 +34,8 @@ import java.time.temporal.Temporal
 
 
 abstract class TemporalProgressionTest<T> : AbstractJavaTimesTest() where T : Temporal, T : Comparable<T> {
+
+    companion object : KLogging()
 
     abstract val start: T
 

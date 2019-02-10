@@ -1,9 +1,12 @@
 package com.github.debop.javatimes
 
+import mu.KLogging
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 class TemporalIntervalZipWithNextTest : AbstractJavaTimesTest() {
+
+    companion object : KLogging()
 
     @Test
     fun `zip with next year`() {

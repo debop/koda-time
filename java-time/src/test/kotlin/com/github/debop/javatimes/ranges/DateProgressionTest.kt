@@ -20,6 +20,7 @@ import com.github.debop.javatimes.days
 import com.github.debop.javatimes.hours
 import com.github.debop.javatimes.minus
 import com.github.debop.javatimes.plus
+import mu.KLogging
 import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldEqualTo
 import org.amshove.kluent.shouldNotEqual
@@ -30,6 +31,8 @@ import java.util.Date
 
 
 class DateProgressionTest : AbstractJavaTimesTest() {
+
+    companion object : KLogging()
 
     @Test
     fun `create simple`() {

@@ -17,6 +17,7 @@ package com.github.debop.javatimes.ranges
 
 import com.github.debop.javatimes.AbstractJavaTimesTest
 import com.github.debop.javatimes.days
+import mu.KLogging
 import org.amshove.kluent.shouldBeFalse
 import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldNotEqual
@@ -26,6 +27,8 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 
 class InstantRangeTest : AbstractJavaTimesTest() {
+
+    companion object : KLogging()
 
     @Test
     fun `simple creation`() {

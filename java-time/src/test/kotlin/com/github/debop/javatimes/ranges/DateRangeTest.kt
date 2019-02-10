@@ -17,6 +17,7 @@ package com.github.debop.javatimes.ranges
 
 import com.github.debop.javatimes.AbstractJavaTimesTest
 import com.github.debop.javatimes.toDate
+import mu.KLogging
 import org.amshove.kluent.shouldBeFalse
 import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldNotEqual
@@ -25,6 +26,8 @@ import java.time.Duration
 import java.util.Date
 
 class DateRangeTest : AbstractJavaTimesTest() {
+
+    companion object : KLogging()
 
     @Test
     fun `simple creation`() {
