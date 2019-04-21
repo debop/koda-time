@@ -49,13 +49,19 @@ abstract class AbstractTemporalInterval : ReadableTemporalInterval {
     override fun gap(interval: ReadableTemporalInterval): ReadableTemporalInterval? {
         return when {
             overlaps(interval) -> null
-            else               -> temporalIntervalOf(maxOf(start, interval.start), minOf(end, interval.end), zoneId)
+            else               ->
+                temporalIntervalOf(maxOf(start, interval.start),
+                                   minOf(end, interval.end),
+                                   zoneId)
         }
     }
 
     override fun overlap(interval: ReadableTemporalInterval): ReadableTemporalInterval? {
         return when {
-            overlaps(interval) -> TemporalInterval(maxOf(start, interval.start), minOf(end, interval.end), zoneId)
+            overlaps(interval) ->
+                temporalIntervalOf(maxOf(start, interval.start),
+                                   minOf(end, interval.end),
+                                   zoneId)
             else               -> null
         }
     }
@@ -140,14 +146,16 @@ abstract class AbstractTemporalInterval : ReadableTemporalInterval {
 
     override fun toDurationMillis(): Long = endEpochMillis - startEpochMillis
 
-    override fun toInterval(): ReadableTemporalInterval = temporalIntervalOf(start, end, zoneId)
+    override fun toInterval(): ReadableTemporalInterval =
+        temporalIntervalOf(start, end, zoneId)
 
-    override fun toMutableInterval(): MutableTemporalInterval = mutableTemporalIntervalOf(start, end, zoneId)
+    override fun toMutableInterval(): MutableTemporalInterval =
+        mutableTemporalIntervalOf(start, end, zoneId)
 
     override fun toPeriod(): Period = Period.between(start.toLocalDate(), end.toLocalDate())
 
     override fun toPeriod(unit: ChronoUnit): Period {
-        return when(unit) {
+        return when (unit) {
             ChronoUnit.DAYS   -> Period.ofDays(toPeriod().days)
             ChronoUnit.WEEKS  -> Period.ofWeeks(toPeriod().days / 7)
             ChronoUnit.MONTHS -> Period.ofDays(toPeriod().months)
@@ -161,10 +169,10 @@ abstract class AbstractTemporalInterval : ReadableTemporalInterval {
     }
 
     override fun equals(other: Any?): Boolean {
-        if(other == null) return false
-        if(other === this) return true
+        if (other == null) return false
+        if (other === this) return true
 
-        return when(other) {
+        return when (other) {
             is ReadableTemporalInterval ->
                 start == other.start && end == other.end && zoneId == other.zoneId
             else                        -> false

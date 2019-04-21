@@ -32,7 +32,8 @@ fun periodOf(years: Int, months: Int = 0, days: Int = 0): Period = Period.of(yea
 /**
  * year sequence of `Period`
  */
-suspend fun Period.yearSequence(): Sequence<Int> = sequence {
+suspend fun Period.yearSequence(step: Int = 1): Sequence<Int> = sequence {
+    require(step > 0) { "step must positive number. step=$step" }
 
     if (this@yearSequence.isZero) {
         return@sequence
@@ -41,11 +42,13 @@ suspend fun Period.yearSequence(): Sequence<Int> = sequence {
     val years = this@yearSequence.years
     if (years > 0) {
         while (year < years) {
-            yield(year++)
+            yield(year)
+            year += step
         }
     } else {
         while (year > years) {
-            yield(year--)
+            yield(year)
+            year -= step
         }
     }
 }
@@ -53,7 +56,9 @@ suspend fun Period.yearSequence(): Sequence<Int> = sequence {
 /**
  * month sequence of `java.time.Period`
  */
-suspend fun Period.monthSequence(): Sequence<Int> = sequence {
+suspend fun Period.monthSequence(step: Int = 1): Sequence<Int> = sequence {
+    require(step > 0) { "step must positive number. step=$step" }
+
     if (this@monthSequence.isZero) {
         return@sequence
     }
@@ -61,11 +66,13 @@ suspend fun Period.monthSequence(): Sequence<Int> = sequence {
     val months = this@monthSequence.months
     if (months > 0) {
         while (month < months) {
-            yield(month++)
+            yield(month)
+            month += step
         }
     } else {
         while (month > months) {
-            yield(month--)
+            yield(month)
+            month -= step
         }
     }
 }
@@ -73,7 +80,9 @@ suspend fun Period.monthSequence(): Sequence<Int> = sequence {
 /**
  * day sequence of `java.time.Period`
  */
-suspend fun Period.daySequence(): Sequence<Int> = sequence {
+suspend fun Period.daySequence(step: Int = 1): Sequence<Int> = sequence {
+    require(step > 0) { "step must positive number. step=$step" }
+
     if (this@daySequence.isZero) {
         return@sequence
     }
@@ -81,11 +90,13 @@ suspend fun Period.daySequence(): Sequence<Int> = sequence {
     val days = this@daySequence.days
     if (days > 0) {
         while (day < days) {
-            yield(day++)
+            yield(day)
+            day += step
         }
     } else {
         while (day > days) {
-            yield(day--)
+            yield(day)
+            day -= step
         }
     }
 }
