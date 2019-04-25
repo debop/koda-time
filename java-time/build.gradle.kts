@@ -30,8 +30,8 @@ dependencies {
     testImplementation("io.reactivex.rxjava2:rxjava:${extra.get("rxjava2")}")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-rx2:${extra.get("coroutines")}")
 
-    implementation("io.github.microutils:kotlin-logging:1.6.22")
-    implementation("org.slf4j:slf4j-api:1.7.25")
+    compile("io.github.microutils:kotlin-logging:1.6.22")
+    compile("org.slf4j:slf4j-api:1.7.25")
     testImplementation("ch.qos.logback:logback-classic:1.2.3")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${extra.get("junitJupiter")}")
