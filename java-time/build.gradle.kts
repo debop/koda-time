@@ -13,8 +13,12 @@
  * limitations under the License.
  */
 
+import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+kotlin {
+    KotlinPlatformType.jvm
+}
 tasks.withType<KotlinCompile> {
     sourceCompatibility = "1.8"
     kotlinOptions.jvmTarget = "1.8"
