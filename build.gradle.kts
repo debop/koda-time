@@ -60,11 +60,11 @@ subprojects {
 
     val sourcesJar by tasks.creating(Jar::class) {
         from(sourceSets["main"].allSource)
-        classifier = "sources"
+        archiveClassifier.set("sources")
     }
 
     // Configure existing Dokka task to output HTML to typical Javadoc directory
-    tasks.withType<DokkaTask> {
+    val dokka by tasks.getting(DokkaTask::class) {
         outputFormat = "html"
         outputDirectory = "$buildDir/javadoc"
     }
@@ -73,9 +73,9 @@ subprojects {
     val dokkaJar by tasks.creating(Jar::class) {
         group = JavaBasePlugin.DOCUMENTATION_GROUP
         description = "Assembles Kotlin docs with Dokka"
-        classifier = "javadoc"
+        archiveClassifier.set("javadoc")
         // dependsOn(tasks.dokka) not needed; dependency automatically inferred by from(tasks.dokka)
-        from(tasks["dokka"])
+        from(dokka)
     }
 
     tasks.withType<Test> {
