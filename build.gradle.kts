@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 
-import com.jfrog.bintray.gradle.BintrayExtension
 import io.gitlab.arturbosch.detekt.detekt
 import org.jetbrains.dokka.gradle.DokkaTask
 
@@ -24,7 +23,9 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version "1.0.0-RC12" apply false
 
     id("org.jetbrains.dokka") version "0.9.17" apply false
-    id("com.jfrog.bintray") version "1.8.4" apply false
+    // id("com.jfrog.bintray") version "1.8.4" apply false
+
+    id("nebula.release") version "10.1.2"
 }
 
 allprojects {
@@ -48,15 +49,19 @@ dependencies {
 
 subprojects {
     apply {
+        plugin("maven-publish")
+
         plugin("kotlin")
 
         plugin("io.gitlab.arturbosch.detekt")
         plugin("jacoco")
 
         plugin("org.jetbrains.dokka")
-        plugin("maven-publish")
-        plugin("com.jfrog.bintray")
+        plugin("nebula.nebula-release")
+        //        plugin("com.jfrog.bintray")
     }
+
+    rootProject.tasks["release"].finalizedBy(tasks["publish"])
 
     val sourceSets = project.the<SourceSetContainer>()
 
@@ -105,10 +110,11 @@ subprojects {
     }
 
     // `./gradlew publish` 를 수행하면 maven local 에 publish 됩니다.
+    // `./gradlew devSnapshot` 을 수행하면 snapshot version 을 mavenLocal에 publish 됩니다.
 
     publishing {
         publications {
-            register("maven", MavenPublication::class) {
+            register("Maven", MavenPublication::class) {
                 from(components["java"])
                 artifact(sourcesJar)
                 artifact(dokkaJar)
@@ -123,24 +129,24 @@ subprojects {
     }
 
     // bintray
-    configure<BintrayExtension> {
-        user = findProperty("BINTRAY_USER") as? String
-        key = findProperty("BINTRAY_KEY") as? String
-        setPublications(project.name)
-        publish = true
-        pkg.apply {
-            repo = "maven"
-            name = "Koda Time"
-            desc = "The modelling for success/failure of operations in Kotlin"
-            userOrg = "debop"
-            websiteUrl = "https://github.com/debop/koda-time"
-            vcsUrl = "https://github.com/debop/koda-time"
-            setLicenses("Apache-2.0")
-            version.apply {
-                name = project.version as String
-            }
-        }
-    }
+    //    configure<BintrayExtension> {
+    //        user = findProperty("BINTRAY_USER") as? String
+    //        key = findProperty("BINTRAY_KEY") as? String
+    //        setPublications(project.name)
+    //        publish = true
+    //        pkg.apply {
+    //            repo = "maven"
+    //            name = "Koda Time"
+    //            desc = "The modelling for success/failure of operations in Kotlin"
+    //            userOrg = "debop"
+    //            websiteUrl = "https://github.com/debop/koda-time"
+    //            vcsUrl = "https://github.com/debop/koda-time"
+    //            setLicenses("Apache-2.0")
+    //            version.apply {
+    //                name = project.version as String
+    //            }
+    //        }
+    //    }
 
     // jacoco
     configure<JacocoPluginExtension> {
