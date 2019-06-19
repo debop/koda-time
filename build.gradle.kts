@@ -19,6 +19,7 @@ import org.jetbrains.dokka.gradle.DokkaTask
 
 plugins {
     base
+    `maven-publish`
     kotlin("jvm") version "1.3.30" apply false
     id("io.gitlab.arturbosch.detekt") version "1.0.0-RC12" apply false
 
@@ -48,6 +49,7 @@ dependencies {
 subprojects {
     apply {
         plugin("kotlin")
+
         plugin("io.gitlab.arturbosch.detekt")
         plugin("jacoco")
 
@@ -102,9 +104,11 @@ subprojects {
         }
     }
 
-    configure<PublishingExtension> {
+    // `./gradlew publish` 를 수행하면 maven local 에 publish 됩니다.
+
+    publishing {
         publications {
-            register(project.name, MavenPublication::class) {
+            register("maven", MavenPublication::class) {
                 from(components["java"])
                 artifact(sourcesJar)
                 artifact(dokkaJar)
@@ -112,6 +116,9 @@ subprojects {
                 artifactId = project.name
                 version = project.version as String
             }
+        }
+        repositories {
+            mavenLocal()
         }
     }
 
