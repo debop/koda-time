@@ -19,7 +19,7 @@ import org.jetbrains.dokka.gradle.DokkaTask
 plugins {
     base
     `maven-publish`
-    kotlin("jvm") version "1.3.30" apply false
+    kotlin("jvm") version "1.3.40" apply false
     id("io.gitlab.arturbosch.detekt") version "1.0.0-RC12" apply false
 
     id("org.jetbrains.dokka") version "0.9.17" apply false

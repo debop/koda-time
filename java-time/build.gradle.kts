@@ -27,6 +27,8 @@ tasks.withType<KotlinCompile> {
 dependencies {
 
     implementation(kotlin("stdlib"))
+    implementation(kotlin("stdlib-jdk7"))
+    implementation(kotlin("stdlib-jdk8"))
 
     compileOnly("io.reactivex.rxjava2:rxjava:${extra.get("rxjava2")}")
     compileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-rx2:${extra.get("coroutines")}")
