@@ -92,8 +92,8 @@ subprojects {
             events("FAILED")
         }
 
-        maxParallelForks = Runtime.getRuntime().availableProcessors()
-        setForkEvery(1L)
+        //        maxParallelForks = Runtime.getRuntime().availableProcessors()
+        //        setForkEvery(1L)
     }
 
     detekt {
