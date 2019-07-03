@@ -13,16 +13,14 @@
  * limitations under the License.
  */
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        jcenter()
-        mavenCentral()
-    }
+repositories {
+    jcenter()
 }
 
+plugins {
+    `kotlin-dsl`
+}
 
-rootProject.name = "koda-time-parent"
-
-include(":java-time")
-include(":koda-time")
+kotlinDslPluginOptions {
+    experimentalWarning.set(false)
+}

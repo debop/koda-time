@@ -15,17 +15,17 @@
 
 import io.gitlab.arturbosch.detekt.detekt
 import org.jetbrains.dokka.gradle.DokkaTask
+import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformJvmPlugin
 
 plugins {
     base
     `maven-publish`
-    kotlin("jvm") version "1.3.40" apply false
-    id("io.gitlab.arturbosch.detekt") version "1.0.0-RC12" apply false
+    kotlin("jvm") version Versions.kotlin apply false
 
-    id("org.jetbrains.dokka") version "0.9.17" apply false
-    // id("com.jfrog.bintray") version "1.8.4" apply false
-
-    id("nebula.release") version "10.1.2"
+    id(BuildPlugins.nebula_release) version BuildPlugins.Versions.nebula_release
+    id(BuildPlugins.detekt) version BuildPlugins.Versions.detekt apply false
+    id(BuildPlugins.dokka) version BuildPlugins.Versions.dokka apply false
+    id(BuildPlugins.dependency_management) version BuildPlugins.Versions.dependencyManagement
 }
 
 allprojects {
@@ -49,15 +49,15 @@ dependencies {
 
 subprojects {
     apply {
-        plugin("maven-publish")
-
-        plugin("kotlin")
+        plugin<JavaLibraryPlugin>()
+        plugin<KotlinPlatformJvmPlugin>()
 
         plugin("io.gitlab.arturbosch.detekt")
-        plugin("jacoco")
-
         plugin("org.jetbrains.dokka")
+        plugin("io.spring.dependency-management")
+        plugin("jacoco")
         plugin("nebula.nebula-release")
+        plugin("maven-publish")
         //        plugin("com.jfrog.bintray")
     }
 
@@ -164,5 +164,54 @@ subprojects {
         delete("./.project")
         delete("./out")
         delete("./bin")
+    }
+
+    dependencyManagement {
+        dependencies {
+            dependency(Libraries.kotlin_stdlib)
+            dependency(Libraries.kotlin_stdlib_jdk7)
+            dependency(Libraries.kotlin_stdlib_jdk8)
+            dependency(Libraries.kotlin_reflect)
+            dependency(Libraries.kotlin_test)
+            dependency(Libraries.kotlin_test_junit5)
+
+            dependency(Libraries.kotlinx_coroutines_core)
+            dependency(Libraries.kotlinx_coroutines_jdk7)
+            dependency(Libraries.kotlinx_coroutines_jdk8)
+            dependency(Libraries.kotlinx_coroutines_reactor)
+            dependency(Libraries.kotlinx_coroutines_rx2)
+
+            dependency(Libraries.junit_jupiter)
+            dependency(Libraries.junit_jupiter_api)
+            dependency(Libraries.junit_jupiter_engine)
+            dependency(Libraries.junit_jupiter_params)
+
+            dependency(Libraries.junit_platform_commons)
+            dependency(Libraries.junit_platform_engine)
+
+            dependency(Libraries.kluent)
+            dependency(Libraries.assertj_core)
+        }
+    }
+
+    dependencies {
+        val api by configurations
+        val compile by configurations
+        val implementation by configurations
+        val testImplementation by configurations
+        val testRuntimeOnly by configurations
+
+        implementation(Libraries.kotlin_stdlib)
+        implementation(Libraries.kotlin_reflect)
+
+        implementation(Libraries.kotlinx_coroutines_jdk8)
+
+        api(Libraries.kotlin_logging)
+        api(Libraries.slf4j_api)
+        testImplementation(Libraries.logback)
+
+        testImplementation(Libraries.junit_jupiter)
+        testRuntimeOnly(Libraries.junit_platform_engine)
+        testImplementation(Libraries.kluent)
     }
 }
