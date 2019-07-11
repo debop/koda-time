@@ -13,8 +13,6 @@
  * limitations under the License.
  */
 
-const val kotlinVersion: String = "1.3.40"
-
 object BuildPlugins {
 
     object Versions {
@@ -38,7 +36,7 @@ object BuildPlugins {
 
 object Versions {
 
-    const val kotlin = kotlinVersion
+    const val kotlin = "1.3.41"
     const val kotlinx_coroutines = "1.2.1"
 
     const val spring_boot = "2.1.6.RELEASE"
@@ -85,12 +83,12 @@ object Versions {
 
 object Libraries {
 
-    const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-    const val kotlin_stdlib_jdk7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
-    const val kotlin_stdlib_jdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
-    const val kotlin_reflect = "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
-    const val kotlin_test = "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
-    const val kotlin_test_junit5 = "org.jetbrains.kotlin:kotlin-test-junit5:$kotlinVersion"
+    const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
+    const val kotlin_stdlib_jdk7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
+    const val kotlin_stdlib_jdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
+    const val kotlin_reflect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}"
+    const val kotlin_test = "org.jetbrains.kotlin:kotlin-test:${Versions.kotlin}"
+    const val kotlin_test_junit5 = "org.jetbrains.kotlin:kotlin-test-junit5:${Versions.kotlin}"
 
     const val kotlinx_coroutines_core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinx_coroutines}"
     const val kotlinx_coroutines_jdk7 = "org.jetbrains.kotlinx:kotlinx-coroutines-jdk7:${Versions.kotlinx_coroutines}"
